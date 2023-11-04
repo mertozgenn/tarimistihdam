@@ -56,8 +56,6 @@ namespace Core.Utilities.Security.JWT
             claims.AddEmail(user.Email);
             claims.AddName($"{user.Name} {user.Surname}");
             claims.AddRoles(userRoles.Select(c => c.Id.ToString()).ToArray());
-            claims.Add(new Claim("DepartmentId", user.DepartmentId.ToString()));
-            claims.Add(new Claim("GroupId", user.GroupId.ToString()));
             return claims;
         }
 

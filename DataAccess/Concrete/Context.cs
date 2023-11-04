@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Concrete.Entities;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ namespace DataAccess.Concrete
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -27,7 +29,7 @@ namespace DataAccess.Concrete
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<JobCategory> JobCategories { get; set; }
-        public DbSet<JobTags> JobTags { get; set; }
+        public DbSet<JobTag> JobTags { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace Entities.Concrete
     {
 		public int Id { get; set; }
 		public int JobId { get; set; }
-		public int EmployerId { get; set; }
+		public int EmployeeId { get; set; }
 		public DateTime AddedDate { get; set; }
 	}
 }
