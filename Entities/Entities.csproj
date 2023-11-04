@@ -10,11 +10,13 @@
     <None Remove="Concrete\" />
     <None Remove="Dtos\" />
     <None Remove="Dtos\Rating\" />
+    <None Remove="Dtos\WorkExperience\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Concrete\" />
     <Folder Include="Dtos\" />
     <Folder Include="Dtos\Rating\" />
+    <Folder Include="Dtos\WorkExperience\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />

@@ -9,6 +9,7 @@ namespace Business.Constants
 		public static string NotFound = "Record Not Found";
 		public static string AccessDenied = "Access Denied";
 		public static string Deleted = "Record Deleted";
+		public static string Saved = "Record Saved";
 	}
 }
 
