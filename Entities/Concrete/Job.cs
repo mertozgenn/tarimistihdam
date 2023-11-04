@@ -19,6 +19,8 @@ namespace Entities.Concrete
 		public int CategoryId { get; set; }
 		public string? Image { get; set; }
 		public string? NlpTags { get; set; }
+		public int EmployerId { get; set; }
+		public string Status { get; set; }
 	}
 }
 

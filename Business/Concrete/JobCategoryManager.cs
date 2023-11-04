@@ -1,11 +1,25 @@
 ﻿using System;
+using Business.Abstract;
+using Core.Utilities.Results;
+using DataAccess.Abstract;
+using Entities.Concrete;
+
 namespace Business.Concrete
 {
-	public class JobCategoryManager
+	public class JobCategoryManager: IJobCategoryService
 	{
-		public JobCategoryManager()
+        private IJobCategoryDal _jobCategoryDal;
+
+		public JobCategoryManager(IJobCategoryDal jobCategoryDal)
 		{
+            _jobCategoryDal = jobCategoryDal;
 		}
-	}
+
+        public IDataResult<List<JobCategory>> GetAll()
+        {
+            var result = _jobCategoryDal.GetAll();
+            return new SuccessDataResult<List<JobCategory>>(result);
+        }
+    }
 }
 

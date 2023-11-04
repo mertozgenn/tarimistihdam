@@ -3,9 +3,9 @@ using Business.Abstract;
 
 namespace Business.Concrete
 {
-	public class InterestManager: IInterestService
+	public class AuthManager: IAuthService
 	{
-		public InterestManager()
+		public AuthManager()
 		{
 		}
 	}

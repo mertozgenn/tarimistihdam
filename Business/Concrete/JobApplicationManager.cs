@@ -1,7 +1,9 @@
 ﻿using System;
+using Business.Abstract;
+
 namespace Business.Concrete
 {
-	public class JobApplicationManager
+	public class JobApplicationManager: IJobApplicationService
 	{
 		public JobApplicationManager()
 		{
