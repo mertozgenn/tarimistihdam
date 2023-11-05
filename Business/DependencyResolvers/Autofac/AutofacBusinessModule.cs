@@ -35,7 +35,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfInterestDal>().As<IInterestDal>().SingleInstance();
 
             builder.RegisterType<JobApplicationManager>().As<IJobApplicationService>().SingleInstance();
-            builder.RegisterType<EfJobApplicationDal>().As<IJobCategoryDal>().SingleInstance();
+            builder.RegisterType<EfJobApplicationDal>().As<IJobApplicationDal>().SingleInstance();
 
             builder.RegisterType<JobCategoryManager>().As<IJobCategoryService>().SingleInstance();
             builder.RegisterType<EfJobCategoryDal>().As<IJobCategoryDal>().SingleInstance();
@@ -46,7 +46,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<JobTagManager>().As<IJobTagService>().SingleInstance();
             builder.RegisterType<EfJobTagDal>().As<IJobTagDal>().SingleInstance();
 
-            builder.RegisterType<RatingManager>().As<IJobTagService>().SingleInstance();
+            builder.RegisterType<RatingManager>().As<IRatingService>().SingleInstance();
             builder.RegisterType<EfEmployeeRatingDal>().As<IEmployeeRatingDal>().SingleInstance();
             builder.RegisterType<EfEmployerRatingDal>().As<IEmployerRatingDal>().SingleInstance();
 

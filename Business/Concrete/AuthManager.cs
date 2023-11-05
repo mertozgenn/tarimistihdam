@@ -11,9 +11,14 @@ namespace Business.Concrete
 	public class AuthManager: IAuthService
 	{
         private IUserService _userService;
-		public AuthManager(IUserService userService)
+        private IEmployeeService _employeeService;
+        private IEmployerService _employerService;
+		public AuthManager(IUserService userService, IEmployeeService employeeService,
+            IEmployerService employerService)
 		{
             _userService = userService;
+            _employeeService = employeeService;
+            _employerService = employerService;
 		}
 
         public IDataResult<List<Claim>> Login(UserForLoginDto userForLoginDto)
@@ -37,22 +42,47 @@ namespace Business.Concrete
                 {
                     claims.Add(new Claim(ClaimTypes.Role, operationClaim.Name));
                 }
+                if (operationClaims.Any(x => x.Name == "Employee"))
+                {
+                    var employee = _employeeService.GetByUserId(userToCheck.Id);
+                    claims.Add(new Claim("EmployeeId", employee.Id.ToString()));
+                }
+                if (operationClaims.Any(x => x.Name == "Employer"))
+                {
+                    var employer = _employerService.GetByUserId(userToCheck.Id);
+                    claims.Add(new Claim("EmployerId", employer.Id.ToString()));
+                }
                 return new SuccessDataResult<List<Claim>>(claims);
             }
             return new ErrorDataResult<List<Claim>>(Messages.PasswordError);
         }
 
-        public IDataResult<List<Claim>> Register(UserForRegisterDto userForRegisterDto)
+        public IDataResult<List<Claim>> EmployeeRegister(EmployeeForRegisterDto employeeForRegisterDto)
         {
-            var userToCheck = _userService.GetByMail(userForRegisterDto.Email);
+            var userToCheck = _userService.GetByMail(employeeForRegisterDto.Email);
             if (userToCheck != null)
             {
                 return new ErrorDataResult<List<Claim>>(Messages.UserAlreadyExists);
             }
-            var result = _userService.Add(userForRegisterDto);
+            var result = _employeeService.Add(employeeForRegisterDto);
             if (result.Success)
             {
-                return Login(new UserForLoginDto { Password = userForRegisterDto.Password, Email = userForRegisterDto.Email });
+                return Login(new UserForLoginDto { Password = employeeForRegisterDto.Password, Email = employeeForRegisterDto.Email });
+            }
+            return new ErrorDataResult<List<Claim>>(result.Message);
+        }
+
+        public IDataResult<List<Claim>> EmployerRegister(EmployerForRegisterDto employerForRegisterDto)
+        {
+            var userToCheck = _userService.GetByMail(employerForRegisterDto.Email);
+            if (userToCheck != null)
+            {
+                return new ErrorDataResult<List<Claim>>(Messages.UserAlreadyExists);
+            }
+            var result = _employerService.Add(employerForRegisterDto);
+            if (result.Success)
+            {
+                return Login(new UserForLoginDto { Password = employerForRegisterDto.Password, Email = employerForRegisterDto.Email });
             }
             return new ErrorDataResult<List<Claim>>(result.Message);
         }

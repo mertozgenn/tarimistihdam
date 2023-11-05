@@ -27,11 +27,11 @@ namespace Business.Concrete
 
         public IResult Add(int jobId)
         {
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
             Favorite favorite = new Favorite
             {
                 AddedDate = DateTime.Now,
-                EmployeeId = userId,
+                EmployeeId = employeeId,
                 JobId = jobId
             };
             _favoriteDal.Add(favorite);
@@ -40,13 +40,13 @@ namespace Business.Concrete
 
         public IResult Delete(int id)
         {
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            var data = _favoriteDal.Get(x => x.EmployeeId == userId);
+            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            var data = _favoriteDal.Get(x => x.EmployeeId == employeeId);
             if (data == null)
             {
                 return new ErrorResult(Messages.NotFound);
             }
-            if (data.EmployeeId != userId)
+            if (data.EmployeeId != employeeId)
             {
                 return new ErrorResult(Messages.AccessDenied);
             }
@@ -56,8 +56,8 @@ namespace Business.Concrete
 
         public IDataResult<List<JobDto>> GetFavorites()
         {
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            var favoriteIds = _favoriteDal.GetAll(x => x.EmployeeId == userId).Select(x => x.JobId).ToList();
+            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            var favoriteIds = _favoriteDal.GetAll(x => x.EmployeeId == employeeId).Select(x => x.JobId).ToList();
             var data = _jobService.GetByIds(favoriteIds);
             return new SuccessDataResult<List<JobDto>>(data);
         }

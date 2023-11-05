@@ -18,7 +18,7 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public IResult Add(UserForRegisterDto userForRegister)
+        public User Add(UserForRegisterDto userForRegister)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(userForRegister.Password, out passwordSalt, out passwordHash);
@@ -37,8 +37,7 @@ namespace Business.Concrete
                 Surname = userForRegister.Surname,
                 Tckn = userForRegister.Tckn
             };
-            _userDal.Add(user);
-            return new SuccessResult();
+            return _userDal.Add(user);
         }
 
         public User GetByMail(string email)

@@ -10,7 +10,8 @@ namespace Business.Abstract
 	{
         IResult SendPasswordResetEmail(string email);
         IDataResult<List<Claim>> Login(UserForLoginDto userForLoginDto);
-        IDataResult<List<Claim>> Register(UserForRegisterDto userForRegisterDto);
+        IDataResult<List<Claim>> EmployeeRegister(EmployeeForRegisterDto employeeForRegisterDto);
+        IDataResult<List<Claim>> EmployerRegister(EmployerForRegisterDto employerForRegisterDto);
     }
 }
 

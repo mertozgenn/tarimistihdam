@@ -25,12 +25,12 @@ namespace Business.Concrete
 
         public IResult Add(WorkExperienceToAddDto workExperienceToAddDto)
         {
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
             WorkExperience workExperience = new WorkExperience
             {
                 Description = workExperienceToAddDto.Description,
                 Title = workExperienceToAddDto.Title,
-                EmployeeId = userId
+                EmployeeId = employeeId
             };
             _workExperienceDal.Add(workExperience);
             return new SuccessResult(Messages.Saved);
@@ -38,13 +38,13 @@ namespace Business.Concrete
 
         public IResult Delete(int id)
         {
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            var data = _workExperienceDal.Get(x => x.EmployeeId == userId);
+            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            var data = _workExperienceDal.Get(x => x.EmployeeId == employeeId);
             if (data == null)
             {
                 return new ErrorResult(Messages.NotFound);
             }
-            if (data.EmployeeId != userId)
+            if (data.EmployeeId != employeeId)
             {
                 return new ErrorResult(Messages.AccessDenied);
             }

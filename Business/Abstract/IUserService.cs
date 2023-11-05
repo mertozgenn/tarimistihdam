@@ -10,7 +10,7 @@ namespace Business.Abstract
 	{
         List<OperationClaim> GetClaims(User user);
         User GetByMail(string email);
-        IResult Add(UserForRegisterDto userForRegister);
+        User Add(UserForRegisterDto userForRegisterDto);
         void UpdateLastLoginDate(User user);
     }
 }

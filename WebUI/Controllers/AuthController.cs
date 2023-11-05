@@ -52,10 +52,25 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+        [Route("employeeRegister")]
+        public async Task<IActionResult> EmployeeRegister(EmployeeForRegisterDto employeeForRegisterDto)
         {
-            var claims = _authService.Register(userForRegisterDto).Data;
+            var claims = _authService.EmployeeRegister(employeeForRegisterDto).Data;
+            var claimsIdentiy = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
+            await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTime.UtcNow.AddDays(30)
+            });
+            return Redirect("/");
+        }
+
+        [HttpPost]
+        [Route("employerRegister")]
+        public async Task<IActionResult> EmployerRegister(EmployerForRegisterDto employerForRegisterDto)
+        {
+            var claims = _authService.EmployerRegister(employerForRegisterDto).Data;
             var claimsIdentiy = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
             await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
