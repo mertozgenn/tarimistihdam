@@ -12,6 +12,7 @@
     <None Remove="Dtos\Rating\" />
     <None Remove="Dtos\WorkExperience\" />
     <None Remove="Dtos\Job\" />
+    <None Remove="Dtos\User\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Concrete\" />
@@ -19,6 +20,7 @@
     <Folder Include="Dtos\Rating\" />
     <Folder Include="Dtos\WorkExperience\" />
     <Folder Include="Dtos\Job\" />
+    <Folder Include="Dtos\User\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />

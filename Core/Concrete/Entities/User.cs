@@ -21,7 +21,7 @@ namespace Core.Concrete.Entities
         public DateTime? LastLoginDate { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public bool Tckn { get; set; }
+        public string Tckn { get; set; }
         public string? ProfilePhoto { get; set; }
     }
 }

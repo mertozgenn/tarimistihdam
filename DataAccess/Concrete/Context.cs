@@ -31,5 +31,7 @@ namespace DataAccess.Concrete
         public DbSet<JobCategory> JobCategories { get; set; }
         public DbSet<JobTag> JobTags { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
     }
 }

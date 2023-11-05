@@ -10,6 +10,9 @@ namespace Business.Constants
 		public static string AccessDenied = "Access Denied";
 		public static string Deleted = "Record Deleted";
 		public static string Saved = "Record Saved";
+		public static string UserNotFound = "User not Found!";
+		public static string PasswordError = "Wrong Password";
+		public static string UserAlreadyExists = "User Already Exists";
 	}
 }
 
