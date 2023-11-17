@@ -53,6 +53,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<WorkExperienceManager>().As<IWorkExperienceService>().SingleInstance();
             builder.RegisterType<EfWorkExperienceDal>().As<IWorkExperienceDal>().SingleInstance();
 
+            builder.RegisterType<EfUserOperationClaimDal>().As<IUserOperationClaimDal>().SingleInstance();
+            builder.RegisterType<UserOperationClaimManager>().As<IUserOperationClaimService>().SingleInstance();
+
+            builder.RegisterType<EfOperationClaimDal>().As<IOperationClaimDal>().SingleInstance();
+            builder.RegisterType<OperationClaimManager>().As<IOperationClaimService>().SingleInstance();
+
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
