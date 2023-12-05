@@ -42,12 +42,12 @@ namespace Business.Concrete
                 {
                     claims.Add(new Claim(ClaimTypes.Role, operationClaim.Name));
                 }
-                if (operationClaims.Any(x => x.Name == "Employee"))
+                if (operationClaims.Any(x => x.Name == "employee"))
                 {
                     var employee = _employeeService.GetByUserId(userToCheck.Id);
                     claims.Add(new Claim("EmployeeId", employee.Id.ToString()));
                 }
-                if (operationClaims.Any(x => x.Name == "Employer"))
+                if (operationClaims.Any(x => x.Name == "employer"))
                 {
                     var employer = _employerService.GetByUserId(userToCheck.Id);
                     claims.Add(new Claim("EmployerId", employer.Id.ToString()));

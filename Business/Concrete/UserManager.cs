@@ -28,7 +28,7 @@ namespace Business.Concrete
                 Guid = Guid.NewGuid(),
                 IsActive = true,
                 IsDeleted = false,
-                LastLoginDate = DateTime.MinValue,
+                LastLoginDate = DateTime.Now,
                 Name = userForRegister.Name,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
