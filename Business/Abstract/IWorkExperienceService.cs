@@ -7,7 +7,7 @@ namespace Business.Abstract
 	public interface IWorkExperienceService
 	{
 		IResult Add(WorkExperienceToAddDto workExperienceToAddDto);
-		IResult Delete(int id);
+		IResult Delete(int id, int employeeId);
 	}
 }
 

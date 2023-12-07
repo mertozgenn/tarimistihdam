@@ -23,7 +23,7 @@ namespace DataAccess.Concrete
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeRating> EmployeeRatings { get; set; }
         public DbSet<Employer> Employers { get; set; }
-        public DbSet<EmployeeRating> EmployerRatings { get; set; }
+        public DbSet<EmployerRating> EmployerRatings { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Job> Jobs { get; set; }

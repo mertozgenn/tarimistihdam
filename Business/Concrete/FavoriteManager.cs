@@ -15,19 +15,19 @@ namespace Business.Concrete
 	public class FavoriteManager: IFavoriteService
 	{
         private IFavoriteDal _favoriteDal;
-        private IHttpContextAccessor _httpContextAccessor;
+        //private IHttpContextAccessor _httpContextAccessor;
         private IJobService _jobService;
 
 		public FavoriteManager(IFavoriteDal favoriteDal, IJobService jobService)
 		{
             _favoriteDal = favoriteDal;
-            _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
+            //_httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
             _jobService = jobService;
 		}
 
-        public IResult Add(int jobId)
+        public IResult Add(int jobId, int employeeId)
         {
-            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            //int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
             Favorite favorite = new Favorite
             {
                 AddedDate = DateTime.Now,
@@ -38,10 +38,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Saved);
         }
 
-        public IResult Delete(int id)
+        public IResult Delete(int id, int employeeId)
         {
-            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
-            var data = _favoriteDal.Get(x => x.EmployeeId == employeeId);
+            //int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            var data = _favoriteDal.Get(x => x.Id == id);
             if (data == null)
             {
                 return new ErrorResult(Messages.NotFound);
@@ -54,9 +54,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IDataResult<List<JobDto>> GetFavorites()
+        public IDataResult<List<JobDto>> GetFavorites(int employeeId)
         {
-            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            //int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
             var favoriteIds = _favoriteDal.GetAll(x => x.EmployeeId == employeeId).Select(x => x.JobId).ToList();
             var data = _jobService.GetByIds(favoriteIds);
             return new SuccessDataResult<List<JobDto>>(data);

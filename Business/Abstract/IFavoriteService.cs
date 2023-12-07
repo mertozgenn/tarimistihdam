@@ -6,9 +6,9 @@ namespace Business.Abstract
 {
 	public interface IFavoriteService
 	{
-		IDataResult<List<JobDto>> GetFavorites();
-		IResult Add(int jobId);
-		IResult Delete(int id);
+		IDataResult<List<JobDto>> GetFavorites(int employeeId);
+		IResult Add(int jobId, int employeeId);
+		IResult Delete(int id, int employeeId);
 	}
 }
 

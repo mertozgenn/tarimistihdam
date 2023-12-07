@@ -5,6 +5,7 @@ namespace Entities.Dtos.WorkExperience
 	{
 		public string Title { get; set; }
 		public string? Description { get; set; }
-	}
+        public int EmployeeId { get; set; }
+    }
 }
 

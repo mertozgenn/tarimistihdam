@@ -15,30 +15,30 @@ namespace Business.Concrete
     public class WorkExperienceManager : IWorkExperienceService
     {
         private IWorkExperienceDal _workExperienceDal;
-        private IHttpContextAccessor _httpContextAccessor;
+        //private IHttpContextAccessor _httpContextAccessor;
 
         public WorkExperienceManager(IWorkExperienceDal workExperienceDal)
         {
             _workExperienceDal = workExperienceDal;
-            _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
+            //_httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
         }
 
         public IResult Add(WorkExperienceToAddDto workExperienceToAddDto)
         {
-            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            //int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
             WorkExperience workExperience = new WorkExperience
             {
                 Description = workExperienceToAddDto.Description,
                 Title = workExperienceToAddDto.Title,
-                EmployeeId = employeeId
+                EmployeeId = workExperienceToAddDto.EmployeeId
             };
             _workExperienceDal.Add(workExperience);
             return new SuccessResult(Messages.Saved);
         }
 
-        public IResult Delete(int id)
+        public IResult Delete(int id, int employeeId)
         {
-            int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            //int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
             var data = _workExperienceDal.Get(x => x.EmployeeId == employeeId);
             if (data == null)
             {
