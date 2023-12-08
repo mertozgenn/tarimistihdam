@@ -8,6 +8,7 @@ namespace Business.Abstract
 	public interface IEmployeeService
 	{
 		IResult Add(EmployeeForRegisterDto employeeForRegisterDto);
+		//IDataResult<EmployeeInformationDto> GetEmployeeInformation(int employeeId);
 		Employee GetByUserId(int userId);
 	}
 }

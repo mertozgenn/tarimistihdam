@@ -7,7 +7,7 @@ namespace Business.Abstract
 	public interface ICityDistrictService
 	{
 		IDataResult<List<City>> GetCities();
-        IDataResult<List<District>> GetDistricts();
+        IDataResult<List<District>> GetDistrictsByCityId(int cityId);
     }
 }
 

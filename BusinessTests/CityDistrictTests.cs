@@ -16,7 +16,7 @@
         public void GetDistricts_ReturnsListOfDistricts()
         {
             var cityDistrictService = _container.Resolve<ICityDistrictService>();
-            var result = cityDistrictService.GetDistricts();
+            var result = cityDistrictService.GetDistrictsByCityId(35);
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Data);
         }

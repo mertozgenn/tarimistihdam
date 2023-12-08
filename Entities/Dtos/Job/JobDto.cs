@@ -4,7 +4,8 @@ namespace Entities.Dtos.Job
 	public class JobDto
 	{
 		public int Id { get; set; }
-		public string Employer { get; set; }
+        public int EmployerId { get; set; }
+        public string Employer { get; set; }
 		public string City { get; set; }
 		public string District { get; set; }
 		public string Title { get; set; }
@@ -14,6 +15,7 @@ namespace Entities.Dtos.Job
 		public decimal DailyWage { get; set; }
 		public List<string> Tags { get; set; }
 		public string? EmployerProfilePhoto { get; set; }
-	}
+        public string Image { get; set; }
+    }
 }
 

@@ -16,11 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Concrete\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Dtos\Rating\" />
     <Folder Include="Dtos\WorkExperience\" />
-    <Folder Include="Dtos\Job\" />
-    <Folder Include="Dtos\User\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />

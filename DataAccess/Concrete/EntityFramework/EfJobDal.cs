@@ -31,18 +31,26 @@ namespace DataAccess.Concrete.EntityFramework
                                              where district.Id == job.DistrictId
                                              select district.Name).First(),
                                  Employer = user.Name + " " + user.Surname,
+                                 EmployerId = employer.Id,
                                  DailyWage = job.DailyWage,
                                  Description = job.Description,
                                  PublishDate = job.PublishDate,
                                  Title = job.Title,
                                  Tags = job.NlpTags.Split(",", StringSplitOptions.None).ToList(),
                                  Id = job.Id,
-                                 EmployerProfilePhoto = user.ProfilePhoto
+                                 EmployerProfilePhoto = user.ProfilePhoto,
+                                 Image = job.Image
                              });
 
                 if (filter != null)
                 {
                     query = query.Where(filter);
+                }
+                var data = query.ToList();
+                var jobTags = context.JobTags.ToList();
+                foreach (var job in data)
+                {
+                    job.Tags = job.Tags.Select(x => jobTags.Where(y => y.Key == x).Select(y => y.DisplayName).First()).ToList();
                 }
                 return query.ToList();
             }
