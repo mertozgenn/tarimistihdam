@@ -6,11 +6,7 @@ namespace WebUI.Controllers;
 
 public class HomeController : Controller
 {
-
-    public HomeController()
-    {
-
-    }
+    [Route("")]
 
     public IActionResult Index()
     {

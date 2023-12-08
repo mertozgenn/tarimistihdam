@@ -1,50 +1,262 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+<!DOCTYPE html>
+<html lang="tr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebUI</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebUI.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="msapplication-TileColor" content="#0E0E0E">
+    <meta name="template-color" content="#0E0E0E">
+    <link rel="manifest" href="manifest.json" crossorigin>
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <meta name="description" content="Index page">
+    <meta name="keywords" content="index, page">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Assets/imgs/template/favicon.svg">
+    <link href="~/Assets/css/style.css?version=4.1" rel="stylesheet">
+    <link href="~/Assets/css/style.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/animate.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/animate.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/bootstrap.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/magnific-popup.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/perfect-scrollbar.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/select2.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/slick.css" rel="stylesheet" />
+    <link href="~/Assets/css/plugins/swiper-bundle.min.css.css" rel="stylesheet" />
+    <link href="~/Assets/css/vendors/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/vendors/normalize.css" rel="stylesheet" />
+    <link href="~/Assets/css/vendors/uicons-regular-rounded.css" rel="stylesheet" />
+    <link href="~/Assets/css/vendors/uicons-regular-straight.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <title>Tarım İstihdam</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebUI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center"><img src="~/Assets/imgs/template/loading.gif" alt="jobBox"></div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <header class="header sticky-bar">
         <div class="container">
-            &copy; 2023 - WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="main-header">
+                <div class="header-left">
+                    <div class="header-logo"><a class="d-flex" href="~/"><img alt="jobBox" src="~/Assets/imgs/template/jobhub-logo.svg"></a></div>
+                </div>
+                <div class="header-nav">
+                    <nav class="nav-main-menu">
+                        <ul class="main-menu">
+                            <li>
+                                <a class="active" href="~/">Ana Sayfa</a>
+
+                            </li>
+                            <li>
+                                <a href="jobs-grid.html">Hakkımızda</a>
+
+                            </li>
+                            <li>
+                                <a href="jobs-grid.html">İş İlanları</a>
+
+                            </li>
+                            <li>
+                                <a href="companies-grid.html">İş İlanlarım</a>
+
+                            </li>
+                            <li>
+                                <a href="candidates-grid.html">İletişim</a>
+
+                            </li>
+
+
+                        </ul>
+                    </nav>
+                    <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+                </div>
+                <div class="header-right">
+                    <div class="block-signin">
+                   
+                        <div class="member-login">
+                            <img alt="" src="~/Assets/imgs/avatar/profile.png" >
+                            <div class="info-member">
+                                <strong class="color-brand-1">Steven Jobs</strong>
+                                <div class="dropdown">
+                                    <a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Super Admin</a>
+                                    <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile">
+                                        <li><a class="dropdown-item" href="profile.html">Profiles</a></li>
+                                        <li><a class="dropdown-item" href="my-resume.html">CV Manager</a></li>
+                                        <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-content-area">
+                <div class="perfect-scroll">
+                    <div class="mobile-search mobile-header-border mb-30">
+                        <form action="#">
+                            <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
+                        </form>
+                    </div>
+                    <div class="mobile-menu-wrap mobile-header-border">
+                        <!-- mobile menu start-->
+                        <nav>
+                            <ul class="mobile-menu font-heading">
+
+                                <li>
+                                    <a class="active" href="index.html">Ana Sayfa</a>
+
+                                </li>
+                                <li>
+                                    <a href="jobs-grid.html">Hakkımızda</a>
+
+                                </li>
+                                <li>
+                                    <a href="jobs-grid.html">İş İlanları</a>
+
+                                </li>
+                                <li>
+                                    <a href="companies-grid.html">İş İlanlarım</a>
+
+                                </li>
+                                <li>
+                                    <a href="candidates-grid.html">İletişim</a>
+
+                                </li>
+
+
+                            </ul>
+                        </nav>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-content-area">
+                <div class="perfect-scroll">
+                    <div class="mobile-search mobile-header-border mb-30">
+                        <form action="#">
+                            <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
+                        </form>
+                    </div>
+                    <div class="mobile-menu-wrap mobile-header-border">
+                        <!-- mobile menu start-->
+                        <nav>
+                            <ul class="mobile-menu font-heading">
+
+                                <li>
+                                    <a class="active" href="index.html">Ana Sayfa</a>
+
+                                </li>
+                                <li>
+                                    <a href="jobs-grid.html">Hakkımızda</a>
+
+                                </li>
+                                <li>
+                                    <a href="jobs-grid.html">İş İlanları</a>
+
+                                </li>
+                                <li>
+                                    <a href="companies-grid.html">İş İlanlarım</a>
+
+                                </li>
+                                <li>
+                                    <a href="candidates-grid.html">İletişim</a>
+
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <footer class="footer mt-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-12" style="margin-right:auto;">
+                    <a href="~/"><img alt="jobBox" src="~/Assets/imgs/template/jobhub-logo.svg"></a>
+                    <div class="mt-20 mb-20 font-xs color-text-paragraph-2">Tarım İstihdam Projesi, geleneksel tarım işe alım yöntemlerindeki zayıflıkları modern bir dokunuşla aşıyor! </div>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <h6 class="mb-20">Hızlı Ulaşım</h6>
+                    <ul class="menu-footer">
+                        <li><a href="#">Hakkımızda</a></li>
+                        <li><a href="#">İş İlanları</a></li>
+                        <li><a href="#">İş İlanlarım</a></li>
+                        <li><a href="#">İletişim</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="footer-col-6 col-md-4 col-sm-12">
+                    <h6 class="mb-20">Download App</h6>
+                    <p class="color-text-paragraph-2 font-xs">Download our Apps and get extra 15% Discount on your first Order&mldr;!</p>
+                    <div class="mt-15"><a class="mr-5" href="#"><img src="assets/imgs/template/icons/app-store.png" alt="joxBox"></a><a href="#"><img src="assets/imgs/template/icons/android.png" alt="joxBox"></a></div>
+                </div>
+            </div>
+            <div class="footer-bottom mt-50">
+                <div class="row">
+                    <div class="col-md-6"><span class="font-xs color-text-paragraph">Copyright &copy; 2022. JobBox all right reserved</span></div>
+                    <div class="col-md-6 text-md-end text-start">
+                        <div class="footer-social"><a class="font-xs color-text-paragraph" href="#">Privacy Policy</a><a class="font-xs color-text-paragraph mr-30 ml-30" href="#">Terms &amp; Conditions</a><a class="font-xs color-text-paragraph" href="#">Security</a></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/Assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="~/Assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="~/Assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="~/Assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="~/Assets/js/plugins/waypoints.js"></script>
+    <script src="~/Assets/js/plugins/wow.js"></script>
+    <script src="~/Assets/js/plugins/magnific-popup.js"></script>
+    <script src="~/Assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="~/Assets/js/plugins/select2.min.js"></script>
+    <script src="~/Assets/js/plugins/isotope.js"></script>
+    <script src="~/Assets/js/plugins/scrollup.js"></script>
+    <script src="~/Assets/js/plugins/swiper-bundle.min.js"></script>
+    <script src="~/Assets/js/plugins/counterup.js"></script>
+    <script src="~/Assets/js/plugins/armcharts5-scrip.js"></script>
+    <script src="~/Assets/js/plugins/images-loaded.js"></script>
+    <script src="~/Assets/js/plugins/jquery.circliful.js"></script>
+    <script src="~/Assets/js/main.js?v=4.1"></script>
+
+
+
+
+
+
 </body>
 </html>
-

@@ -16,11 +16,13 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 {
                     builder.RegisterModule(new AutofacBusinessModule());
                 });
-builder.Services.AddControllersWithViews(config =>
-{
-    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    config.Filters.Add(new AuthorizeFilter(policy));
-});
+builder.Services.AddControllersWithViews(
+//    config =>
+//{
+//    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+//    config.Filters.Add(new AuthorizeFilter(policy));
+//}
+);
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {
