@@ -67,9 +67,9 @@ namespace Business.Concrete
             return "";
         }
 
-        public IDataResult<List<JobDto>> GetAll()
+        public IDataResult<List<JobDto>> GetAll(JobFilterDto? jobFilterDto = null)
         {
-            var data = _jobDal.GetAllDto();
+            var data = _jobDal.GetAllDto(jobFilterDto: jobFilterDto);
             return new SuccessDataResult<List<JobDto>>(data);
         }
 
@@ -83,6 +83,20 @@ namespace Business.Concrete
         {
             var data = _jobDal.GetAllDto(x => ids.Contains(x.Id));
             return data;
+        }
+
+        public IDataResult<List<JobDto>> GetSearchResults(string searchKey)
+        {
+            var data = _jobDal.GetAllDto(x => 
+            x.Title.Contains(searchKey) || 
+            x.Description.Contains(searchKey) ||
+            x.Tags.Exists(x => x.DisplayName.Contains(searchKey)) ||
+            x.Category.Contains(searchKey) ||
+            x.City.Contains(searchKey) ||
+            x.District.Contains(searchKey) ||
+            x.Employer.Contains(searchKey)
+            );
+            return new SuccessDataResult<List<JobDto>>(data);
         }
     }
 }

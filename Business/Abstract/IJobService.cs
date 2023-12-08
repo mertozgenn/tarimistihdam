@@ -9,7 +9,8 @@ namespace Business.Abstract
 		IResult Add(JobToAddDto jobToAdd);
 		List<JobDto> GetByIds(List<int> ids);
 		IDataResult<List<JobDto>> GetByEmployerId(int employerId);
-		IDataResult<List<JobDto>> GetAll();
+		IDataResult<List<JobDto>> GetAll(JobFilterDto? jobFilterDto = null);
+		IDataResult<List<JobDto>> GetSearchResults(string searchKey);
 	}
 }
 
