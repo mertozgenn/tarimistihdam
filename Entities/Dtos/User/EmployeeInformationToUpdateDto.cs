@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Dtos.User
 {
-    public class EmployeeInformationDto: UserInformationDto
+    public class EmployeeInformationToUpdateDto: UserInformationToUpdateDto
     {
         public int EmployeeId { get; set; }
     }

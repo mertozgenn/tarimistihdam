@@ -14,6 +14,7 @@ namespace Business.Constants
 		public static string PasswordError = "Parola hatalı.";
 		public static string UserAlreadyExists = "Kullanıcı zaten mevcut.";
 		public static string ApplicationSuccessful = "Başvurunuz başarıyla alınmıştır";
+		public static string Updated = "Kayıt güncellendi.";
 	}
 }
 

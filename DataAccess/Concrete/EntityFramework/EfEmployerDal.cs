@@ -2,11 +2,37 @@
 using Core.Concrete.DataAccess.EntityFramework.Repositories;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos.User;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-	public class EfEmployerDal: EfEntityRepositoryBase<Employer, Context>, IEmployerDal
-	{
-	}
+    public class EfEmployerDal : EfEntityRepositoryBase<Employer, Context>, IEmployerDal
+    {
+        public EmployerInformationDto GetEmployerInformation(int employerId)
+        {
+            using (Context context = new Context())
+            {
+                var data = from employer in context.Employers
+                           join user in context.Users
+                           on employer.UserId equals user.Id
+                           where employer.Id == employerId
+                           select new EmployerInformationDto
+                           {
+                               Email = user.Email,
+                               Name = user.Name,
+                               Phone = user.Phone,
+                               Surname = user.Surname,
+                               ProfilePhoto = user.ProfilePhoto,
+                               Tckn = user.Tckn,
+                               CompanyName = employer.CompanyName,
+                               TaxNumber = employer.TaxNumber,
+                               TaxPlace = employer.TaxPlace,
+                               EmployerId = employer.Id,
+                               UserId = user.Id
+                           };
+                return data.SingleOrDefault();
+            }
+        }
+    }
 }
 

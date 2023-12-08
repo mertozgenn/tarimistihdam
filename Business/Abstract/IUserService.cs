@@ -12,6 +12,7 @@ namespace Business.Abstract
         User GetByMail(string email);
         User Add(UserForRegisterDto userForRegisterDto);
         void UpdateLastLoginDate(User user);
+        IResult Update(UserInformationToUpdateDto userInformationToUpdateDto);
     }
 }
 

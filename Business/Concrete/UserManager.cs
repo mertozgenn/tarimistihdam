@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Security.Claims;
 using Business.Abstract;
+using Business.Constants;
+using Business.Utilities;
 using Core.Concrete.Entities;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
@@ -9,9 +11,9 @@ using Entities.Dtos.User;
 
 namespace Business.Concrete
 {
-	public class UserManager: IUserService
-	{
-		private IUserDal _userDal;
+    public class UserManager : IUserService
+    {
+        private IUserDal _userDal;
 
         public UserManager(IUserDal userDal)
         {
@@ -49,6 +51,46 @@ namespace Business.Concrete
         public List<OperationClaim> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
+        }
+
+        public IResult Update(UserInformationToUpdateDto userInformationToUpdateDto)
+        {
+            var user = _userDal.Get(x => x.Id == userInformationToUpdateDto.UserId);
+            if (user == null)
+            {
+                return new ErrorResult(Messages.UserNotFound);
+            }
+            user.Name = userInformationToUpdateDto.Name;
+            user.Surname = userInformationToUpdateDto.Surname;
+            user.Phone = userInformationToUpdateDto.Phone;
+            user.Tckn = userInformationToUpdateDto.Tckn;
+
+            var newEmailUser = _userDal.Get(x => x.Email == userInformationToUpdateDto.Email);
+            if (newEmailUser == null)
+            {
+                user.Email = userInformationToUpdateDto.Email;
+            }
+
+            if (!string.IsNullOrEmpty(userInformationToUpdateDto.NewPassword) && 
+                !string.IsNullOrEmpty(userInformationToUpdateDto.NewPasswordAgain) &&
+                userInformationToUpdateDto.NewPassword == userInformationToUpdateDto.NewPasswordAgain)
+            {
+                byte[] passwordHash, passwordSalt;
+                HashingHelper.CreatePasswordHash(userInformationToUpdateDto.NewPassword, out passwordSalt, out passwordHash);
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+            }
+
+            if (userInformationToUpdateDto.NewProfilePhoto != null)
+            {
+                if (!string.IsNullOrEmpty(user.ProfilePhoto))
+                    FileHelper.DeleteFile(user.ProfilePhoto);
+                var guid = Guid.NewGuid().ToString();
+                user.ProfilePhoto = FileHelper.CreateFile(userInformationToUpdateDto.NewProfilePhoto, "/images/user", guid);
+            }
+
+            _userDal.Update(user);
+            return new SuccessResult(Messages.Updated);
         }
 
         public void UpdateLastLoginDate(User user)

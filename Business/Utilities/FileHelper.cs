@@ -19,5 +19,10 @@ namespace Business.Utilities
             File.Move(path, Directory.GetCurrentDirectory() + $"/wwwroot/{relativePath}/{fileName}{fileType}", true);
             return $"{relativePath}/{fileName}{fileType}";
         }
+
+        public static void DeleteFile(string relativeFilePath, string mainFolder = "wwwroot")
+        {
+            File.Delete(Directory.GetCurrentDirectory() + $"/{mainFolder}/{relativeFilePath}");
+        }
     }
 }

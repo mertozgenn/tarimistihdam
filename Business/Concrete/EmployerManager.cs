@@ -1,5 +1,6 @@
 ﻿using System;
 using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -40,6 +41,31 @@ namespace Business.Concrete
         {
             var employer = _employerDal.Get(x => x.UserId == userId);
             return employer;
+        }
+
+        public IDataResult<EmployerInformationDto> GetEmployerInformation(int employerId)
+        {
+            var data = _employerDal.GetEmployerInformation(employerId);
+            return new SuccessDataResult<EmployerInformationDto>(data);
+        }
+
+        public IResult UpdateEmployerInformation(EmployerInformationToUpdateDto employerInformationToUpdateDto)
+        {
+            var employer = _employerDal.Get(x => x.Id == employerInformationToUpdateDto.EmployerId);
+            if (employer == null)
+            {
+                return new ErrorResult(Messages.UserNotFound);
+            }
+            var result = _userService.Update(employerInformationToUpdateDto);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
+            employer.CompanyName = employerInformationToUpdateDto.CompanyName;
+            employer.TaxNumber = employerInformationToUpdateDto.TaxNumber;
+            employer.TaxPlace = employerInformationToUpdateDto.TaxPlace;
+            _employerDal.Update(employer);
+            return new SuccessResult(Messages.Updated);
         }
     }
 }
