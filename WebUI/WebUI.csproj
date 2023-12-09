@@ -365,9 +365,11 @@
     <Folder Include="wwwroot\js\" />
     <Folder Include="Views\Auth\" />
     <Folder Include="wwwroot\Assets\" />
+    <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Auth\" />
+    <None Remove="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\Assets\css\plugins\animate.css" />

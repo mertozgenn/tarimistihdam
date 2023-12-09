@@ -3070,7 +3070,7 @@ ul li:last-child .card-list-4 {
 }
 .header .main-header .header-right {
   display: inline-block;
-  min-width: 215px;
+  min-width: 160px;
   text-align: right;
 }
 .header .main-header .header-nav {

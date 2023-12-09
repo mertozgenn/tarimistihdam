@@ -6,4 +6,13 @@
     margin: 0px 10px 0px 0px;
     vertical-align: middle;
 }
-s
+.header .main-header .header-right .member-login .info-member {
+    padding-left: 45px;
+    text-align: left;
+    line-height: 19px;
+}
+.icon-down{
+    display: inline-block;
+    padding-right: 15px;
+    background: url(../imgs/page/triangle.svg) no-repeat right center;
+}
