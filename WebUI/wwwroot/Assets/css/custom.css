@@ -16,3 +16,6 @@
     padding-right: 15px;
     background: url(../imgs/page/triangle.svg) no-repeat right center;
 }
+.error-message{
+    color: red;
+}

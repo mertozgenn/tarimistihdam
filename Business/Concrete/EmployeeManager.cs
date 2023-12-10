@@ -23,13 +23,17 @@ namespace Business.Concrete
 
         public IResult Add(EmployeeForRegisterDto employeeForRegisterDto)
         {
-            var user = _userService.Add(employeeForRegisterDto);
+            var result = _userService.Add(employeeForRegisterDto);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
             Employee employee = new Employee
             {
-                UserId = user.Id
+                UserId = result.Data.Id
             };
             _employeeDal.Add(employee);
-            _userOperationClaimService.AddEmployeeClaim(user.Id);
+            _userOperationClaimService.AddEmployeeClaim(result.Data.Id);
             return new SuccessResult();
         }
 

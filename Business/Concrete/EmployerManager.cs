@@ -24,16 +24,20 @@ namespace Business.Concrete
 
         public IResult Add(EmployerForRegisterDto employerForRegisterDto)
         {
-            var user = _userService.Add(employerForRegisterDto);
+            var result = _userService.Add(employerForRegisterDto);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
             Employer employer = new Employer
             {
                 CompanyName = employerForRegisterDto.CompanyName,
                 TaxNumber = employerForRegisterDto.TaxNumber,
                 TaxPlace = employerForRegisterDto.TaxPlace,
-                UserId = user.Id
+                UserId = result.Data.Id
             };
             _employerDal.Add(employer);
-            _userOperationClaimService.AddEmployerClaim(user.Id);
+            _userOperationClaimService.AddEmployerClaim(result.Data.Id);
             return new SuccessResult();
         }
 

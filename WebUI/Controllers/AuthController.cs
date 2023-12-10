@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebUI.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,64 +25,106 @@ namespace WebUI.Controllers
             _authService = authService;
         }
 
-        [Route("login")]
+        [Route("giris-yap")]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("giris-yap")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var claims = _authService.Login(userForLoginDto).Data;
-            var claimsIdentiy = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
-            await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
+            var result = _authService.Login(userForLoginDto);
+            if (result.Success)
             {
-                IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddDays(30)
-            });
-            return Redirect("/");
+                var claimsIdentiy = new ClaimsIdentity(result.Data, CookieAuthenticationDefaults.AuthenticationScheme);
+                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
+                await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(30)
+                });
+                return Redirect("/");
+            }
+            return View("Login", result.Message);
         }
 
-        [Route("register")]
-        public IActionResult Register()
+        [Route("isveren-kayit")]
+        public IActionResult EmployerRegister()
         {
-            return View();
+            EmployerRegisterModel employerRegisterModel = new EmployerRegisterModel()
+            {
+                EmployerForRegister = new EmployerForRegisterDto()
+            };
+            return View(employerRegisterModel);
+        }
+
+        [Route("is-arayan-kayit")]
+        public IActionResult EmployeeRegister()
+        {
+            EmployeeRegisterModel employeeRegisterModel = new EmployeeRegisterModel()
+            {
+                EmployeeForRegister = new EmployeeForRegisterDto()
+            };
+            return View(employeeRegisterModel);
         }
 
         [HttpPost]
-        [Route("employeeRegister")]
-        public async Task<IActionResult> EmployeeRegister(EmployeeForRegisterDto employeeForRegisterDto)
+        [Route("is-arayan-kayit")]
+        public async Task<IActionResult> EmployeeRegister(EmployeeForRegisterDto employeeForRegister)
         {
-            var claims = _authService.EmployeeRegister(employeeForRegisterDto).Data;
-            var claimsIdentiy = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
-            await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
+            var result = _authService.EmployeeRegister(employeeForRegister);
+            if (result.Success)
             {
-                IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddDays(30)
-            });
-            return Redirect("/");
+                var claimsIdentiy = new ClaimsIdentity(result.Data, CookieAuthenticationDefaults.AuthenticationScheme);
+                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
+                await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(30)
+                });
+                return Redirect("/");
+            }
+            else
+            {
+                EmployeeRegisterModel employeeRegisterModel = new EmployeeRegisterModel()
+                {
+                    EmployeeForRegister = employeeForRegister,
+                    Message = result.Message
+                };
+                return View(employeeRegisterModel);
+            }
         }
 
         [HttpPost]
-        [Route("employerRegister")]
-        public async Task<IActionResult> EmployerRegister(EmployerForRegisterDto employerForRegisterDto)
+        [Route("isveren-kayit")]
+        public async Task<IActionResult> EmployerRegister(EmployerForRegisterDto employerForRegister)
         {
-            var claims = _authService.EmployerRegister(employerForRegisterDto).Data;
-            var claimsIdentiy = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
-            await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
+            var result = _authService.EmployerRegister(employerForRegister);
+            if (result.Success)
             {
-                IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddDays(30)
-            });
-            return Redirect("/");
+                var claimsIdentiy = new ClaimsIdentity(result.Data, CookieAuthenticationDefaults.AuthenticationScheme);
+                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentiy);
+                await HttpContext.SignInAsync(claimsPrincipal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(30)
+                });
+                return Redirect("/");
+            }
+            else
+            {
+                EmployerRegisterModel employerRegisterModel = new EmployerRegisterModel()
+                {
+                    EmployerForRegister = employerForRegister,
+                    Message = result.Message
+                };
+                return View(employerRegisterModel);
+            }
         }
 
-        [Route("logout")]
+        [Route("cikis")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

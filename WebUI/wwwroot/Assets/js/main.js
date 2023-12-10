@@ -508,8 +508,9 @@
     });
 
     //Dropdown selected item
-    $(".dropdown-menu li a").on("click", function(e) {
-        e.preventDefault();
+    $(".dropdown-menu li a").on("click", function (e) {
+        if ($(this).attr("href") === "#")
+            e.preventDefault();
         $(this)
             .parents(".dropdown")
             .find(".btn span")

@@ -20,8 +20,12 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public User Add(UserForRegisterDto userForRegister)
+        public IDataResult<User> Add(UserForRegisterDto userForRegister)
         {
+            if (userForRegister.Password != userForRegister.RePassword)
+            {
+                return new ErrorDataResult<User>(Messages.PasswordsNotMatch);
+            }
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(userForRegister.Password, out passwordSalt, out passwordHash);
             User user = new User
@@ -39,7 +43,7 @@ namespace Business.Concrete
                 Surname = userForRegister.Surname,
                 Tckn = userForRegister.Tckn
             };
-            return _userDal.Add(user);
+            return new SuccessDataResult<User>(_userDal.Add(user));
         }
 
         public User GetByMail(string email)
@@ -51,6 +55,26 @@ namespace Business.Concrete
         public List<OperationClaim> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
+        }
+
+        public IDataResult<UserInformationDto> GetUserInformation(int userId)
+        {
+            var user = _userDal.Get(x => x.Id == userId);
+            if (user == null)
+            {
+                return new ErrorDataResult<UserInformationDto>(Messages.UserNotFound);
+            }
+            UserInformationDto userInformationDto = new UserInformationDto
+            {
+                Email = user.Email,
+                Name = user.Name,
+                Phone = user.Phone,
+                ProfilePhoto = user.ProfilePhoto ?? "/Assets/imgs/avatar/profile.png",
+                Surname = user.Surname,
+                Tckn = user.Tckn,
+                UserId = user.Id,
+            };
+            return new SuccessDataResult<UserInformationDto>(userInformationDto);
         }
 
         public IResult Update(UserInformationToUpdateDto userInformationToUpdateDto)
@@ -71,7 +95,7 @@ namespace Business.Concrete
                 user.Email = userInformationToUpdateDto.Email;
             }
 
-            if (!string.IsNullOrEmpty(userInformationToUpdateDto.NewPassword) && 
+            if (!string.IsNullOrEmpty(userInformationToUpdateDto.NewPassword) &&
                 !string.IsNullOrEmpty(userInformationToUpdateDto.NewPasswordAgain) &&
                 userInformationToUpdateDto.NewPassword == userInformationToUpdateDto.NewPasswordAgain)
             {

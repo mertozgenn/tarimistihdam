@@ -1,58 +1,62 @@
-﻿
+﻿@model MenuModel
 <header class="header sticky-bar">
     <div class="container">
         <div class="main-header">
             <div class="header-left">
-                <div class="header-logo"><a class="d-flex" href="~/"><img alt="jobBox" src="~/Assets/imgs/template/jobhub-logo.svg"></a></div>
+                <div class="header-logo"><a class="d-flex" href="~/"><img src="~/Assets/imgs/template/jobhub-logo.svg"></a></div>
             </div>
             <div class="header-nav">
                 <nav class="nav-main-menu">
                     <ul class="main-menu">
                         <li>
-                            <a class="active" href="~/">Ana Sayfa</a>
+                            <a class="home" href="~/">Ana Sayfa</a>
 
                         </li>
                         <li>
-                            <a href="~/hakkimizda">Hakkımızda</a>
-
+                            <a class="about-us" href="~/hakkimizda">Hakkımızda</a>
                         </li>
                         <li>
-                            <a href="~/is-ilanlari">İş İlanları</a>
-
+                            <a class="jobs" href="~/is-ilanlari">İş İlanları</a>
                         </li>
                         <li>
-                            <a href="~/is-ilanlarim">İş İlanlarım</a>
-
+                            <a class="my-jobs" href="~/is-ilanlarim">İş İlanlarım</a>
                         </li>
                         <li>
-                            <a href="~/iletisim">İletişim</a>
-
+                            <a class="contact" href="~/iletisim">İletişim</a>
                         </li>
-
-
                     </ul>
                 </nav>
                 <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
             </div>
             <div class="header-right">
-                <div class="block-signin">
-
-                    <div class="member-login">
-                        <img class="custom-img" src="~/Assets/imgs/avatar/profile.png">
-                        <div class="info-member">
-                            <strong class="color-brand-1">Mert Özgen</strong>
-                            <div class="dropdown">
-                                <a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Profil</a>
-                                <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile">
-                                    <li><a class="dropdown-item" href="profile.html">Profil</a></li>
-                                    <li><a class="dropdown-item" href="my-resume.html">Çıkış</a></li>
-                                </ul>
+                @if (Model.UserInformation == null)
+                {
+                    <div class="block-signin">
+                        <a class="text-link-bd-btom hover-up" href="/is-arayan-kayit">Kayıt Ol</a>
+                        <a class="btn btn-default btn-shadow ml-40 hover-up" href="/giris-yap">Giriş Yap</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="block-signin">
+                        <div class="member-login">
+                            <img class="custom-img" src="@Model.UserInformation.ProfilePhoto">
+                            <div class="info-member">
+                                <strong class="color-brand-1">@Model.UserInformation.Name @Model.UserInformation.Surname</strong>
+                                <div class="dropdown">
+                                    <a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button" 
+                                    data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Profil</a>
+                                    <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile"
+                                        data-bs-popper="static">
+                                        <li><a class="dropdown-item" href="/profile">Profil</a></li>
+                                        <li><a class="dropdown-item" href="/cikis">Çıkış</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
-
         </div>
     </div>
 </header>
@@ -69,34 +73,29 @@
                     <!-- mobile menu start-->
                     <nav>
                         <ul class="mobile-menu font-heading">
-
                             <li>
-                                <a class="active" href="~/">Ana Sayfa</a>
+                                <a class="home" href="~/">Ana Sayfa</a>
 
                             </li>
                             <li>
-                                <a href="~/hakkimizda">Hakkımızda</a>
+                                <a class="about-us" href="~/hakkimizda">Hakkımızda</a>
 
                             </li>
                             <li>
-                                <a href="~/is-ilanlari">İş İlanları</a>
+                                <a class="jobs" href="~/is-ilanlari">İş İlanları</a>
 
                             </li>
                             <li>
-                                <a href="~/is-ilanlarim">İş İlanlarım</a>
+                                <a class="my-jobs" href="~/is-ilanlarim">İş İlanlarım</a>
 
                             </li>
                             <li>
-                                <a href="~/iletisim">İletişim</a>
+                                <a class="contact" href="~/iletisim">İletişim</a>
 
                             </li>
-
-
                         </ul>
                     </nav>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -116,30 +115,27 @@
                         <ul class="mobile-menu font-heading">
 
                             <li>
-                                <a class="active" href="index.html">Ana Sayfa</a>
+                                <a class="home" href="index.html">Ana Sayfa</a>
 
                             </li>
                             <li>
-                                <a href="~/hakkimizda">Hakkımızda</a>
+                                <a class="about-us" href="~/hakkimizda">Hakkımızda</a>
 
                             </li>
                             <li>
-                                <a href="~/is-ilanlari">İş İlanları</a>
+                                <a class="jobs" href="~/is-ilanlari">İş İlanları</a>
 
                             </li>
                             <li>
-                                <a href="~/is-ilanlarim">İş İlanlarım</a>
+                                <a class="my-jobs" href="~/is-ilanlarim">İş İlanlarım</a>
 
                             </li>
                             <li>
-                                <a href="~/iletisim">İletişim</a>
-
+                                <a class="contact" href="~/iletisim">İletişim</a>
                             </li>
-
                         </ul>
                     </nav>
                 </div>
-
             </div>
         </div>
     </div>
