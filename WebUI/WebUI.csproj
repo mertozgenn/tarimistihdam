@@ -364,10 +364,12 @@
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\Assets\" />
+    <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Auth\" />
     <None Remove="Views\Menu\" />
+    <None Remove="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\Assets\css\plugins\animate.css" />
