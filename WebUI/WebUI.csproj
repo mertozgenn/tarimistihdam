@@ -365,6 +365,7 @@
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\Assets\" />
     <Folder Include="Views\Job\" />
+    <Folder Include="wwwroot\uploads\images\jobs\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Auth\" />

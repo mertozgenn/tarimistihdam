@@ -17,7 +17,7 @@ namespace Business.Concrete
 
         public IDataResult<List<JobCategory>> GetAll()
         {
-            var result = _jobCategoryDal.GetAll();
+            var result = _jobCategoryDal.GetAll().OrderBy(x => x.Name).ToList();
             return new SuccessDataResult<List<JobCategory>>(result);
         }
     }

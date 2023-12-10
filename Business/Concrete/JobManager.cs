@@ -27,7 +27,7 @@ namespace Business.Concrete
             if (jobToAdd.Image != null)
             {
                 string guid = Guid.NewGuid().ToString();
-                fileName = FileHelper.CreateFile(jobToAdd.Image, "/images/jobs", guid);
+                fileName = FileHelper.CreateFile(jobToAdd.Image, "/uploads/images/jobs", guid);
             }
             Job job = new Job
             {

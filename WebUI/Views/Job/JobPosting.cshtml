@@ -1,7 +1,8 @@
-﻿@{
+﻿@model JobPostingModel
+@{
     Layout = "_Layout";
 }
-<main class="main">
+<main class="main my-jobs">
     <div class="container">
         <div class="box-content">
             <div class="box-heading" style="padding-left:15px">
@@ -25,82 +26,114 @@
                                 <div class="box-padding bg-postjob">
                                     <div class="row mt-30">
                                         <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group mb-30">
-                                                        <label class="font-sm color-text-mutted mb-10">İş İlanı Başlığı * </label>
-                                                        <input class="form-control" type="text" placeholder="iş ilanı başlığı">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="form-group mb-30">
-                                                        <label class="font-sm color-text-mutted mb-10">Yevmiye * </label>
-                                                        <input class="form-control" type="text" placeholder="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="form-group mb-30">
-                                                        <label class="font-sm color-text-mutted mb-10">İşçi Sayısı * </label>
-                                                        <input class="form-control" type="text" placeholder="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4">
-                                                    <div class="form-group mb-30">
-                                                        <label class="font-sm color-text-mutted mb-10">İş Kategorisi *</label>
-                                                        <select class="form-control">
-                                                            <option value="1">Üzüm Toplama</option>
-                                                            <option value="1">Tarla Sürme</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4">
-                                                    <div class="form-group mb-30">
-                                                        <label class="font-sm color-text-mutted mb-10">İl *</label>
-                                                        <select class="form-control">
-                                                            <option value="1">Manisa</option>
-                                                            <option value="1">İzmir</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4">
-                                                    <div class="form-group mb-30">
-                                                        <label class="font-sm color-text-mutted mb-10">İlçe *</label>
-                                                        <select class="form-control">
-                                                            <option value="1">Yunusemre</option>
-                                                            <option value="1">Şehzadeler</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-9">
-                                                    <div class="form-group mb-30">
-                                                        <label class="font-sm color-text-mutted mb-10">Açıklama *</label>
-                                                        <textarea class="form-control" name="message" rows="8"> </textarea>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-lg-3">
-
-                                                </div>
-
-                                                <div class="col-lg-3 col-md-3">
-                                                    <div class="form-group mb-30">
-                                                        <div class="box-upload">
-                                                            <div class="add-file-upload">
-                                                                <input class="fileupload" type="file" name="file">
-                                                            </div><a class="btn btn-default">Resim Yükle</a>
+                                            @if (!string.IsNullOrEmpty(Model.Message))
+                                            {
+                                                <div class="box-info-contact p-4 my-4">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            @Model.Message
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-3">
-                                                    <div class="form-group mb-30 box-file-uploaded d-flex align-items-center"><span>bırakoli.jpg</span><a class="btn btn-delete">Sil</a></div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group mt-10">
-                                                        <button class="btn btn-default btn-brand icon-tick">İlanı Yayınla</button>
+                                            }
+                                            <form method="post" enctype="multipart/form-data">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">İş İlanı Başlığı * </label>
+                                                            <input class="form-control" asp-for="@Model.JobToAdd.Title" placeholder="iş ilanı başlığı"
+                                                                   data-val="true" data-val-required="Başlık gerekli.">
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.Title" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">Yevmiye (₺) * </label>
+                                                            <input class="form-control" type="number" asp-for="@Model.JobToAdd.DailyWage" placeholder=""
+                                                                   data-val="true" data-val-required="Yevmiye gerekli.">
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.DailyWage" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">İşçi Sayısı * </label>
+                                                            <input class="form-control" asp-for="@Model.JobToAdd.EmployeeCount" placeholder=""
+                                                                   data-val="true" data-val-required="İşçi sayısı gerekli.">
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.EmployeeCount" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">İş Kategorisi *</label>
+                                                            <select class="form-control" asp-for="@Model.JobToAdd.CategoryId"
+                                                                    data-val="true" data-val-required="Kategori seçmeniz gerekli.">
+                                                                @foreach (var category in Model.Categories)
+                                                                {
+                                                                    <option value="@category.Id">@category.Name</option>
+                                                                }
+                                                            </select>
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.CategoryId" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">İl *</label>
+                                                            <select class="form-control" asp-for="@Model.JobToAdd.CityId"
+                                                                    data-val="true" data-val-required="İl seçmeniz gerekli.">
+                                                                @foreach (var city in Model.Cities)
+                                                                {
+                                                                    <option value="@city.Id">@city.Name</option>
+                                                                }
+                                                            </select>
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.CityId" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">İlçe *</label>
+                                                            <select class="form-control" asp-for="@Model.JobToAdd.DistrictId"
+                                                                    data-val="true" data-val-required="İlçe seçmeniz gerekli.">
+                                                                @foreach (var district in Model.Districts)
+                                                                {
+                                                                    <option value="@district.Id">@district.Name</option>
+                                                                }
+                                                            </select>
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.DistrictId" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">Açıklama *</label>
+                                                            <textarea style="height: auto" class="form-control" rows="5" asp-for="@Model.JobToAdd.Description"
+                                                                      data-val="true" data-val-required="Açıklama gerekli."></textarea>
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.Description" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <div class="form-group mb-30">
+                                                            <div class="box-upload">
+                                                                <div class="add-file-upload">
+                                                                    <input class="fileupload" onchange="onFileSelect()" asp-for="@Model.JobToAdd.Image">
+                                                                </div>
+                                                                <button type="button" class="btn btn-default" onclick="onUploadClicked()">Fotoğraf Yükle</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style="display: none" class="col-lg-3 col-md-3 file-selected">
+                                                        <div class="form-group mb-30 box-file-uploaded d-flex align-items-center">
+                                                            <span class="fileName"></span>
+                                                            <button type="button" onclick="clearInput()" class="btn btn-danger btn-delete">Sil</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group mt-10">
+                                                            <button type="submit" class="btn btn-default btn-brand icon-tick">İlanı Yayınla</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -108,8 +141,47 @@
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
-
 </main>
+@section Scripts {
+    <script>
+        let onUploadClicked = () => {
+            let fileUpload = $(".fileupload");
+            fileUpload.click();
+        }
+        let clearInput = () => {
+            let fileUpload = $(".fileupload");
+            fileUpload.val(null);
+            $(".fileName").text("");
+            $(".file-selected").hide();
+        }
+        let onFileSelect = () => {
+            let fileUpload = $(".fileupload");
+            let fileName = fileUpload.val().split("\\").pop();
+            $(".fileName").text(fileName);
+            $(".file-selected").show();
+        }   
+        (function ($) {
+            $(document).ready(function () {
+                var districtSelect = $("select[name='JobToAdd.DistrictId']");
+                var citySelect = $("select[name='JobToAdd.CityId']");
+                citySelect.change(function () {
+                    var selectedCityId = $(this).val();
+                    $.ajax({
+                        url: "/Job/GetDistricts",
+                        type: "GET",
+                        data: { cityId: selectedCityId },
+                        success: function (data) {
+                            districtSelect.empty();
+                            $.each(data, function (index, item) {
+                                districtSelect.append("<option value='" + item.id + "'>" + item.name + "</option>");
+                            });
+                        }
+                    });
+                });
+            });
+        })(jQuery)
+    </script>
+}

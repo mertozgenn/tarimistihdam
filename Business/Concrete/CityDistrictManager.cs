@@ -25,7 +25,7 @@ namespace Business.Concrete
 
         public IDataResult<List<District>> GetDistrictsByCityId(int cityId)
         {
-            var data = _districtDal.GetAll(x => x.CityId == cityId);
+            var data = _districtDal.GetAll(x => x.CityId == cityId).OrderBy(x => x.Name).ToList();
             return new SuccessDataResult<List<District>>(data);
         }
     }

@@ -31,10 +31,15 @@ namespace WebUI.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Route("giris-yap")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Login", "Lütfen formu eksiksiz doldurunuz.");
+            }
             var result = _authService.Login(userForLoginDto);
             if (result.Success)
             {
@@ -70,10 +75,20 @@ namespace WebUI.Controllers
             return View(employeeRegisterModel);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Route("is-arayan-kayit")]
         public async Task<IActionResult> EmployeeRegister(EmployeeForRegisterDto employeeForRegister)
         {
+            if (!ModelState.IsValid)
+            {
+                EmployeeRegisterModel employeeRegisterModel = new EmployeeRegisterModel()
+                {
+                    EmployeeForRegister = employeeForRegister,
+                    Message = "Lütfen formu eksiksiz doldurunuz."
+                };
+                return View(employeeRegisterModel);
+            }
             var result = _authService.EmployeeRegister(employeeForRegister);
             if (result.Success)
             {
@@ -97,10 +112,20 @@ namespace WebUI.Controllers
             }
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         [Route("isveren-kayit")]
         public async Task<IActionResult> EmployerRegister(EmployerForRegisterDto employerForRegister)
         {
+            if (!ModelState.IsValid)
+            {
+                EmployerRegisterModel employerRegisterModel = new EmployerRegisterModel()
+                {
+                    EmployerForRegister = employerForRegister,
+                    Message = "Lütfen formu eksiksiz doldurunuz."
+                };
+                return View(employerRegisterModel);
+            }
             var result = _authService.EmployerRegister(employerForRegister);
             if (result.Success)
             {
