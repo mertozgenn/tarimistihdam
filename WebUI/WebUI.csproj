@@ -366,10 +366,12 @@
     <Folder Include="Views\Auth\" />
     <Folder Include="wwwroot\Assets\" />
     <Folder Include="Views\Menu\" />
+    <Folder Include="Views\Register\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Auth\" />
     <None Remove="Views\Menu\" />
+    <None Remove="Views\Register\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\Assets\css\plugins\animate.css" />
