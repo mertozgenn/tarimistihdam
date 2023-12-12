@@ -44,8 +44,8 @@
                                         <form asp-controller="Profile" asp-action="UpdateEmployeeInformation" method="post">
                                             <div class="form-group">
                                                 <label class="font-sm color-text-mutted mb-10">Ad *</label>
-                                                <input class="form-control" asp-for="@Model.EmployeeInformation.Name" 
-                                                data-val="true" data-val-required="Ad gerekli.">
+                                                <input class="form-control" asp-for="@Model.EmployeeInformation.Name"
+                                                       data-val="true" data-val-required="Ad gerekli.">
                                                 <div class="error-message" data-valmsg-for="EmployeeInformation.Name" data-valmsg-replace="true"></div>
                                             </div>
                                             <div class="form-group">
@@ -124,7 +124,14 @@
                                                 {
                                                     <div class="card-grid-2 hover-up wow animate__ animate__fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
                                                         <div class="card-block-info">
-                                                            <h5>@workExperience.Title</h5>
+                                                            <div class="row">
+                                                                <div class="col-md-10">
+                                                                    <h5>@workExperience.Title</h5>
+                                                                </div>
+                                                                <div class="col-md-2 text-end">
+                                                                    <a class="link-red mt-4 py-2 px-1" style="cursor: pointer" onclick="deleteWorkExperience(@workExperience.Id)">Sil</a>
+                                                                </div>
+                                                            </div>
                                                             <p class="font-sm color-text-paragraph mt-10">@workExperience.Description</p>
                                                         </div>
                                                     </div>
@@ -218,6 +225,22 @@
         let deleteInterest = (id) => {
             $.ajax({
                 url: "/Profile/DeleteInterest?id=" + id,
+                type: "GET",
+                success: function (data) {
+                    toastr.success(data.message)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function (data) {
+                    toastr.error(data.message)
+                }
+            })
+        }
+
+        let deleteWorkExperience = (id) => {
+            $.ajax({
+                url: "/Profile/DeleteWorkExperience?id=" + id,
                 type: "GET",
                 success: function (data) {
                     toastr.success(data.message)

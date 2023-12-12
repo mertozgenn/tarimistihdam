@@ -183,5 +183,20 @@ namespace WebUI.Controllers
             var result = _workExperienceService.Add(workExperience);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult DeleteWorkExperience([FromQuery] int id)
+        {
+            var employeeId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
+            var result = _workExperienceService.Delete(id, employeeId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
     }
 }

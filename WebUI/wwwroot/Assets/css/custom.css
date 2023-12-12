@@ -51,3 +51,7 @@
 .bg-postjob {
     background: url(../imgs/page/bg.svg) no-repeat right 20px bottom;
 }
+
+.link-red {
+    color: #E45959 !important;
+}

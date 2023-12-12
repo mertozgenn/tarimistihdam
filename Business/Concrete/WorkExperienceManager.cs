@@ -39,7 +39,7 @@ namespace Business.Concrete
         public IResult Delete(int id, int employeeId)
         {
             //int employeeId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "EmployeeId").Value);
-            var data = _workExperienceDal.Get(x => x.EmployeeId == employeeId);
+            var data = _workExperienceDal.Get(x => x.EmployeeId == employeeId && x.Id == id);
             if (data == null)
             {
                 return new ErrorResult(Messages.NotFound);
