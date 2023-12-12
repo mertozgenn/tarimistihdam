@@ -22,7 +22,7 @@ namespace DataAccess.Concrete.EntityFramework
                                Name = user.Name,
                                Phone = user.Phone,
                                Surname = user.Surname,
-                               ProfilePhoto = user.ProfilePhoto,
+                               ProfilePhoto = user.ProfilePhoto ?? "/Assets/imgs/avatar/profile.png",
                                Tckn = user.Tckn,
                                UserId = user.Id,
                                EmployeeId = employee.Id

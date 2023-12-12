@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using Business.Abstract;
 using Business.Constants;
+using Core.Extensions;
 using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Entities.Dtos.User;
@@ -46,11 +47,13 @@ namespace Business.Concrete
                 {
                     var employee = _employeeService.GetByUserId(userToCheck.Id);
                     claims.Add(new Claim("EmployeeId", employee.Id.ToString()));
+                    claims.AddRoles(new string[] { "Employee" });
                 }
                 if (operationClaims.Any(x => x.Name == "employer"))
                 {
                     var employer = _employerService.GetByUserId(userToCheck.Id);
                     claims.Add(new Claim("EmployerId", employer.Id.ToString()));
+                    claims.AddRoles(new string[] { "Employer" });
                 }
                 return new SuccessDataResult<List<Claim>>(claims);
             }

@@ -15,6 +15,7 @@ namespace Entities.Dtos.User
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Tckn { get; set; }
+        public string ProfilePhoto { get; set; }
         public IFormFile? NewProfilePhoto { get; set; }
         public string? NewPassword { get; set; }
         public string? NewPasswordAgain { get; set; }

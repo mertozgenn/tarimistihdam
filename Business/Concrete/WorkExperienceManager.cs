@@ -51,6 +51,12 @@ namespace Business.Concrete
             _workExperienceDal.Delete(data);
             return new SuccessResult(Messages.Deleted);
         }
+
+        public IDataResult<List<WorkExperience>> GetByEmployeeId(int employeeId)
+        {
+            var data = _workExperienceDal.GetAll(x => x.EmployeeId == employeeId);
+            return new SuccessDataResult<List<WorkExperience>>(data);
+        }
     }
 }
 

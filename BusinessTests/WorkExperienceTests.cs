@@ -17,7 +17,7 @@ namespace BusinessTests
         };
 
         [TestMethod]
-        public void Add_ShoulAddWorkExperience()
+        public void Add_WithValidData_ShoulAddWorkExperience()
         {
             //Arrange
             var workExperienceService = _container.Resolve<IWorkExperienceService>();

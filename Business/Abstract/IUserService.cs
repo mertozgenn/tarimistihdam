@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Core.Concrete.Entities;
 using Core.Utilities.Results;
 using Entities.Dtos.User;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.Abstract
 {
@@ -14,6 +15,7 @@ namespace Business.Abstract
         IDataResult<UserInformationDto> GetUserInformation(int userId);
         void UpdateLastLoginDate(User user);
         IResult Update(UserInformationToUpdateDto userInformationToUpdateDto);
+        IResult UpdateProfilePhoto(int userId, IFormFile file);
     }
 }
 

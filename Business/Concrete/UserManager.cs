@@ -8,6 +8,7 @@ using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using DataAccess.Abstract;
 using Entities.Dtos.User;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.Concrete
 {
@@ -121,6 +122,19 @@ namespace Business.Concrete
         {
             user.LastLoginDate = DateTime.Now;
             _userDal.Update(user);
+        }
+
+        public IResult UpdateProfilePhoto(int userId, IFormFile file)
+        {
+            var user = _userDal.Get(x => x.Id == userId);
+            if (!string.IsNullOrEmpty(user.ProfilePhoto))
+            {
+                FileHelper.DeleteFile(user.ProfilePhoto);
+            }
+            var guid = Guid.NewGuid().ToString();
+            user.ProfilePhoto = FileHelper.CreateFile(file, "/uploads/images/user", guid);
+            _userDal.Update(user);
+            return new SuccessResult(Messages.Updated);
         }
     }
 }
