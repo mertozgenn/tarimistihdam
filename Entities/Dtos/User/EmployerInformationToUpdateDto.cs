@@ -10,8 +10,8 @@ namespace Entities.Dtos.User
     public class EmployerInformationToUpdateDto: UserInformationToUpdateDto
     {
         public int EmployerId { get; set; }
-        public string TaxPlace { get; set; }
-        public string TaxNumber { get; set; }
-        public string CompanyName { get; set; }
+        public string? TaxPlace { get; set; }
+        public string? TaxNumber { get; set; }
+        public string? CompanyName { get; set; }
     }
 }
