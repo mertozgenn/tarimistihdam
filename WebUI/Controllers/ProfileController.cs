@@ -16,10 +16,11 @@ namespace WebUI.Controllers
         private IInterestService _interestService;
         private IWorkExperienceService _workExperienceService;
         private IJobTagService _jobTagService;
+        private IJobService _jobService;
 
         public ProfileController(IEmployerService employerService, IEmployeeService employeeService, 
             IUserService userService, IInterestService interestService, IWorkExperienceService workExperienceService, 
-            IJobTagService jobTagService)
+            IJobTagService jobTagService, IJobService jobService)
         {
             _employerService=employerService;
             _employeeService=employeeService;
@@ -27,6 +28,7 @@ namespace WebUI.Controllers
             _interestService=interestService;
             _workExperienceService=workExperienceService;
             _jobTagService=jobTagService;
+            _jobService=jobService;
         }
 
         [HttpGet("profilim")]
@@ -196,6 +198,43 @@ namespace WebUI.Controllers
             else
             {
                 return BadRequest(result);
+            }
+        }
+
+        [HttpGet("profil/{id}")]
+        public IActionResult Profile(int id)
+        {
+            var userRole = _userService.GetUserType(id);
+            if (userRole == "Employer")
+            {
+                int employerId = _employerService.GetByUserId(id).Id;
+                var employerInformationResult = _employerService.GetEmployerInformation(employerId);
+                var employerInformation = employerInformationResult.Data;
+                var jobsResult = _jobService.GetByEmployerId(employerId);
+                EmployerProfileModel employerProfileModel = new EmployerProfileModel()
+                {
+                    EmployerInformation = employerInformation,
+                    Message = employerInformationResult.Message,
+                    Jobs = jobsResult.Data
+                };
+                return View("EmployerProfile", employerProfileModel);
+            }
+            else
+            {
+                int employeeId = _employeeService.GetByUserId(id).Id;
+                var employeeInformationResult = _employeeService.GetEmployeeInformation(employeeId);
+                var employeeInformation = employeeInformationResult.Data;
+                var interestsResult = _interestService.GetByEmployeeId(employeeId);
+                var workExperiencesResult = _workExperienceService.GetByEmployeeId(employeeId);
+                var jobTags = _jobTagService.GetJobTags();
+                EmployeeProfileModel employeeProfileModel = new EmployeeProfileModel()
+                {
+                    EmployeeInformation = employeeInformation,
+                    Message = employeeInformationResult.Message,
+                    Interests = interestsResult.Data,
+                    WorkExperiences = workExperiencesResult.Data,
+                };
+                return View("EmployeeProfile", employeeProfileModel);
             }
         }
     }

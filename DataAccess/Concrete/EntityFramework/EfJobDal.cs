@@ -62,9 +62,9 @@ namespace DataAccess.Concrete.EntityFramework
                 foreach (var job in data)
                 {
                     var nlpTags = job.NlpTags.Split(",", StringSplitOptions.None).ToList();
-                    job.Tags = nlpTags.Select(x => jobTags.Where(y => y.Key == x).Select(y => y).First()).ToList();
+                    job.Tags = nlpTags.Select(x => jobTags.Where(y => y.Key == x).Select(y => y).FirstOrDefault()).ToList();
                 }
-                return query.ToList();
+                return data;
             }
         }
     }

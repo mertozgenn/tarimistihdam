@@ -16,6 +16,7 @@ namespace Business.Abstract
         void UpdateLastLoginDate(User user);
         IResult Update(UserInformationToUpdateDto userInformationToUpdateDto);
         IResult UpdateProfilePhoto(int userId, IFormFile file);
+        string GetUserType(int userId);
     }
 }
 

@@ -1,0 +1,108 @@
+﻿@model EmployerProfileModel
+@{
+    Layout = "_Layout";
+}
+<main class="main">
+    <section class="section-box-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box-company-profile">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img class="img-fluid" style="border-radius: 16px" src="@Model.EmployerInformation.ProfilePhoto">
+                            </div>
+                        </div>
+                        <div class="row mt-10">
+                            <div class="col-md-12">
+                                <h5 class="f-18">@Model.EmployerInformation.Name @Model.EmployerInformation.Surname</h5>
+                                <p class="mt-0 font-md color-text-paragraph-2">@Model.EmployerInformation.CompanyName</p>
+                                <p class="mt-0 font-md color-text-paragraph-2 mb-15">İşveren</p>
+                                <div class="mt-10 mb-15">
+                                    <img src="~/assets/imgs/template/icons/star.svg">
+                                    <span class="font-xs color-text-mutted ml-10">(66)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box-company-profile">
+                        <div class="sidebar-border">
+                            <h5 class="f-18">İletişim</h5>
+                            <div class="sidebar-list-job">
+                                <ul>
+                                    <li>
+                                        <div class="sidebar-icon-item"><i class="fi fi-rr-envelope"></i></div>
+                                        <div class="sidebar-text-info"><span class="text-description">E-posta</span><strong class="small-heading">@Model.EmployerInformation.Email</strong></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-list-job">
+                                <div class="mt-30"><a class="btn btn-send-message" href="mailto:@Model.EmployerInformation.Email">Mesaj Gönder</a></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-bottom pt-10 pb-10"></div>
+    </section>
+    <section class="section-box mt-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content-single">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tab-short-bio" role="tabpanel" aria-labelledby="tab-short-bio">
+                                <h4>İlanlar</h4>
+                                <div class="row">
+                                    @foreach (var job in Model.Jobs)
+                                    {
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                                            <div class="card-grid-2 hover-up">
+                                                <div class="card-grid-2-image-left align-items-center justify-content-center">
+                                                    <div class="image-box"><img style="height:200px" class="img-fluid" src="@job.Image"></div>
+                                                </div>
+                                                <div class="card-block-info">
+                                                    <h6><a href="job-details.html">@job.Title</a></h6>
+                                                    <div class="mt-5">
+                                                        <span class="card-briefcase">@job.City / @job.District</span>
+                                                        <span class="card-time">@job.PublishDate.ToString("dd.MM.yyyy")</span>
+                                                    </div>
+                                                    <p style="height: 50px;" class="font-sm color-text-paragraph mt-15">@job.Description</p>
+                                                    <div class="mt-30" style="height: 50px">
+                                                        @if (job.Tags != null)
+                                                        {
+                                                            @foreach (var tag in job.Tags)
+                                                            {
+                                                                @if (tag != null)
+                                                                {
+                                                                    <a class="btn btn-grey-small mr-5">@tag.DisplayName</a>
+                                                                }
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="card-2-bottom mt-30">
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-7"><span class="card-text-price">₺@job.DailyWage.ToString("N2")</span><span class="text-muted">/Gün</span></div>
+                                                            <div class="col-lg-5 col-5 text-end">
+                                                                <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

@@ -21,6 +21,27 @@ namespace DataAccess.Concrete.EntityFramework
 
             }
         }
+
+        public string GetType(int userId)
+        {
+            using (Context context = new Context())
+            {
+                bool isEmployer = context.Employers.Any(x => x.UserId == userId);
+                bool isEmployee = context.Employees.Any(x => x.UserId == userId);
+                if (isEmployer)
+                {
+                    return "Employer";
+                }
+                else if (isEmployee)
+                {
+                    return "Employee";
+                }
+                else
+                {
+                    return "User";
+                }
+            }
+        }
     }
 }
 

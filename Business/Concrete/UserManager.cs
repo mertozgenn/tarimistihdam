@@ -78,6 +78,12 @@ namespace Business.Concrete
             return new SuccessDataResult<UserInformationDto>(userInformationDto);
         }
 
+        public string GetUserType(int userId)
+        {
+            string userType = _userDal.GetType(userId);
+            return userType;
+        }
+
         public IResult Update(UserInformationToUpdateDto userInformationToUpdateDto)
         {
             var user = _userDal.Get(x => x.Id == userInformationToUpdateDto.UserId);
