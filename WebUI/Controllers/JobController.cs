@@ -85,6 +85,19 @@ namespace WebUI.Controllers
             var districts = _cityDistrictService.GetDistrictsByCityId(cityId).Data;
             return Json(districts);
         }
+
+
+        [Route("is-ilanlari")]
+        public IActionResult FindJob()
+        {
+            return View();
+        }
+
+        [Route("is-ilani-detay")]
+        public IActionResult JobDetail()
+        {
+            return View();
+        }
     }
 }
 
