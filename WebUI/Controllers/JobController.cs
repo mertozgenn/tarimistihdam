@@ -98,6 +98,11 @@ namespace WebUI.Controllers
         {
             return View();
         }
+        [Route("arama-sonuclari")]
+        public IActionResult JobSearch()
+        {
+            return View();
+        }
     }
 }
 
