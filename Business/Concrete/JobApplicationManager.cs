@@ -27,6 +27,16 @@ namespace Business.Concrete
             _jobApplicationDal.Add(jobApplication);
             return new SuccessResult(Messages.ApplicationSuccessful);
         }
+
+        public IResult IsApplied(int jobId, int employeeId)
+        {
+            var result = _jobApplicationDal.Get(x => x.JobId == jobId && x.EmployeeId == employeeId);
+            if (result == null)
+            {
+                return new ErrorResult(Messages.ApplicationNotFound);
+            }
+            return new SuccessResult();
+        }
     }
 }
 

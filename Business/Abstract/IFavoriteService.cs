@@ -9,6 +9,7 @@ namespace Business.Abstract
 		IDataResult<List<JobDto>> GetFavorites(int employeeId);
 		IResult Add(int jobId, int employeeId);
 		IResult Delete(int id, int employeeId);
+		IResult IsFavorite(int jobId, int employeeId);
 	}
 }
 

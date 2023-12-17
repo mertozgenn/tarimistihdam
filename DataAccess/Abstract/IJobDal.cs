@@ -8,7 +8,7 @@ namespace DataAccess.Abstract
 {
 	public interface IJobDal: IEntityRepository<Job>
 	{
-		List<JobDto> GetAllDto(Expression<Func<JobDto, bool>>? filter = null, JobFilterDto? jobFilterDto = null);
+		List<JobDto> GetAllDto(Predicate<JobDto>? filter = null, JobFilterDto? jobFilterDto = null);
 	}
 }
 

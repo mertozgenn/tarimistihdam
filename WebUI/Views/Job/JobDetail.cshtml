@@ -1,18 +1,30 @@
-﻿@{
+﻿@model JobDetailModel
+@{
     Layout = "_Layout";
+    bool isAuthenticated = User.Claims.Any(x => x.Type == "EmployeeId");
 }
 
-<main class="main">
+<main class="main jobs">
     <section class="section-box-2">
         <div class="container">
             <div class="row mt-10">
                 <div class="col-lg-8 col-md-12">
-
-                    <h3>Mısır Hasadı</h3>
-                    <div class="mt-0 mb-15"><span class="card-briefcase">4 Kişi</span><span class="card-time">6 dakika önce</span></div>
+                    <h3>@Model.Job.Title</h3>
+                    <div class="mt-0 mb-15"><span class="card-briefcase">@Model.Job.EmployeeCount Kişi</span><span class="card-time">@Model.Job.PublishDate.ToString("dd.MM.yyyy")</span></div>
                 </div>
                 <div class="col-lg-4 col-md-12 text-lg-end">
-                    <div class="btn btn-apply-icon btn-apply btn-apply-big hover-up" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Hemen Başvur!</div>
+                    @if (Model.IsApplied && isAuthenticated)
+                    {
+                        <div class="btn btn-secondary">Başvuruldu</div>
+                    }
+                    else if (!Model.IsApplied && isAuthenticated)
+                    {
+                        <div onclick="apply(@Model.Job.Id)" class="btn btn-apply-icon btn-apply btn-apply-big hover-up">Hemen Başvur!</div>
+                    }
+                    else
+                    {
+                        <div class="btn btn-secondary">Başvurmak için Giriş Yapın</div>
+                    }
                 </div>
             </div>
             <div class="border-bottom pt-10 pb-10"></div>
@@ -27,123 +39,91 @@
                         <div class="row">
                             <div class="col-md-12 d-flex">
                                 <div class="sidebar-icon-item"><img src="~/Assets/imgs/page/job-single/industry.svg" alt="jobBox"></div>
-                                <div class="sidebar-text-info ml-10"><span class="text-description industry-icon mb-10">İş Kategorisi</span><strong class="small-heading"> Mısır Hasadı</strong></div>
+                                <div class="sidebar-text-info ml-10"><span class="text-description industry-icon mb-10">İş Kategorisi</span><strong class="small-heading"> @Model.Job.Category</strong></div>
                             </div>
                             <div class="col-md-12 d-flex mt-sm-15">
                                 <div class="sidebar-icon-item"><img src="~/Assets/imgs/page/job-single/job-level.svg" alt="jobBox"></div>
-                                <div class="sidebar-text-info ml-10"><span class="text-description joblevel-icon mb-10">Kişi Sayısı</span><strong class="small-heading">4 Kişi</strong></div>
+                                <div class="sidebar-text-info ml-10"><span class="text-description joblevel-icon mb-10">Kişi Sayısı</span><strong class="small-heading">@Model.Job.EmployeeCount Kişi</strong></div>
                             </div>
                             <div class="col-md-12 d-flex mt-sm-15">
                                 <div class="sidebar-icon-item"><img src="~/Assets/imgs/page/job-single/salary.svg" alt="jobBox"></div>
-                                <div class="sidebar-text-info ml-10"><span class="text-description salary-icon mb-10">Yevmiye</span><strong class="small-heading">600₺</strong></div>
+                                <div class="sidebar-text-info ml-10"><span class="text-description salary-icon mb-10">Yevmiye</span><strong class="small-heading">@Model.Job.DailyWage.ToString("N2")₺</strong></div>
                             </div>
                             <div class="col-md-12 d-flex mt-sm-15">
                                 <div class="sidebar-icon-item"><img src="~/Assets/imgs/page/job-single/updated.svg" alt="jobBox"></div>
-                                <div class="sidebar-text-info ml-10"><span class="text-description jobtype-icon mb-10">İlan Tarihi</span><strong class="small-heading">10/07/2022</strong></div>
+                                <div class="sidebar-text-info ml-10"><span class="text-description jobtype-icon mb-10">İlan Tarihi</span><strong class="small-heading">@Model.Job.PublishDate.ToString("dd.MM.yyyy")</strong></div>
                             </div>
                             <div class="col-md-12 d-flex mt-sm-15">
                                 <div class="sidebar-icon-item"><img src="~/Assets/imgs/page/job-single/location.svg" alt="jobBox"></div>
-                                <div class="sidebar-text-info ml-10"><span class="text-description mb-10">Konum</span><strong class="small-heading">Manisa, Yunusemre</strong></div>
+                                <div class="sidebar-text-info ml-10"><span class="text-description mb-10">Konum</span><strong class="small-heading">@Model.Job.City, @Model.Job.District</strong></div>
                             </div>
                         </div>
 
                     </div>
-                    @*<div class="content-single">
-            <h4>Açıklama</h4>
-            <p>2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-
-        </div>*@
-                <div class="row mt-70">
-                    <div class="col-lg-6 col-md-12 col-sm-12">
-                        <h3 class="mt-15">Açıklama</h3>
-                        <div class="mt-20">
-                            <p class="font-md color-text-paragraph mt-20">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-
+                    <div class="row mt-70">
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                            <h3 class="mt-15">Açıklama</h3>
+                            <div class="mt-20">
+                                <p class="font-md color-text-paragraph mt-20">@Model.Job.Description</p>
+                            </div>
                         </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 cstm-detail"><img src="@Model.Job.Image" alt=""></div>
                     </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12 cstm-detail"><img src="~/Assets/imgs/job1.jpg" alt=""></div>
-
-                </div>
-
                     <div class="single-apply-jobs">
                         <div class="row align-items-center">
-                            <div class="col-md-5"><a class="btn btn-default mr-15" href="#">Hemen Başvur!</a><a class="btn btn-border" href="#">Favoriye Ekle</a></div>
-
+                            <div class="col-md-12">
+                                @if (Model.IsApplied && isAuthenticated)
+                                {
+                                    <a class="btn btn-secondary mr-15">Başvuruldu</a>
+                                }
+                                else if (!Model.IsApplied && isAuthenticated)
+                                {
+                                    <a onclick="apply(@Model.Job.Id)" class="btn btn-default mr-15">Hemen Başvur!</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-secondary mr-15">Başvurmak için Giriş Yapın</a>
+                                }
+                                @if (Model.IsFavorite && isAuthenticated)
+                                {
+                                    <a class="btn btn-secondary">Favoriye Eklendi</a>
+                                }
+                                else if (!Model.IsFavorite && isAuthenticated)
+                                {
+                                    <a onclick="addToFavorites(@Model.Job.Id)" class="btn btn-border">Favoriye Ekle</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-secondary">Favoriye Eklemek için Giriş Yapın</a>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
-
-                   
-        
                     <div class="sidebar-border">
                         <h6 class="f-18">Benzer İş İlanları</h6>
                         <div class="sidebar-list-job">
                             <ul>
-                                <li>
-                                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
-                                        <div class="image cstm-img"><a href=""><img src="~/Assets/imgs/job2.jpg" alt="jobBox"></a></div>
-                                        <div class="info-text">
-                                            <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">Üzüm Hasadı</a></h5>
-                                            <div class="mt-5">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h6 class="card-price">250₺<span>/Gün</span></h6>
+                                @foreach (var item in Model.RelatedJobs)
+                                {
+                                    <li>
+                                        <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
+                                            <div class="image cstm-img"><a href="/is-ilani-detay/@item.Id"><img src="@item.Image" alt="jobBox"></a></div>
+                                            <div class="info-text">
+                                                <h5 class="font-md font-bold color-brand-1"><a href="/is-ilani-detay/@item.Id">@item.Title</a></h5>
+                                                <div class="mt-5">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <h6 class="card-price">@item.DailyWage.ToString("N2")₺<span>/Gün</span></h6>
+                                                        </div>
+                                                        <div class="col-6 "><span class="card-briefcase">@item.City, @item.District</span></div>
                                                     </div>
-                                                    <div class="col-6 "><span class="card-briefcase">Manisa, Şehzadeler</span></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
-                                        <div class="image cstm-img"><a href=""><img src="~/Assets/imgs/job2.jpg" alt="jobBox"></a></div>
-                                        <div class="info-text">
-                                            <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">Üzüm Hasadı</a></h5>
-                                            <div class="mt-5">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h6 class="card-price">250₺<span>/Gün</span></h6>
-                                                    </div>
-                                                    <div class="col-6 "><span class="card-briefcase">Manisa, Şehzadeler</span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
-                                        <div class="image cstm-img"><a href=""><img src="~/Assets/imgs/job2.jpg" alt="jobBox"></a></div>
-                                        <div class="info-text">
-                                            <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">Üzüm Hasadı</a></h5>
-                                            <div class="mt-5">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h6 class="card-price">250₺<span>/Gün</span></h6>
-                                                    </div>
-                                                    <div class="col-6 "><span class="card-briefcase">Manisa, Şehzadeler</span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
-                                        <div class="image cstm-img"><a href=""><img src="~/Assets/imgs/job2.jpg" alt="jobBox"></a></div>
-                                        <div class="info-text">
-                                            <h5 class="font-md font-bold color-brand-1"><a href="job-details.html">Üzüm Hasadı</a></h5>
-                                            <div class="mt-5">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h6 class="card-price">250₺<span>/Gün</span></h6>
-                                                    </div>
-                                                    <div class="col-6 "><span class="card-briefcase">Manisa, Şehzadeler</span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -151,6 +131,39 @@
             </div>
         </div>
     </section>
-
-
 </main>
+@section scripts{
+    <script>
+        const apply = (jobId) => {
+            $.ajax({
+                url: "/Job/ApplyJob?jobId=" + jobId,
+                type: "GET",
+                success: function (data) {
+                    toastr.success(data.message)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function (data) {
+                    toastr.error(data.message)
+                }
+            })
+        }
+
+        const addToFavorites = (jobId) => {
+            $.ajax({
+                url: "/Job/AddToFavorites?jobId=" + jobId,
+                type: "GET",
+                success: function (data) {
+                    toastr.success(data.message)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function (data) {
+                    toastr.error(data.message)
+                }
+            })
+        }
+    </script>
+}

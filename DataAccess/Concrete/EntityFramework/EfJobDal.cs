@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Text.Json;
 using Core.Concrete.DataAccess.EntityFramework.Repositories;
 using DataAccess.Abstract;
@@ -10,9 +9,9 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfJobDal : EfEntityRepositoryBase<Job, Context>, IJobDal
     {
-        public List<JobDto> GetAllDto(Expression<Func<JobDto, bool>>? filter = null, JobFilterDto? jobFilterDto = null)
+        public List<JobDto> GetAllDto(Predicate<JobDto>? filter = null, JobFilterDto? jobFilterDto = null)
         {
-            using(Context context = new Context())
+            using (Context context = new Context())
             {
                 var query = (from job in context.Jobs
                              join employer in context.Employers
@@ -38,32 +37,40 @@ namespace DataAccess.Concrete.EntityFramework
                                  Description = job.Description,
                                  PublishDate = job.PublishDate,
                                  Title = job.Title,
-                                 NlpTags = job.NlpTags,
+                                 NlpTags = job.NlpTags ?? "",
                                  Id = job.Id,
                                  EmployerProfilePhoto = user.ProfilePhoto,
-                                 Image = job.Image
-                             });
+                                 Image = job.Image,
+                                 EmployeeCount = job.EmployeeCount,
+                                 DistrictId = job.DistrictId
+                             }).ToList();
 
-                if (filter != null)
-                {
-                    query = query.Where(filter);
-                }
-                var data = query.ToList();
-                if (jobFilterDto != null)
-                {
-                    data = data.FindAll(x => (jobFilterDto.CategoryIds != null ? jobFilterDto.CategoryIds.Contains(x.CategoryId) : true) &&
-                                             (jobFilterDto.CityIds != null ? jobFilterDto.CityIds.Contains(x.CityId) : true) &&
-                                             (jobFilterDto.TagKeys != null ? x.Tags.Any(x => jobFilterDto.TagKeys.Contains(x.Key)) : true) &&
-                                             (jobFilterDto.MinWage != null ? x.DailyWage >= jobFilterDto.MinWage : true) &&
-                                             (jobFilterDto.MaxWage != null ? x.DailyWage <= jobFilterDto.MaxWage : true)
-                        );
-                }
+                var data = query;
                 var jobTags = context.JobTags.ToList();
                 foreach (var job in data)
                 {
+                    if (string.IsNullOrEmpty(job.NlpTags))
+                    {
+                        continue;
+                    }
                     var nlpTags = job.NlpTags.Split(",", StringSplitOptions.None).ToList();
                     job.Tags = nlpTags.Select(x => jobTags.Where(y => y.Key == x).Select(y => y).FirstOrDefault()).ToList();
                 }
+                if (filter != null)
+                {
+                    data = data.FindAll(filter);
+                }
+                if (jobFilterDto != null)
+                {
+                    data = data.FindAll(x => (jobFilterDto.CategoryId != null ? jobFilterDto.CategoryId == x.CategoryId : true) &&
+                                             (jobFilterDto.CityId != null ? jobFilterDto.CityId == x.CityId : true) &&
+                                             (jobFilterDto.DistrictId != null ? jobFilterDto.DistrictId == x.DistrictId : true) &&
+                                             (jobFilterDto.TagKeys != null ? x.Tags.Any(x => jobFilterDto.TagKeys.Contains(x.Key)) : true) &&
+                                             (jobFilterDto.MinWage != null ? x.DailyWage >= jobFilterDto.MinWage : true) &&
+                                             ((jobFilterDto.MaxWage != null && jobFilterDto.MaxWage != -1) ? x.DailyWage <= jobFilterDto.MaxWage : true)
+                        );
+                }
+
                 return data;
             }
         }

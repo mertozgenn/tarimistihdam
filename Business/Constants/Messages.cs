@@ -16,6 +16,7 @@ namespace Business.Constants
 		public static string ApplicationSuccessful = "Başvurunuz başarıyla alınmıştır";
 		public static string Updated = "Kayıt güncellendi.";
 		public static string PasswordsNotMatch = "Parolalar eşleşmiyor.";
+		public static string ApplicationNotFound = "Başvuru bulunamadı.";
 	}
 }
 

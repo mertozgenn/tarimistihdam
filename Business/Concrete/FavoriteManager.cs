@@ -61,6 +61,16 @@ namespace Business.Concrete
             var data = _jobService.GetByIds(favoriteIds);
             return new SuccessDataResult<List<JobDto>>(data);
         }
+
+        public IResult IsFavorite(int jobId, int employeeId)
+        {
+            var data = _favoriteDal.Get(x => x.EmployeeId == employeeId && x.JobId == jobId);
+            if (data == null)
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
+        }
     }
 }
 

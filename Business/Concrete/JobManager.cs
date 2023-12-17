@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Business.Abstract;
 using Business.Utilities;
 using Core.Utilities.Results;
@@ -85,17 +86,35 @@ namespace Business.Concrete
             return data;
         }
 
-        public IDataResult<List<JobDto>> GetSearchResults(string searchKey)
+        public IDataResult<List<JobDto>> GetSearchResults(JobFilterDto jobFilterDto, string searchKey)
         {
+            if (searchKey == null)
+            {
+                return new SuccessDataResult<List<JobDto>>(_jobDal.GetAllDto(jobFilterDto:jobFilterDto));
+            }
+            searchKey = searchKey.ToLower().Trim();
+            Predicate<JobDto> filter = (x =>
+            (x.Title ?? "").ToLower().Contains(searchKey) ||
+            (x.Description ?? "").ToLower().Contains(searchKey) ||
+            (x.Tags != null && x.Tags.Any(x => (x.DisplayName ?? "").ToLower().Contains(searchKey))) ||
+            (x.Category ?? "").ToLower().Contains(searchKey) ||
+            (x.City ?? "").ToLower().Contains(searchKey) ||
+            (x.District ?? "").ToLower().Contains(searchKey) ||
+            (x.Employer ?? "").ToLower().Contains(searchKey));
+            var data = _jobDal.GetAllDto(filter, jobFilterDto);
+            return new SuccessDataResult<List<JobDto>>(data);
+        }
+
+        public IDataResult<List<JobDto>> GetRelatedJobs(int jobId)
+        {
+            var job = _jobDal.Get(x => x.Id == jobId);
+            if (job == null)
+            {
+                return new ErrorDataResult<List<JobDto>>("İş ilanı bulunamadı");
+            }
             var data = _jobDal.GetAllDto(x => 
-            x.Title.Contains(searchKey) || 
-            x.Description.Contains(searchKey) ||
-            x.Tags.Exists(x => x.DisplayName.Contains(searchKey)) ||
-            x.Category.Contains(searchKey) ||
-            x.City.Contains(searchKey) ||
-            x.District.Contains(searchKey) ||
-            x.Employer.Contains(searchKey)
-            );
+            (x.CategoryId == job.CategoryId || x.NlpTags.Contains(job.NlpTags)) && 
+            x.Id != jobId).Take(4).ToList();
             return new SuccessDataResult<List<JobDto>>(data);
         }
     }

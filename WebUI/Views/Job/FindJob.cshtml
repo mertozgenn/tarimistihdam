@@ -1,13 +1,14 @@
-﻿@{
+﻿@model FindJobModel
+@{
     Layout = "_Layout";
 }
 
-<main class="main">
+<main class="main jobs">
     <section class="section-box-2">
         <div class="container">
             <div class="banner-hero banner-single banner-single-bg">
                 <div class="block-banner text-center">
-                        <h3 class="wow animate__animated animate__fadeInUp"> İş İlanları</h3>
+                    <h3 class="wow animate__animated animate__fadeInUp"> İş İlanları</h3>
 
                 </div>
             </div>
@@ -18,224 +19,62 @@
             <div class="row flex-row-reverse">
                 <div class="col-lg-9 col-md-12 col-sm-12 col-12 float-right">
                     <div class="content-page">
-               
                         <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> dakika önce</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" ><a href="">Detay</a></div>
+                            @foreach (var item in Model.Jobs)
+                            {
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="card-grid-2 hover-up">
+                                        <div class="card-grid-2-image-left">
+                                            <span class="flash"></span>
+                                            <div class="image-box cstm-img"><img src="@item.Image" alt=""></div>
+                                            <div class="right-info"><span class="location-small"> @item.City, @item.District</span></div>
+                                        </div>
+                                        <div class="card-block-info">
+                                            <h6><a href="job-details.html">@item.Title</a></h6>
+                                            <div class="mt-5"><span class="card-briefcase">@item.EmployeeCount Kişi</span><span class="card-time">@item.PublishDate.ToString("dd.MM.yyyy")</span></div>
+                                            @*<div class="mt-30">
+                                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
+                                        </div>*@
+                                            <p style="height: 50px;" class="font-sm color-text-paragraph mt-15">@item.Description</p>
+                                            <div class="mt-30" style="height: 50px">
+                                                @if (item.Tags != null)
+                                                {
+                                                    @foreach (var tag in item.Tags)
+                                                    {
+                                                        @if (tag != null)
+                                                        {
+                                                            <a class="btn btn-grey-small mr-5">@tag.DisplayName</a>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="card-2-bottom mt-30">
+                                                <div class="row">
+                                                    <div class="col-lg-7 col-7"><span class="card-text-price">@item.DailyWage.ToString("N2")₺</span><span class="text-muted">/Günlük</span></div>
+                                                    <div class="col-lg-5 col-5 text-end">
+                                                        <a class="btn btn-apply-now" href="/is-ilani-detay/@item.Id">Detay</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job2.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> minutes ago</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job3.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> minutes ago</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> minutes ago</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> minutes ago</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> minutes ago</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> minutes ago</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt=""></div>
-                                        <div class="right-info"><span class="location-small"> Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Mısır Hasadı</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">4 Kişi</span><span class="card-time">6<span> minutes ago</span></span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">2024 yaz sezonunda mısır hasadı için deneyimli ve enerjik işçiler aramaktadır. Siz de bu keyifli ve verimli işte yer alarak ekibimize katılmak ister misiniz?</p>
-                                        @*<div class="mt-30">
-                        <a class="btn btn-grey-small mr-5" href="jobs-grid.html"></a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Figma</a><a class="btn btn-grey-small mr-5" href="jobs-grid.html">Photoshop</a>
-                    </div>*@
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">600₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            }
                         </div>
                     </div>
-                    <div class="paginations">
-                        <ul class="pager">
-                            <li><a class="pager-prev" href="#"></a></li>
-                            <li><a class="pager-number" href="#">1</a></li>
-                            <li><a class="pager-number" href="#">2</a></li>
-                            <li><a class="pager-number" href="#">3</a></li>
-                            <li><a class="pager-number" href="#">4</a></li>
-                            <li><a class="pager-number" href="#">5</a></li>
-                            <li><a class="pager-number active" href="#">6</a></li>
-                            <li><a class="pager-number" href="#">7</a></li>
-                            <li><a class="pager-next" href="#"></a></li>
-                        </ul>
-                    </div>
+                    @*                     <div class="paginations">
+                    <ul class="pager">
+                    <li><a class="pager-prev" href="#"></a></li>
+                    <li><a class="pager-number" href="#">1</a></li>
+                    <li><a class="pager-number" href="#">2</a></li>
+                    <li><a class="pager-number" href="#">3</a></li>
+                    <li><a class="pager-number" href="#">4</a></li>
+                    <li><a class="pager-number" href="#">5</a></li>
+                    <li><a class="pager-number active" href="#">6</a></li>
+                    <li><a class="pager-number" href="#">7</a></li>
+                    <li><a class="pager-next" href="#"></a></li>
+                    </ul>
+                    </div> *@
                 </div>
                 <div class="col-lg-3 col-md-12 col-sm-12 col-12">
                     <div class="sidebar-shadow none-shadow mb-30">
@@ -243,25 +82,25 @@
                             <div class="filter-block head-border mb-30">
                                 <h5>İlan Bul </h5>
                             </div>
-                            <form action="">
-                                <input class="form-control input-search cstm-search" type="text" name="keyword" placeholder="Ara">
+                            <form onsubmit="search(event)">
+                                <input class="form-control input-search cstm-search" type="text" name="searchKey" placeholder="Ara">
+                                <input hidden type="submit" />
                             </form>
                         </div>
                         <div class="sidebar-filters">
                             <div class="filter-block head-border mb-30">
-                                <h5>Filtrele <a class="link-reset" href="#">Sıfırla</a></h5>
+                                <h5>Filtrele <a class="link-reset" href="/is-ilanlari">Sıfırla</a></h5>
                             </div>
                             <div class="filter-block mb-30">
                                 <h5 class="medium-heading mb-15">İl</h5>
 
                                 <div class="form-group select-style select-style-icon">
-                                    <select class="form-control form-icons select-active">
-                                        <option>Tümü</option>
-
-                                        <option>Manisa</option>
-                                        <option>İzmir</option>
-                                        <option>İstanbul</option>
-                                        <option>Ankara</option>
+                                    <select id='citySelect' asp-for="@Model.JobFilter.CityId" class="form-control form-icons select-active">
+                                        <option value="">Tümü</option>
+                                        @foreach (var item in Model.Cities)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
                                     </select><i class="fi-rr-marker"></i>
                                 </div>
                             </div>
@@ -269,13 +108,12 @@
                                 <h5 class="medium-heading mb-15">İlçe</h5>
 
                                 <div class="form-group select-style select-style-icon">
-                                    <select class="form-control form-icons select-active">
-                                        <option>Tümü</option>
-
-                                        <option>Yunusemre</option>
-                                        <option>Şehzadeler</option>
-                                        <option>Soma</option>
-                                        <option>Demirci</option>
+                                    <select onchange="filter()" id="districtSelect" asp-for="@Model.JobFilter.DistrictId" class="form-control form-icons select-active">
+                                        <option value="">Tümü</option>
+                                        @foreach (var item in Model.Districts)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
                                     </select><i class="fi-rr-marker"></i>
                                 </div>
                             </div>
@@ -284,58 +122,106 @@
                             <div class="filter-block mb-20">
                                 <h5 class="medium-heading mb-15">İş Kategorisi</h5>
                                 <div class="form-group select-style select-style-icon">
-                                    <select class="form-control form-icons select-active">
-                                        <option>Tümü</option>
-
-                                        <option>Arıcılık</option>
-                                        <option>Balıkçılık</option>
-                                        <option>Arpa Hasadı</option>
+                                    <select onchange="filter()" id='categorySelect' asp-for="@Model.JobFilter.CategoryId" class="form-control form-icons select-active">
+                                        <option value="">Tümü</option>
+                                        @foreach (var item in Model.Categories)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
                                     </select><i class="fi-rr-marker"></i>
                                 </div>
 
 
                             </div>
                             <div class="filter-block mb-20">
-                                <h5 class="medium-heading mb-25">Yevmiye Aralığı    </h5>
-
+                                <h5 class="medium-heading mb-25">Yevmiye Aralığı</h5>
                                 <div class="form-group mb-20">
                                     <ul class="list-checkbox">
                                         <li>
                                             <label class="cb-container">
-                                                <input type="checkbox" checked="checked"><span class="text-small">Tümü</span><span class="checkmark"></span>
+                                                <input class="wage-cbx" interval="0;-1" type="checkbox"><span class="text-small">Tümü</span><span class="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label class="cb-container">
-                                                <input type="checkbox"><span class="text-small">0₺ - 300₺</span><span class="checkmark"></span>
+                                                <input class="wage-cbx" interval="0;300" type="checkbox"><span class="text-small">0₺ - 300₺</span><span class="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label class="cb-container">
-                                                <input type="checkbox"><span class="text-small">300₺ - 500₺</span><span class="checkmark"></span>
+                                                <input class="wage-cbx" interval="300;500" type="checkbox"><span class="text-small">300₺ - 500₺</span><span class="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label class="cb-container">
-                                                <input type="checkbox"><span class="text-small">500₺ - 1000₺</span><span class="checkmark"></span>
+                                                <input class="wage-cbx" interval="500;1000" type="checkbox"><span class="text-small">500₺ - 1000₺</span><span class="checkmark"></span>
                                             </label>
                                         </li>
                                         <li>
                                             <label class="cb-container">
-                                                <input type="checkbox"><span class="text-small">1000₺+</span><span class="checkmark"></span>
+                                                <input class="wage-cbx" interval="1000;-1" type="checkbox"><span class="text-small">1000₺+</span><span class="checkmark"></span>
                                             </label>
                                         </li>
 
                                     </ul>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-
 </main>
+
+@section scripts {
+    <script>
+        let = minWage = 0;
+        let = maxWage = -1;
+        const filter = () => {
+            const cityId = $('#citySelect').val();
+            const categoryId = $('#categorySelect').val() ?? "";
+            const districtId = $('#districtSelect').val() ?? "";
+            window.location.href = `/is-ilanlari?cityId=${cityId}&districtId=${districtId}&categoryId=${categoryId}&minWage=${minWage}&maxWage=${maxWage}`
+        }
+
+        const search = (e) => {
+            e.preventDefault();
+            const cityId = $('#citySelect').val();
+            const categoryId = $('#categorySelect').val() ?? "";
+            const districtId = $('#districtSelect').val() ?? "";
+            const searchKey = $('input[name="searchKey"]').val();
+            window.location.href = `/arama-sonuclari/${searchKey}?cityId=${cityId}&districtId=${districtId}&categoryId=${categoryId}&minWage=${minWage}&maxWage=${maxWage}`
+        }
+
+        (function ($) {
+            $(".wage-cbx").change(function () {
+                if (this.checked) {
+                    // uncheck sibling checkboxes
+                    $(".wage-cbx").not(this).prop('checked', false);
+
+                    // set minWage and maxWage
+                    minWage = $(this).attr('interval').split(';')[0];
+                    maxWage = $(this).attr('interval').split(';')[1];
+                    // filter
+                    filter();
+                }
+            });
+
+            $(document).ready(function () {
+                const params = new Proxy(new URLSearchParams(window.location.search), {
+                    get: (searchParams, prop) => searchParams.get(prop),
+                });
+                $("#citySelect").change(function () {
+                    var districtSelect = $("#districtSelect");
+                    districtSelect.val("");
+                    districtSelect.empty();
+                    filter();
+                });
+                minWage = params.minWage ?? 0;
+                maxWage = params.maxWage ?? -1;
+                $(`.wage-cbx[interval="${minWage};${maxWage}"]`).prop("checked", true)
+            });
+        })(jQuery)
+    </script>
+}
