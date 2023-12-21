@@ -30,8 +30,18 @@ namespace WebUI.Controllers
             _favoriteService=favoriteService;
         }
 
+        [Route("basvurulan-ilanlar")]
+        public IActionResult AppliedJobs()
+        {
+            return View();
+        }
         [Route("is-ilanlarim")]
-        public IActionResult Index()
+        public IActionResult MyJobs()
+        {
+            return View();
+        }
+        [Route("basvuranlar")]
+        public IActionResult Candidates()
         {
             return View();
         }
