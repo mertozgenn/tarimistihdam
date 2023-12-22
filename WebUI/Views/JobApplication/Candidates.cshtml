@@ -28,22 +28,22 @@
                                                 <a href="/profil/@item.UserId"><h5>@item.Name @item.Surname</h5></a>
                                                 <a><span class="font-xs color-text-mutted">Tarım İşçisi</span></a>
                                                 <p>
-                                                <a><span class="font-xs color-text-mutted">Tel: @item.Phone</span></a>
+                                                    <a><span class="font-xs color-text-mutted">Tel: @item.Phone</span></a>
                                                 <p>
-                                                @if (item.RatingCount == 0)
-                                                {
-                                                    <a><span class="font-xs color-text-mutted">Değerlendirme Yok</span></a>
-                                                }
-                                                else
-                                                {
-                                                    <div class="rate-reviews-small pt-5">
-                                                        @for (int i = 0; i < item.Rating; i++)
+                                                        @if (item.RatingCount == 0)
                                                         {
-                                                            <span><img src="~/Assets/imgs/template/icons/star.svg"></span>
+                                                        <a><span class="font-xs color-text-mutted">Değerlendirme Yok</span></a>
                                                         }
-                                                        <span class="ml-10 color-text-mutted font-xs">(@item.RatingCount)</span>
-                                                    </div>
-                                                }
+                                                        else
+                                                        {
+                                                        <div class="rate-reviews-small pt-5">
+                                                                @for (int i = 0; i < item.Rating; i++)
+                                                                {
+                                                                <span><img src="~/Assets/imgs/template/icons/star.svg"></span>
+                                                                }
+                                                            <span class="ml-10 color-text-mutted font-xs">(@item.RatingCount)</span>
+                                                        </div>
+                                                        }
                                             </div>
                                         </div>
                                         <div class="card-block-info">
@@ -83,7 +83,9 @@
                                                 {
                                                     <div class="col-12">
                                                         <span class="d-flex align-items-center" style="float:right;">
-                                                            <span class="font-sm color-text-mutted"><a href="">Puanla</a></span>
+                                                            <span class="font-sm color-text-mutted">
+                                                                <a onclick="setEmployeeId(@item.EmployeeId)" href="#" data-bs-toggle="modal" data-bs-target="#ModalRate">Puanla</a>
+                                                            </span>
                                                         </span>
                                                     </div>
                                                 }
@@ -99,3 +101,66 @@
         </div>
     </div>
 </main>
+<div class="modal fade" id="ModalRate" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content apply-job-form">
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body pl-30 pr-30 pt-50">
+                <div class="text-center">
+                    <p class="font-sm text-brand-2">Puanlama</p>
+                    <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">İşçi Değerlendirme</h2>
+                    <p class="font-sm text-muted mb-30">Bu işçinin çalışmasından ne kadar memnun kaldınız ?</p>
+                </div>
+                <form class="login-register text-start mt-20 pb-30" onsubmit="rateEmployee(event)">
+                    <input hidden name="employeeId" />
+                    <div class="form-group">
+                        <label class="form-label" for="input-1">Puan *</label>
+                        <select class="form-control" name="rating">
+                            <option value="1">1 - Çok Kötü</option>
+                            <option value="2">2 - Kötü</option>
+                            <option value="3">3 - Orta</option>
+                            <option value="4">4 - İyi</option>
+                            <option value="5">5 - Çok İyi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Yorumunuz</label>
+                        <input class="form-control" name="comment" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default hover-up w-100" type="submit" name="login">Değerlendirmeyi Tamamla</button>
+                    </div>
+                    <div class="text-muted text-center">Desteğe mi ihtiyacınız var ? <a href="/iletisim">Bizimle İletişime Geçin</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        function setEmployeeId(employeeId) {
+            $("input[name='employeeId']").val(employeeId);
+        }
+
+        function rateEmployee(e) {
+            e.preventDefault();
+            var employeeId = $("input[name='employeeId']").val();
+            var rating = $("select[name='rating']").val();
+            var comment = $("input[name='comment']").val();
+            $.ajax({
+                url: `/Rating/RateEmployee?employeeId=${employeeId}&rating=${rating}&comment=${comment}`,
+                type: "GET",
+                success: function (data) {
+                    $('form').trigger("reset");
+                    toastr.success(data.message)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function (data) {
+                    toastr.error(data.message)
+                }
+            });
+        }
+    </script>
+}

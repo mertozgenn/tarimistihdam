@@ -1,5 +1,6 @@
 ﻿using Entities.Concrete;
 using Entities.Dtos.Interest;
+using Entities.Dtos.Rating;
 using Entities.Dtos.User;
 
 namespace WebUI.Models
@@ -9,6 +10,7 @@ namespace WebUI.Models
         public EmployeeInformationDto EmployeeInformation { get; set; }
         public List<WorkExperience> WorkExperiences { get; set; }
         public List<InterestDto> Interests { get; set; }
+        public List<EmployeeRatingDto> Ratings { get; set; }
         public string? Message { get; set; }
     }
 }

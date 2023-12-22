@@ -16,10 +16,20 @@
                         <div class="row mt-10">
                             <div class="col-md-12">
                                 <h5 class="f-18">@Model.EmployeeInformation.Name @Model.EmployeeInformation.Surname</h5>
-                                <p class="mt-0 font-md color-text-paragraph-2 mb-15">İş arayan</p>
-                                <div class="mt-10 mb-15">
-                                    <img src="~/assets/imgs/template/icons/star.svg">
-                                    <span class="font-xs color-text-mutted ml-10">(66)</span>
+                                <p class="mt-0 font-md color-text-paragraph-2 mb-15">Tarım İşçisi</p>
+                                <div data-bs-toggle="modal" data-bs-target="#ModalComments" class="mt-10 mb-15">
+                                    @if (Model.EmployeeInformation.RatingCount == 0)
+                                    {
+                                        <span class="font-xs color-text-mutted ml-10">Değerlendirme Yok</span>
+                                    }
+                                    else
+                                    {
+                                        @for (int i = 0; i < Model.EmployeeInformation.Rating; i++)
+                                        {
+                                            <img src="~/assets/imgs/template/icons/star.svg">
+                                        }
+                                        <span class="font-xs color-text-mutted ml-10">(@Model.EmployeeInformation.RatingCount)</span>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -82,3 +92,34 @@
         </div>
     </section>
 </main>
+<div class="modal fade" id="ModalComments" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content apply-job-form">
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body pl-30 pr-30 pt-50">
+                <div class="text-center">
+                    <p class="font-sm text-brand-2">Yorumlar</p>
+                    <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">İşçi Yorumları</h2>
+                    <p class="font-sm text-muted mb-30">Bu işçiyi işe almış işverenlerden gelen yorumlar.</p>
+                </div>
+                <div id="comments">
+                    @foreach (var item in Model.Ratings)
+                    {
+                        <div>
+                            @for (int i = 0; i < item.Rating; i++)
+                            {
+                                <img src="~/assets/imgs/template/icons/star.svg">
+                            }
+                        </div>
+                        <div>
+                            <span class="font-xs color-text-mutted">@item.Name.Substring(0, 1)*** @item.Surname.Substring(0, 1)***</span>
+                        </div>
+                        <div>
+                            @item.Comment
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

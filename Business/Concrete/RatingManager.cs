@@ -91,9 +91,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IResult EmployerCanRateEmployee(int userId, int employerId)
+        public IResult EmployerCanRateEmployee(int employeeId, int employerUserId)
         {
-            bool canRateResult = _employerRatingDal.CanRate(employerId, userId);
+            bool canRateResult = _employeeRatingDal.CanRate(employeeId, employerUserId);
             if (canRateResult == false)
             {
                 return new ErrorResult(Messages.CannotRateThisEmployee);
@@ -101,41 +101,27 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        /*public IResult UpdateEmployeeRating(EmployeeRatingToUpdateDto employeeRatingToUpdateDto)
+        public IResult EmployeeCanRateEmployer(int employerId, int employeeUserId)
         {
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            var data = _employeeRatingDal.Get(x => x.Id == employeeRatingToUpdateDto.Id);
-            if (data == null)
+            bool canRateResult = _employerRatingDal.CanRate(employerId, employeeUserId);
+            if (canRateResult == false)
             {
-                return new ErrorResult(Messages.NotFound);
+                return new ErrorResult(Messages.CannotRateThisEmployer);
             }
-            if (data.UserId != userId)
-            {
-                return new ErrorResult(Messages.AccessDenied);
-            }
-            data.Comment = employeeRatingToUpdateDto.Comment;
-            data.Rating = (short)employeeRatingToUpdateDto.Rating;
-            _employeeRatingDal.Update(data);
-            return new SuccessResult(Messages.RatingSaved);
-        }*/
+            return new SuccessResult();
+        }
 
-        /*public IResult UpdateEmployerRating(EmployerRatingToUpdateDto employerRatingToUpdateDto)
+        public IDataResult<List<EmployeeRatingDto>> GetEmployeeRatings(int employeeId)
         {
-            int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-            var data = _employerRatingDal.Get(x => x.Id == employerRatingToUpdateDto.Id);
-            if (data == null)
-            {
-                return new ErrorResult(Messages.NotFound);
-            }
-            if (data.UserId != userId)
-            {
-                return new ErrorResult(Messages.AccessDenied);
-            }
-            data.Comment = employerRatingToUpdateDto.Comment;
-            data.Rating = (short)employerRatingToUpdateDto.Rating;
-            _employerRatingDal.Update(data);
-            return new SuccessResult(Messages.RatingSaved);
-        }*/
+            var data = _employeeRatingDal.GetAllDto(employeeId);
+            return new SuccessDataResult<List<EmployeeRatingDto>>(data);
+        }
+
+        public IDataResult<List<EmployerRatingDto>> GetEmployerRatings(int employerId)
+        {
+            var data = _employerRatingDal.GetAllDto(employerId);
+            return new SuccessDataResult<List<EmployerRatingDto>>(data);
+        }
     }
 }
 

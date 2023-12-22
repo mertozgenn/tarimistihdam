@@ -17,10 +17,11 @@ namespace WebUI.Controllers
         private IWorkExperienceService _workExperienceService;
         private IJobTagService _jobTagService;
         private IJobService _jobService;
+        private IRatingService _ratingService;
 
         public ProfileController(IEmployerService employerService, IEmployeeService employeeService, 
             IUserService userService, IInterestService interestService, IWorkExperienceService workExperienceService, 
-            IJobTagService jobTagService, IJobService jobService)
+            IJobTagService jobTagService, IJobService jobService, IRatingService ratingService)
         {
             _employerService=employerService;
             _employeeService=employeeService;
@@ -29,6 +30,7 @@ namespace WebUI.Controllers
             _workExperienceService=workExperienceService;
             _jobTagService=jobTagService;
             _jobService=jobService;
+            _ratingService=ratingService;
         }
 
         [HttpGet("profilim")]
@@ -211,11 +213,13 @@ namespace WebUI.Controllers
                 var employerInformationResult = _employerService.GetEmployerInformation(employerId);
                 var employerInformation = employerInformationResult.Data;
                 var jobsResult = _jobService.GetByEmployerId(false, employerId);
+                var ratings = _ratingService.GetEmployerRatings(employerId);
                 EmployerProfileModel employerProfileModel = new EmployerProfileModel()
                 {
                     EmployerInformation = employerInformation,
                     Message = employerInformationResult.Message,
-                    Jobs = jobsResult.Data
+                    Jobs = jobsResult.Data,
+                    Ratings = ratings.Data
                 };
                 return View("EmployerProfile", employerProfileModel);
             }
@@ -226,13 +230,14 @@ namespace WebUI.Controllers
                 var employeeInformation = employeeInformationResult.Data;
                 var interestsResult = _interestService.GetByEmployeeId(employeeId);
                 var workExperiencesResult = _workExperienceService.GetByEmployeeId(employeeId);
-                var jobTags = _jobTagService.GetJobTags();
+                var ratings = _ratingService.GetEmployeeRatings(employeeId);
                 EmployeeProfileModel employeeProfileModel = new EmployeeProfileModel()
                 {
                     EmployeeInformation = employeeInformation,
                     Message = employeeInformationResult.Message,
                     Interests = interestsResult.Data,
                     WorkExperiences = workExperiencesResult.Data,
+                    Ratings = ratings.Data
                 };
                 return View("EmployeeProfile", employeeProfileModel);
             }

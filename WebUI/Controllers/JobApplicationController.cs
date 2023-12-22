@@ -39,7 +39,7 @@ namespace WebUI.Controllers
             var result = _jobApplicationService.GetAppliedJobs(employeeId);
             AppliedJobsModel model = new AppliedJobsModel()
             {
-                Jobs = result.Data != null ? result.Data : new List<JobDto>(),
+                Jobs = result.Data != null ? result.Data : new List<AppliedJobDto>(),
                 Message = result.Message
             };
             return View("AppliedJobs", model);

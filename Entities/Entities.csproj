@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Concrete\" />
-    <Folder Include="Dtos\Rating\" />
     <Folder Include="Dtos\WorkExperience\" />
   </ItemGroup>
   <ItemGroup>

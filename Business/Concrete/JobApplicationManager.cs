@@ -14,17 +14,20 @@ namespace Business.Concrete
         private IJobApplicationDal _jobApplicationDal;
         private IJobDal _jobDal;
         private IEmployeeService _employeeService;
+        private IEmployerService _employerService;
         private IJobService _jobService;
         private IRatingService _ratingService;
 
         public JobApplicationManager(IJobApplicationDal jobApplicationDal, IJobDal jobDal, 
-            IEmployeeService employeeService, IJobService jobService, IRatingService ratingService)
+            IEmployeeService employeeService, IJobService jobService, IRatingService ratingService,
+            IEmployerService employerService)
         {
             _jobApplicationDal=jobApplicationDal;
             _jobDal=jobDal;
             _employeeService=employeeService;
             _jobService=jobService;
             _ratingService = ratingService;
+            _employerService = employerService;
         }
 
         public IResult Apply(int jobId, int employeeId)
@@ -56,11 +59,41 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ApplicationApproved);
         }
 
-        public IDataResult<List<JobDto>> GetAppliedJobs(int employeeId)
+        public IDataResult<List<AppliedJobDto>> GetAppliedJobs(int employeeId)
         {
             var applications = _jobApplicationDal.GetAll(x => x.EmployeeId == employeeId);
             var jobs = _jobDal.GetAllDto(x => applications.Exists(y => y.JobId == x.Id));
-            return new SuccessDataResult<List<JobDto>>(jobs);
+            var employee = _employeeService.GetEmployeeInformation(employeeId).Data;
+            List<AppliedJobDto> result = new List<AppliedJobDto>();
+            foreach (var item in jobs)
+            {
+                result.Add(new AppliedJobDto
+                {
+                    Category = item.Category,
+                    City = item.City,
+                    CityId = item.CityId,
+                    DailyWage = item.DailyWage,
+                    Description = item.Description,
+                    District = item.District,
+                    DistrictId = item.DistrictId,
+                    EmployeeCount = item.EmployeeCount,
+                    CategoryId = item.CategoryId,
+                    EmployerId = item.EmployerId,
+                    EmployerProfilePhoto = item.EmployerProfilePhoto,
+                    Employer = item.Employer,
+                    Id = item.Id,
+                    Image = item.Image,
+                    IsActive = item.IsActive,
+                    NlpTags = item.NlpTags,
+                    PublishDate = item.PublishDate,
+                    Status = item.Status,
+                    Title = item.Title,
+                    Tags = item.Tags,
+                    CanRate = _ratingService.EmployeeCanRateEmployer(item.EmployerId, employee.UserId).Success,
+                    IsApproved = applications.First(x => x.JobId == item.Id).IsApproved,
+                });
+            }
+            return new SuccessDataResult<List<AppliedJobDto>>(result);
         }
 
         public IDataResult<List<CandidateDto>> GetCandidates(int jobId, int employerId)
@@ -70,6 +103,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<CandidateDto>>(Messages.AccessDenied);
             }
+            var employer = _employerService.GetEmployerInformation(employerId).Data;
             var applications = _jobApplicationDal.GetAll(x => x.JobId == jobId);
             List<CandidateDto> candidates = new List<CandidateDto>();
             foreach (var application in applications)
@@ -87,8 +121,10 @@ namespace Business.Concrete
                     Surname = employee.Surname,
                     Tckn = employee.Tckn,
                     UserId = employee.UserId,
-                    CanRate = _ratingService.EmployerCanRateEmployee(employee.UserId, employerId).Success,
-                    IsJobActive = job.First().IsActive
+                    CanRate = _ratingService.EmployerCanRateEmployee(employee.EmployeeId, employer.UserId).Success,
+                    IsJobActive = job.First().IsActive,
+                    Rating = employee.Rating,
+                    RatingCount = employee.RatingCount
                 });
             }
             return new SuccessDataResult<List<CandidateDto>>(candidates);

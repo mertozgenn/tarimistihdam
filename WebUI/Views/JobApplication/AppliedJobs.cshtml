@@ -49,6 +49,16 @@
                                                     <div class="col-lg-5 col-5 text-end">
                                                         <a class="btn btn-apply-now" href="/is-ilani-detay/@item.Id">Detay</a>
                                                     </div>
+                                                    @if (item.CanRate)
+                                                    {
+                                                        <div class="col-12 mt-2">
+                                                            <span class="d-flex align-items-center" style="float:right;">
+                                                                <span class="font-sm color-text-mutted">
+                                                                    <a onclick="setEmployerId(@item.EmployerId)" href="#" data-bs-toggle="modal" data-bs-target="#ModalRate">İşvereni Puanla</a>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -62,3 +72,65 @@
         </div>
     </section>
 </main>
+<div class="modal fade" id="ModalRate" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content apply-job-form">
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body pl-30 pr-30 pt-50">
+                <div class="text-center">
+                    <p class="font-sm text-brand-2">Puanlama</p>
+                    <h2 class="mt-10 mb-5 text-brand-1 text-capitalize">İşveren Değerlendirme</h2>
+                    <p class="font-sm text-muted mb-30">Bu işverenden ne kadar memnun kaldınız ?</p>
+                </div>
+                <form class="login-register text-start mt-20 pb-30" onsubmit="rateEmployer(event)">
+                    <input hidden name="employerId" />
+                    <div class="form-group">
+                        <label class="form-label" for="input-1">Puan *</label>
+                        <select class="form-control" name="rating">
+                            <option value="1">1 - Çok Kötü</option>
+                            <option value="2">2 - Kötü</option>
+                            <option value="3">3 - Orta</option>
+                            <option value="4">4 - İyi</option>
+                            <option value="5">5 - Çok İyi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Yorumunuz</label>
+                        <input class="form-control" name="comment" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default hover-up w-100" type="submit" name="login">Değerlendirmeyi Tamamla</button>
+                    </div>
+                    <div class="text-muted text-center">Desteğe mi ihtiyacınız var ? <a href="/iletisim">Bizimle İletişime Geçin</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        function setEmployerId(employerId) {
+            $("input[name='employerId']").val(employerId);
+        }
+
+        function rateEmployer(e) {
+            e.preventDefault();
+            var employerId = $("input[name='employerId']").val();
+            var rating = $("select[name='rating']").val();
+            var comment = $("input[name='comment']").val();
+            $.ajax({
+                url: `/Rating/RateEmployer?employerId=${employerId}&rating=${rating}&comment=${comment}`,
+                type: "GET",
+                success: function (data) {
+                    toastr.success(data.message)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function (data) {
+                    toastr.error(data.message)
+                }
+            });
+        }
+    </script>
+}

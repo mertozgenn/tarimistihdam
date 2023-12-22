@@ -102,6 +102,29 @@
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 pl-40 pl-lg-15 mt-lg-30">
                     <div class="sidebar-border">
+                        <h6 class="f-18">İlan Sahibi</h6>
+                        <div class="sidebar-list-job">
+                            <ul>
+                                <li>
+                                    <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
+                                        <div class="image cstm-img"><a href="/profil/@Model.Employer.UserId"><img class="custom-img" src="@Model.Employer.ProfilePhoto"></a></div>
+                                        <div class="info-text">
+                                            <h5 class="font-md font-bold color-brand-1"><a href="/profil/@Model.Employer.UserId">@Model.Employer.Name @Model.Employer.Surname</a></h5>
+                                            <div class="mt-5">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h6 class="card-price"><span>@Model.Employer.CompanyName</span></h6>
+                                                    </div>
+                                                    <div class="col-6 "><span class="card-briefcase"></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sidebar-border">
                         <h6 class="f-18">Benzer İş İlanları</h6>
                         <div class="sidebar-list-job">
                             <ul>
@@ -127,12 +150,23 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="sidebar-border">
+                        <h6 class="f-18">Etiketler</h6>
+                        <div class="sidebar-list-job">
+                            <div class="box-tags">
+                                @foreach (var item in Model.Job.Tags)
+                                {
+                                    <a class="btn btn-grey-small mr-10">@item.DisplayName</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 </main>
-@section scripts{
+@section scripts {
     <script>
         const apply = (jobId) => {
             $.ajax({

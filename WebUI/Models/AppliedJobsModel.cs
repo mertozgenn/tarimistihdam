@@ -4,7 +4,7 @@ namespace WebUI.Models
 {
     public class AppliedJobsModel
     {
-        public List<JobDto> Jobs { get; set; }
+        public List<AppliedJobDto> Jobs { get; set; }
         public string Message { get; set; }
     }
 }

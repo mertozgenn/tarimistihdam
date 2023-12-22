@@ -30,8 +30,8 @@ namespace DataAccess.Concrete.EntityFramework
                                EmployerId = employer.Id,
                                UserId = user.Id,
                            }).Single();
-                data.RatingCount = context.EmployerRatings.Where(x => x.UserId == data.UserId).Count();
-                data.Rating = data.RatingCount > 0 ? context.EmployerRatings.Where(x => x.UserId == data.UserId).Average(x => x.Rating) : 0;
+                data.RatingCount = context.EmployerRatings.Where(x => x.EmployerId == data.EmployerId).Count();
+                data.Rating = data.RatingCount > 0 ? context.EmployerRatings.Where(x => x.EmployerId == data.EmployerId).Average(x => x.Rating) : 0;
                 return data;
             }
         }

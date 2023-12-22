@@ -2,6 +2,7 @@
 using Core.Concrete.DataAccess.EntityFramework.Repositories;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos.Rating;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -21,8 +22,32 @@ namespace DataAccess.Concrete.EntityFramework
                                                    x.EmployeeId == employeeId &&
                                                    x.IsApproved == true
                                                  ).ToList();
+                bool isRated = context.EmployeeRatings.Any(x => x.EmployeeId == employeeId &&
+                                                                               x.UserId == userId);
+                return raterFinishedJobApplicants.Any() && !isRated;
+            }
+        }
 
-                return raterFinishedJobApplicants.Any();
+        public List<EmployeeRatingDto> GetAllDto(int employeeId)
+        {
+            using (Context context = new Context())
+            {
+                var query = (from rating in context.EmployeeRatings
+                             join user in context.Users
+                             on rating.UserId equals user.Id
+                             where rating.EmployeeId == employeeId
+                             select new EmployeeRatingDto
+                             {
+                                 Comment = rating.Comment,
+                                 Date = rating.Date,
+                                 EmployeeId = rating.EmployeeId,
+                                 Id = rating.Id,
+                                 Name = user.Name,
+                                 Rating = rating.Rating,
+                                 Surname = user.Surname,
+                                 UserId = rating.UserId
+                             });
+                return query.ToList();
             }
         }
     }

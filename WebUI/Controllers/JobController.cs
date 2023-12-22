@@ -20,15 +20,18 @@ namespace WebUI.Controllers
         private IJobService _jobService;
         private IJobApplicationService _jobApplicationService;
         private IFavoriteService _favoriteService;
+        private IEmployerService _employerService;
 
         public JobController(IJobCategoryService jobCategoryService, ICityDistrictService cityDistrictService,
-            IJobService jobService, IJobApplicationService jobApplicationService, IFavoriteService favoriteService)
+            IJobService jobService, IJobApplicationService jobApplicationService, IFavoriteService favoriteService,
+            IEmployerService employerService)
         {
             _jobCategoryService=jobCategoryService;
             _cityDistrictService=cityDistrictService;
             _jobService=jobService;
             _jobApplicationService=jobApplicationService;
             _favoriteService=favoriteService;
+            _employerService = employerService;
         }
 
         [Route("is-ilanlarim")]
@@ -186,6 +189,7 @@ namespace WebUI.Controllers
         {
             var job = _jobService.GetByIds(new int[] {int.Parse(jobId)}.ToList());
             var relatedJobs = _jobService.GetRelatedJobs(int.Parse(jobId)).Data;
+            var employer = _employerService.GetEmployerInformation(job.First().EmployerId).Data;
             bool isApplied = true;
             bool isFavorite = true;
             var employeClaim = User.Claims.FirstOrDefault(x => x.Type == "EmployeeId");
@@ -200,7 +204,8 @@ namespace WebUI.Controllers
                 Job = job.First(),
                 RelatedJobs = relatedJobs,
                 IsApplied = isApplied,
-                IsFavorite = isFavorite
+                IsFavorite = isFavorite,
+                Employer = employer
             };
             return View(model);
         }
