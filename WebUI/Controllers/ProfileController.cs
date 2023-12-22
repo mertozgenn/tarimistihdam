@@ -210,7 +210,7 @@ namespace WebUI.Controllers
                 int employerId = _employerService.GetByUserId(id).Id;
                 var employerInformationResult = _employerService.GetEmployerInformation(employerId);
                 var employerInformation = employerInformationResult.Data;
-                var jobsResult = _jobService.GetByEmployerId(employerId);
+                var jobsResult = _jobService.GetByEmployerId(false, employerId);
                 EmployerProfileModel employerProfileModel = new EmployerProfileModel()
                 {
                     EmployerInformation = employerInformation,

@@ -14,11 +14,12 @@ namespace DataAccess.Concrete.EntityFramework
                 var employerUser = context.Users.SingleOrDefault(x => x.Id == userId);
                 var employerId = context.Employers.SingleOrDefault(x => x.UserId == employerUser.Id).Id;
                 var employerFinishedJobIds = context.Jobs.Where(x => x.EmployerId == employerId &&
-                                                                x.Status == "finished")
+                                                                x.Status == "Kapatıldı")
                                                       .Select(x => x.Id).ToList();
                 var raterFinishedJobApplicants = context.JobApplications.Where(x =>
                                                    employerFinishedJobIds.Contains(x.JobId) &&
-                                                   x.EmployeeId == employeeId
+                                                   x.EmployeeId == employeeId &&
+                                                   x.IsApproved == true
                                                  ).ToList();
 
                 return raterFinishedJobApplicants.Any();

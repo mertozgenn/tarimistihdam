@@ -364,7 +364,6 @@
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\Assets\" />
-    <Folder Include="Views\Job\" />
     <Folder Include="wwwroot\uploads\images\jobs\" />
     <Folder Include="wwwroot\uploads\images\user\" />
   </ItemGroup>

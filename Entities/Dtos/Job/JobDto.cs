@@ -22,6 +22,8 @@ namespace Entities.Dtos.Job
         public string NlpTags { get; set; }
         public string? EmployerProfilePhoto { get; set; }
         public string Image { get; set; }
+        public string Status { get; set; }
+        public bool IsActive { get; set; }
     }
 }
 

@@ -42,7 +42,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  EmployerProfilePhoto = user.ProfilePhoto,
                                  Image = job.Image,
                                  EmployeeCount = job.EmployeeCount,
-                                 DistrictId = job.DistrictId
+                                 DistrictId = job.DistrictId,
+                                 Status = job.Status,
+                                 IsActive = job.IsActive
                              }).ToList();
 
                 var data = query;

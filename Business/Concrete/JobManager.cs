@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Business.Abstract;
+using Business.Constants;
 using Business.Utilities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -44,9 +45,48 @@ namespace Business.Concrete
                 Image = fileName,
                 NlpTags = GetNlpTags(jobToAdd.Title + " " + jobToAdd.Description),
                 IsActive = true,
-                Status = "Active",
+                Status = "Aktif",
             };
             _jobDal.Add(job);
+            return new SuccessResult();
+        }
+
+        public IResult Update(JobToUpdateDto jobToUpdate, int employerId)
+        {
+            var job = _jobDal.Get(x => x.Id == jobToUpdate.Id);
+            if (job == null)
+            {
+                return new ErrorResult(Messages.NotFound);
+            }
+            if (job.EmployerId != employerId)
+            {
+                return new ErrorResult(Messages.AccessDenied);
+            }
+            if (jobToUpdate.Image != null)
+            {
+                if (job.Image != null)
+                    FileHelper.DeleteFile(job.Image);
+                string guid = Guid.NewGuid().ToString();
+                job.Image = FileHelper.CreateFile(jobToUpdate.Image, "/uploads/images/jobs", guid);
+            }
+            job.CategoryId = jobToUpdate.CategoryId;
+            job.CityId = jobToUpdate.CityId;
+            job.DailyWage = jobToUpdate.DailyWage;
+            job.Description = jobToUpdate.Description;
+            job.DistrictId = jobToUpdate.DistrictId;
+            job.EmployeeCount = jobToUpdate.EmployeeCount;
+            job.Title = jobToUpdate.Title;
+            job.NlpTags = GetNlpTags(jobToUpdate.Title + " " + jobToUpdate.Description);
+            job.Status = jobToUpdate.Status;
+            if (job.Status == "Kapatıldı")
+            {
+                job.IsActive = false;
+            }
+            else if (job.Status == "Aktif")
+            {
+                job.IsActive = true;
+            }
+            _jobDal.Update(job);
             return new SuccessResult();
         }
 
@@ -70,13 +110,14 @@ namespace Business.Concrete
 
         public IDataResult<List<JobDto>> GetAll(JobFilterDto? jobFilterDto = null)
         {
-            var data = _jobDal.GetAllDto(jobFilterDto: jobFilterDto);
+            var data = _jobDal.GetAllDto(x => x.IsActive, jobFilterDto: jobFilterDto);
             return new SuccessDataResult<List<JobDto>>(data);
         }
 
-        public IDataResult<List<JobDto>> GetByEmployerId(int employerId)
+        public IDataResult<List<JobDto>> GetByEmployerId(bool showClosedOnes, int employerId)
         {
-            var data = _jobDal.GetAllDto(x => x.EmployerId == employerId);
+            var data = _jobDal.GetAllDto(x => x.EmployerId == employerId &&
+                                         !showClosedOnes ? x.IsActive : true);
             return new SuccessDataResult<List<JobDto>>(data);
         }
 
@@ -94,6 +135,7 @@ namespace Business.Concrete
             }
             searchKey = searchKey.ToLower().Trim();
             Predicate<JobDto> filter = (x =>
+            x.IsActive &&
             (x.Title ?? "").ToLower().Contains(searchKey) ||
             (x.Description ?? "").ToLower().Contains(searchKey) ||
             (x.Tags != null && x.Tags.Any(x => (x.DisplayName ?? "").ToLower().Contains(searchKey))) ||
@@ -114,7 +156,7 @@ namespace Business.Concrete
             }
             var data = _jobDal.GetAllDto(x => 
             (x.CategoryId == job.CategoryId || x.NlpTags.Contains(job.NlpTags)) && 
-            x.Id != jobId).Take(4).ToList();
+            x.Id != jobId && x.IsActive).Take(4).ToList();
             return new SuccessDataResult<List<JobDto>>(data);
         }
     }

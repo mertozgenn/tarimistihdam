@@ -59,7 +59,7 @@ namespace BusinessTests
             // Arrange
             var jobManager = _container.Resolve<IJobService>();
             // Act
-            var result = jobManager.GetByEmployerId(0);
+            var result = jobManager.GetByEmployerId(true, 0);
             // Assert
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Data);

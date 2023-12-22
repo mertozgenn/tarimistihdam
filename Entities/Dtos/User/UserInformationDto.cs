@@ -15,5 +15,7 @@ namespace Entities.Dtos.User
         public string Phone { get; set; }
         public string Tckn { get; set; }
         public string ProfilePhoto { get; set; }
+        public double Rating { get; set; }
+        public int RatingCount { get; set; }
     }
 }

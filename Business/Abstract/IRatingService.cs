@@ -12,6 +12,7 @@ namespace Business.Abstract
 		IResult AddEmployerRating(EmployerRatingToAddDto employerRatingToAddDto);
 		//IResult UpdateEmployerRating(EmployerRatingToUpdateDto employerRatingToUpdateDto);
 		IResult DeleteEmployerRating(int id, int userId);
+		IResult EmployerCanRateEmployee(int userId, int employerId);
 	}
 }
 

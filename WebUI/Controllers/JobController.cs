@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
 using Entities.Dtos.Job;
+using Entities.Dtos.User;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
@@ -30,20 +31,26 @@ namespace WebUI.Controllers
             _favoriteService=favoriteService;
         }
 
-        [Route("basvurulan-ilanlar")]
-        public IActionResult AppliedJobs()
-        {
-            return View();
-        }
         [Route("is-ilanlarim")]
         public IActionResult MyJobs()
         {
-            return View();
-        }
-        [Route("basvuranlar")]
-        public IActionResult Candidates()
-        {
-            return View();
+            bool isEmployer = User.Claims.FirstOrDefault(x => x.Type == "EmployerId") != null;
+            if (isEmployer)
+            {
+                var employerClaim = User.Claims.FirstOrDefault(x => x.Type == "EmployerId");
+                int employerId = int.Parse(employerClaim.Value);
+                var result = _jobService.GetByEmployerId(true, employerId);
+                MyJobsModel model = new MyJobsModel()
+                {
+                    Jobs = result.Data != null ? result.Data : new List<JobDto>(),
+                    Message = result.Message
+                };
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("EmployeeAppliedJobs", "JobApplication");
+            }
         }
 
         [Route("ilan-formu")]
@@ -59,6 +66,32 @@ namespace WebUI.Controllers
                 {
                     DailyWage = 500,
                     EmployeeCount = 50
+                }
+            };
+            return View(model);
+        }
+
+        [Route("ilan-formu/{jobId}")]
+        public IActionResult JobUpdate(int jobId)
+        {
+            var cities = _cityDistrictService.GetCities().Data;
+            var job = _jobService.GetByIds(new List<int> { jobId }).First();
+            JobUpdateModel model = new JobUpdateModel
+            {
+                Categories = _jobCategoryService.GetAll().Data,
+                Cities = cities,
+                Districts = _cityDistrictService.GetDistrictsByCityId(job.CityId).Data,
+                JobToUpdate = new JobToUpdateDto
+                {
+                    DailyWage = job.DailyWage,
+                    Description = job.Description,
+                    EmployeeCount = job.EmployeeCount,
+                    Id = job.Id,
+                    CategoryId = job.CategoryId,
+                    CityId = job.CityId,
+                    DistrictId = job.DistrictId ?? 0,
+                    Status = job.Status,
+                    Title = job.Title,
                 }
             };
             return View(model);
@@ -87,7 +120,7 @@ namespace WebUI.Controllers
             var result = _jobService.Add(jobToAdd);
             if (result.Success)
             {
-                return Redirect("is-ilanlarim");
+                return Redirect("/is-ilanlarim");
             }
             else
             {
@@ -95,12 +128,36 @@ namespace WebUI.Controllers
             }
         }
 
-        public JsonResult GetDistricts([FromQuery] int cityId)
+        [HttpPost]
+        [Route("ilan-formu/{jobId}")]
+        public IActionResult JobUpdate(JobToUpdateDto jobToUpdate)
         {
-            var districts = _cityDistrictService.GetDistrictsByCityId(cityId).Data;
-            return Json(districts);
+            var claim = User.Claims.FirstOrDefault(x => x.Type == "EmployerId");
+            var employerId = int.Parse(claim.Value);
+            Func<string, IActionResult> returnToView = (message) =>
+            {
+                JobUpdateModel model = new JobUpdateModel();
+                model.Message = message;
+                model.JobToUpdate = jobToUpdate;
+                model.Categories = _jobCategoryService.GetAll().Data;
+                model.Cities = _cityDistrictService.GetCities().Data;
+                model.Districts = _cityDistrictService.GetDistrictsByCityId(jobToUpdate.CityId).Data;
+                return View(model);
+            };
+            if (!ModelState.IsValid)
+            {
+                return returnToView("Formu eksiksiz doldurunuz.");
+            }
+            var result = _jobService.Update(jobToUpdate, employerId);
+            if (result.Success)
+            {
+                return Redirect("/is-ilanlarim");
+            }
+            else
+            {
+                return returnToView(result.Message);
+            }
         }
-
 
         [Route("is-ilanlari")]
         public IActionResult FindJob([FromQuery] JobFilterDto? jobFilterDto)
@@ -169,38 +226,6 @@ namespace WebUI.Controllers
                 SearchKey = searchKey
             };
             return View(model);
-        }
-
-        public IActionResult ApplyJob(int jobId)
-        {
-            var employeeClaim = User.Claims.FirstOrDefault(x => x.Type == "EmployeeId");
-            if (employeeClaim == null)
-            {
-                return Redirect("/giris-yap");
-            }
-            var employeeId = int.Parse(employeeClaim.Value);
-            var result = _jobApplicationService.Apply(jobId, employeeId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        public IActionResult AddToFavorites(int jobId)
-        {
-            var employeeClaim = User.Claims.FirstOrDefault(x => x.Type == "EmployeeId");
-            if (employeeClaim == null)
-            {
-                return Redirect("/giris-yap");
-            }
-            var employeeId = int.Parse(employeeClaim.Value);
-            var result = _favoriteService.Add(jobId, employeeId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
         }
     }
 }

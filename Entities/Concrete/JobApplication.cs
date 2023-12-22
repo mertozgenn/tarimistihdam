@@ -9,6 +9,7 @@ namespace Entities.Concrete
 		public int EmployeeId { get; set; }
 		public int JobId { get; set; }
 		public DateTime ApplicationDate { get; set; }
-	}
+        public bool IsApproved { get; set; }
+    }
 }
 

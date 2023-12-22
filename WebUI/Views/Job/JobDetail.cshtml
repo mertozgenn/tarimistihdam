@@ -136,7 +136,7 @@
     <script>
         const apply = (jobId) => {
             $.ajax({
-                url: "/Job/ApplyJob?jobId=" + jobId,
+                url: "/JobApplication/ApplyJob?jobId=" + jobId,
                 type: "GET",
                 success: function (data) {
                     toastr.success(data.message)
@@ -152,7 +152,7 @@
 
         const addToFavorites = (jobId) => {
             $.ajax({
-                url: "/Job/AddToFavorites?jobId=" + jobId,
+                url: "/Favorite/AddToFavorites?jobId=" + jobId,
                 type: "GET",
                 success: function (data) {
                     toastr.success(data.message)

@@ -1,4 +1,4 @@
-﻿@model MyJobsModel
+﻿@model AppliedJobsModel
 @{
     Layout = "_Layout";
 }
@@ -7,8 +7,7 @@
         <div class="container">
             <div class="banner-hero banner-single banner-single-bg">
                 <div class="block-banner text-center">
-                    <h3 style="padding-bottom:2rem;" class="wow animate__animated animate__fadeInUp"> İş İlanlarım</h3>
-                    <a href="~/ilan-formu" class="btn btn-default btn-find font-sm">İlan Ekle</a>
+                    <h3 class="wow animate__animated animate__fadeInUp"> Başvurduğum İlanlar</h3>
                 </div>
             </div>
         </div>
@@ -26,19 +25,7 @@
                                         <div class="card-grid-2-image-left">
                                             <span class="flash"></span>
                                             <div class="image-box cstm-img"><img src="@item.Image" alt=""></div>
-                                            <div>
-                                                <div class="right-info"><span class="location-small"> @item.City, @item.District</span></div>
-                                                <div class="right-info">
-                                                    @if (item.Status == "Kapatıldı")
-                                                    {
-                                                        <span class="badge bg-danger">@item.Status</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="badge bg-primary">@item.Status</span>
-                                                    }
-                                                </div>
-                                            </div>
+                                            <div class="right-info"><span class="location-small"> @item.City, @item.District</span></div>
                                         </div>
                                         <div class="card-block-info">
                                             <h6><a href="/is-ilani-detay/@item.Id">@item.Title</a></h6>
@@ -58,12 +45,9 @@
                                             </div>
                                             <div class="card-2-bottom mt-30">
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-6"><span class="card-text-price">₺@item.DailyWage.ToString("N2")</span><span class="text-muted">/Günlük</span></div>
-                                                    <div class="col-lg-3 col-3 text-end">
-                                                        <a class="btn btn-apply-now" href="ilan-formu/@item.Id">Güncelle</a>
-                                                    </div>
-                                                    <div class="col-lg-3 col-3 ">
-                                                        <a class="btn btn-apply-now" style="background-color:darkgrey; color:white;" href="/is-ilanlarim/basvurular/@item.Id">Başvurular</a>
+                                                    <div class="col-lg-7 col-7"><span class="card-text-price">@item.DailyWage.ToString("N2")₺</span><span class="text-muted">/Günlük</span></div>
+                                                    <div class="col-lg-5 col-5 text-end">
+                                                        <a class="btn btn-apply-now" href="/is-ilani-detay/@item.Id">Detay</a>
                                                     </div>
                                                 </div>
                                             </div>

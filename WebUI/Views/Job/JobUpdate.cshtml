@@ -1,4 +1,4 @@
-﻿@model JobPostingModel
+﻿@model JobUpdateModel
 @{
     Layout = "_Layout";
 }
@@ -7,13 +7,13 @@
         <div class="box-content">
             <div class="box-heading" style="padding-left:15px">
                 <div class="box-title" style="padding-left:10px;">
-                    <h3 class="mb-35">İş İlanı Oluştur</h3>
+                    <h3 class="mb-35">İş İlanı Düzenle</h3>
                 </div>
                 <div class="box-breadcrumb">
                     <div class="breadcrumbs">
                         <ul>
                             <li> <a class="icon-home" href="~/is-ilanlarim">İş İlanlarım</a></li>
-                            <li><span>İlan Oluştur</span></li>
+                            <li><span>İlan Düzenle</span></li>
                         </ul>
                     </div>
                 </div>
@@ -36,12 +36,26 @@
                                                     </div>
                                                 </div>
                                             }
-                                            <form method="post" enctype="multipart/form-data">
+                                            <form method="post" asp-action="JobUpdate" enctype="multipart/form-data">
+                                                <input type="hidden" asp-for="@Model.JobToUpdate.Id" />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mb-30">
+                                                            <label class="font-sm  mb-10">İlan Durumu</label>
+                                                            <select class="form-control" asp-for="@Model.JobToUpdate.Status"
+                                                                    data-val="true" data-val-required="Durum seçmeniz gerekli.">
+                                                                <option>Aktif</option>
+                                                                <option>Kapatıldı</option>
+                                                            </select>
+                                                            <div class="error-message" data-valmsg-for="JobToAdd.CategoryId" data-valmsg-replace="true"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-30">
                                                             <label class="font-sm  mb-10">İş İlanı Başlığı * </label>
-                                                            <input class="form-control" asp-for="@Model.JobToAdd.Title" placeholder="iş ilanı başlığı"
+                                                            <input class="form-control" asp-for="@Model.JobToUpdate.Title" placeholder="iş ilanı başlığı"
                                                                    data-val="true" data-val-required="Başlık gerekli.">
                                                             <div class="error-message" data-valmsg-for="JobToAdd.Title" data-valmsg-replace="true"></div>
                                                         </div>
@@ -49,7 +63,7 @@
                                                     <div class="col-lg-3">
                                                         <div class="form-group mb-30">
                                                             <label class="font-sm  mb-10">Yevmiye (₺) * </label>
-                                                            <input class="form-control" type="number" asp-for="@Model.JobToAdd.DailyWage" placeholder=""
+                                                            <input class="form-control" type="number" asp-for="@Model.JobToUpdate.DailyWage" placeholder=""
                                                                    data-val="true" data-val-required="Yevmiye gerekli.">
                                                             <div class="error-message" data-valmsg-for="JobToAdd.DailyWage" data-valmsg-replace="true"></div>
                                                         </div>
@@ -57,7 +71,7 @@
                                                     <div class="col-lg-3">
                                                         <div class="form-group mb-30">
                                                             <label class="font-sm  mb-10">İşçi Sayısı * </label>
-                                                            <input class="form-control" asp-for="@Model.JobToAdd.EmployeeCount" placeholder=""
+                                                            <input class="form-control" asp-for="@Model.JobToUpdate.EmployeeCount" placeholder=""
                                                                    data-val="true" data-val-required="İşçi sayısı gerekli.">
                                                             <div class="error-message" data-valmsg-for="JobToAdd.EmployeeCount" data-valmsg-replace="true"></div>
                                                         </div>
@@ -65,7 +79,7 @@
                                                     <div class="col-lg-4 col-md-4">
                                                         <div class="form-group mb-30">
                                                             <label class="font-sm  mb-10">İş Kategorisi *</label>
-                                                            <select class="form-control" asp-for="@Model.JobToAdd.CategoryId"
+                                                            <select class="form-control" asp-for="@Model.JobToUpdate.CategoryId"
                                                                     data-val="true" data-val-required="Kategori seçmeniz gerekli.">
                                                                 @foreach (var category in Model.Categories)
                                                                 {
@@ -78,7 +92,7 @@
                                                     <div class="col-lg-4 col-md-4">
                                                         <div class="form-group mb-30">
                                                             <label class="font-sm  mb-10">İl *</label>
-                                                            <select class="form-control" asp-for="@Model.JobToAdd.CityId"
+                                                            <select class="form-control" asp-for="@Model.JobToUpdate.CityId"
                                                                     data-val="true" data-val-required="İl seçmeniz gerekli.">
                                                                 @foreach (var city in Model.Cities)
                                                                 {
@@ -91,7 +105,7 @@
                                                     <div class="col-lg-4 col-md-4">
                                                         <div class="form-group mb-30">
                                                             <label class="font-sm  mb-10">İlçe *</label>
-                                                            <select class="form-control" asp-for="@Model.JobToAdd.DistrictId"
+                                                            <select class="form-control" asp-for="@Model.JobToUpdate.DistrictId"
                                                                     data-val="true" data-val-required="İlçe seçmeniz gerekli.">
                                                                 @foreach (var district in Model.Districts)
                                                                 {
@@ -104,7 +118,7 @@
                                                     <div class="col-lg-9">
                                                         <div class="form-group mb-30">
                                                             <label class="font-sm  mb-10">Açıklama *</label>
-                                                            <textarea style="height: auto" class="form-control" rows="5" asp-for="@Model.JobToAdd.Description"
+                                                            <textarea style="height: auto" class="form-control" rows="5" asp-for="@Model.JobToUpdate.Description"
                                                                       data-val="true" data-val-required="Açıklama gerekli."></textarea>
                                                             <div class="error-message" data-valmsg-for="JobToAdd.Description" data-valmsg-replace="true"></div>
                                                         </div>
@@ -115,7 +129,7 @@
                                                         <div class="form-group mb-30">
                                                             <div class="box-upload">
                                                                 <div class="add-file-upload">
-                                                                    <input class="fileupload" onchange="onFileSelect()" asp-for="@Model.JobToAdd.Image">
+                                                                    <input class="fileupload" onchange="onFileSelect()" asp-for="@Model.JobToUpdate.Image">
                                                                 </div>
                                                                 <button type="button" class="btn btn-default" onclick="onUploadClicked()">Fotoğraf Yükle</button>
                                                             </div>
@@ -129,7 +143,7 @@
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="form-group mt-10">
-                                                            <button type="submit" class="btn btn-default btn-brand icon-tick">İlanı Yayınla</button>
+                                                            <button type="submit" class="btn btn-default btn-brand icon-tick">İlanı Güncelle</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -162,7 +176,7 @@
             let fileName = fileUpload.val().split("\\").pop();
             $(".fileName").text(fileName);
             $(".file-selected").show();
-        }   
+        }
         (function ($) {
             $(document).ready(function () {
                 var districtSelect = $("select[name='JobToAdd.DistrictId']");

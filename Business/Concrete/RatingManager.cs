@@ -16,18 +16,15 @@ namespace Business.Concrete
 	{
         private IEmployeeRatingDal _employeeRatingDal;
         private IEmployerRatingDal _employerRatingDal;
-        //private IHttpContextAccessor _httpContextAccessor;
 
 		public RatingManager(IEmployeeRatingDal employeeRatingDal, IEmployerRatingDal employerRatingDal)
 		{
             _employeeRatingDal = employeeRatingDal;
             _employerRatingDal = employerRatingDal;
-            //_httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
 		}
 
         public IResult AddEmployeeRating(EmployeeRatingToAddDto employeeRatingToAddDto)
         {
-            //int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
             bool canRateResult = _employeeRatingDal.CanRate(employeeRatingToAddDto.EmployeeId, employeeRatingToAddDto.UserId);
             if (canRateResult == false)
             {
@@ -47,7 +44,6 @@ namespace Business.Concrete
 
         public IResult AddEmployerRating(EmployerRatingToAddDto employerRatingToAddDto)
         {
-            //int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
             bool canRateResult = _employerRatingDal.CanRate(employerRatingToAddDto.EmployerId, employerRatingToAddDto.UserId);
             if (canRateResult == false)
             {
@@ -67,7 +63,6 @@ namespace Business.Concrete
 
         public IResult DeleteEmployeeRating(int id, int userId)
         {
-            //int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
             var data = _employeeRatingDal.Get(x => x.Id == id);
             if (data == null)
             {
@@ -83,7 +78,6 @@ namespace Business.Concrete
 
         public IResult DeleteEmployerRating(int id, int userId)
         {
-            //int userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
             var data = _employerRatingDal.Get(x => x.Id == id);
             if (data == null)
             {
@@ -95,6 +89,16 @@ namespace Business.Concrete
             }
             _employerRatingDal.Delete(data);
             return new SuccessResult(Messages.Deleted);
+        }
+
+        public IResult EmployerCanRateEmployee(int userId, int employerId)
+        {
+            bool canRateResult = _employerRatingDal.CanRate(employerId, userId);
+            if (canRateResult == false)
+            {
+                return new ErrorResult(Messages.CannotRateThisEmployee);
+            }
+            return new SuccessResult();
         }
 
         /*public IResult UpdateEmployeeRating(EmployeeRatingToUpdateDto employeeRatingToUpdateDto)

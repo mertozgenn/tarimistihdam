@@ -12,7 +12,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (Context context = new Context())
             {
-                var data = from employer in context.Employers
+                var data = (from employer in context.Employers
                            join user in context.Users
                            on employer.UserId equals user.Id
                            where employer.Id == employerId
@@ -28,9 +28,11 @@ namespace DataAccess.Concrete.EntityFramework
                                TaxNumber = employer.TaxNumber,
                                TaxPlace = employer.TaxPlace,
                                EmployerId = employer.Id,
-                               UserId = user.Id
-                           };
-                return data.SingleOrDefault();
+                               UserId = user.Id,
+                           }).Single();
+                data.RatingCount = context.EmployerRatings.Where(x => x.UserId == data.UserId).Count();
+                data.Rating = data.RatingCount > 0 ? context.EmployerRatings.Where(x => x.UserId == data.UserId).Average(x => x.Rating) : 0;
+                return data;
             }
         }
     }
