@@ -2,6 +2,7 @@
 using Entities.Concrete;
 using Entities.Dtos.User;
 using Entities.Dtos.WorkExperience;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebUI.Models;
@@ -204,6 +205,7 @@ namespace WebUI.Controllers
         }
 
         [HttpGet("profil/{id}")]
+        [AllowAnonymous]
         public IActionResult Profile(int id)
         {
             var userRole = _userService.GetUserType(id);

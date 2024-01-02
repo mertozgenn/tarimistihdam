@@ -16,18 +16,16 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 {
                     builder.RegisterModule(new AutofacBusinessModule());
                 });
-builder.Services.AddControllersWithViews(
-//    config =>
-//{
-//    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-//    config.Filters.Add(new AuthorizeFilter(policy));
-//}
-);
+builder.Services.AddControllersWithViews(config =>
+{
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    config.Filters.Add(new AuthorizeFilter(policy));
+});
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {
-    option.LoginPath = "/login";
-    option.AccessDeniedPath = "/AccessDenied";
+    option.LoginPath = "/giris-yap";
+    option.AccessDeniedPath = "/giris-yap";
     option.ExpireTimeSpan = TimeSpan.FromDays(30);
     option.SlidingExpiration = true;
     option.Cookie.HttpOnly = true;

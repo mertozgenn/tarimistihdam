@@ -2,11 +2,13 @@
 using Business.Abstract;
 using Entities.Concrete;
 using Entities.Dtos.Job;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
 namespace WebUI.Controllers;
 
+[AllowAnonymous]
 public class HomeController : Controller
 {
     private ICityDistrictService _cityDistrictService;

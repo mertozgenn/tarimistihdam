@@ -6,6 +6,7 @@ using Business.Abstract;
 using Entities.Concrete;
 using Entities.Dtos.Job;
 using Entities.Dtos.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
 
@@ -163,6 +164,7 @@ namespace WebUI.Controllers
         }
 
         [Route("is-ilanlari")]
+        [AllowAnonymous]
         public IActionResult FindJob([FromQuery] JobFilterDto? jobFilterDto)
         {
             var cities = _cityDistrictService.GetCities().Data;
@@ -185,6 +187,7 @@ namespace WebUI.Controllers
         }
 
         [Route("is-ilani-detay/{jobId}")]
+        [AllowAnonymous]
         public IActionResult JobDetail(string jobId)
         {
             var job = _jobService.GetByIds(new int[] {int.Parse(jobId)}.ToList());
@@ -211,6 +214,7 @@ namespace WebUI.Controllers
         }
 
         [Route("arama-sonuclari/{searchKey}")]
+        [AllowAnonymous]
         public IActionResult JobSearch([FromQuery] JobFilterDto? jobFilterDto, string searchKey)
         {
             var cities = _cityDistrictService.GetCities().Data;
