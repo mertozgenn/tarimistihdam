@@ -117,7 +117,7 @@ namespace Business.Concrete
         public IDataResult<List<JobDto>> GetByEmployerId(bool showClosedOnes, int employerId)
         {
             var data = _jobDal.GetAllDto(x => x.EmployerId == employerId &&
-                                         !showClosedOnes ? x.IsActive : true);
+                                         (!showClosedOnes ? x.IsActive : true));
             return new SuccessDataResult<List<JobDto>>(data);
         }
 
