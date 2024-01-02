@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Entities.Dtos.Job;
 using Microsoft.AspNetCore.Mvc;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -26,6 +28,14 @@ namespace WebUI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+
+        [Route("favorilerim")]
+        public IActionResult MyFavorites()
+        {
+            
+                return View();
+        
         }
     }
 }
