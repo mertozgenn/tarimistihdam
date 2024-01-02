@@ -74,3 +74,20 @@
 .cstm-search{
     margin-bottom:2rem;
 }
+.menu-logo {
+    height: 55px;
+}
+.card-block-info .color-text-paragraph {
+    height: 50px;
+}
+
+.card-block-info .tags {
+    height: 50px;
+}
+
+.card-block-info h6 {
+    height: 25px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

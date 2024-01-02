@@ -154,9 +154,12 @@
                         <h6 class="f-18">Etiketler</h6>
                         <div class="sidebar-list-job">
                             <div class="box-tags">
-                                @foreach (var item in Model.Job.Tags)
+                                @if (Model.Job.Tags != null)
                                 {
-                                    <a class="btn btn-grey-small mr-10">@item.DisplayName</a>
+                                    @foreach (var item in Model.Job.Tags)
+                                    {
+                                        <a class="btn btn-grey-small mr-10">@item.DisplayName</a>
+                                    }
                                 }
                             </div>
                         </div>

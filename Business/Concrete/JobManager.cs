@@ -159,6 +159,12 @@ namespace Business.Concrete
             x.Id != jobId && x.IsActive).Take(4).ToList();
             return new SuccessDataResult<List<JobDto>>(data);
         }
+
+        public IDataResult<List<JobDto>> GetLatestJobs()
+        {
+            var data = _jobDal.GetAllDto(x => x.IsActive).Take(8).OrderByDescending(x => x.PublishDate).ToList();
+            return new SuccessDataResult<List<JobDto>>(data);
+        }
     }
 }
 

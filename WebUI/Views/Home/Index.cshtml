@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HomeModel
+@{
     Layout = "_Layout";
 }
 
@@ -11,25 +12,24 @@
                     <div class="col-xl-8 col-lg-12">
                         <div class="block-banner">
                             <h1 class="heading-banner wow animate__animated animate__fadeInUp">
-                                Tarım işi ve işçiyi bulmanın en kolay yolu! 
+                                Tarım işi ve işçiyi bulmanın en kolay yolu!
                             </h1>
                             <div class="banner-description mt-20 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">Tarımın kalbinde, tarım işçileriyle işverenleri bir araya getiren bir platforma hoş geldiniz. Hayalinizdeki işi bulmak veya yetenekli işçileri keşfetmek için bir adım daha atın. Tarım sektöründe geleceği birlikte inşa edelim! </div>
                             <div class="form-find mt-40 wow animate__animated animate__fadeIn" data-wow-delay=".2s">
-                                <form>
+                                <form action="is-ilanlari" method="get">
                                     <div class="box-industry">
-                                        <select class="form-input mr-10 select-active input-industry">
-                                            <option value="0">Üzüm Kesme</option>
-                                            <option value="1">Çay Toplama</option>
-                                            <option value="2">Balık Tutma</option>
-                                            <option value="3">Hacca Gitme</option>
-                                            <option value="4">Zekat Verme</option>
-                                      
+                                        <select class="form-input mr-10 select-active input-industry" name="categoryId">
+                                            @foreach (var item in Model.JobCategories)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
                                         </select>
                                     </div>
-                                    <select class="form-input mr-10 select-active">
-                                      
-                       
-                                        <option>Manisa</option>
+                                    <select class="form-input mr-10 select-active" name="cityId">
+                                        @foreach (var item in Model.Cities)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
                                     </select>
                                     <button class="btn btn-default btn-find font-sm">Ara</button>
                                 </form>
@@ -39,7 +39,7 @@
                     <div class="col-xl-4 col-lg-12 d-none d-xl-block col-md-6">
                         <div class="banner-imgs">
                             <div class="block-1 shape-1"><img class="img-responsive" style="border-radius:70px; width:500px;" alt="jobBox" src="~/Assets/imgs//home1.jpg"></div>
-                            <div class="block-2 shape-2"><img class="img-responsive" style="border-radius:70px;" alt="jobBox" src="~/Assets/imgs/home2.jpg" ></div>
+                            <div class="block-2 shape-2"><img class="img-responsive" style="border-radius:70px;" alt="jobBox" src="~/Assets/imgs/home2.jpg"></div>
                             <div class="block-3 shape-3"><img class="img-responsive" alt="jobBox" src="~/Assets/imgs/page/homepage1/icon-top-banner.png"></div>
                             <div class="block-4 shape-3"><img class="img-responsive" alt="jobBox" src="~/Assets/imgs/page/homepage1/icon-bottom-banner.png"></div>
                         </div>
@@ -49,8 +49,6 @@
         </div>
     </section>
     <div class="mt-100"></div>
-
-
     <section class="section-box mt-50">
         <div class="container">
             <div class="text-center">
@@ -58,219 +56,49 @@
                 <p class="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">Yeni ilanlar arasından aradığın işi hemen bul!</p>
 
             </div>
-
             <div class="mt-70">
                 <div class="tab-content" id="myTabContent-1">
                     <div class="tab-pane fade show active" id="tab-job-1" role="tabpanel" aria-labelledby="tab-job-1">
                         <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
+                            @foreach (var item in Model.LatestJobs)
+                            {
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
+                                    <div class="card-grid-2 hover-up">
+                                        <div class="card-grid-2-image-left">
+                                            <span class="flash"></span>
+                                            <div class="image-box cstm-img"><img src="@item.Image"></div>
+                                            <div class="right-info"><span class="location-small">@item.City, @item.District</span></div>
                                         </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
+                                        <div class="card-block-info">
+                                            <h6><a href="job-details.html">@item.Title</a></h6>
+                                            <div class="mt-5"><span class="card-briefcase">@item.EmployeeCount Kişi</span><span class="card-time">@item.PublishDate.ToString("dd.MM.yyyy")</span></div>
+                                            <p class="font-sm color-text-paragraph mt-15">@item.Description</p>
+                                            <div class="mt-30 tags">
+                                                @if (item.Tags != null)
+                                                {
+                                                    @foreach (var tag in item.Tags)
+                                                    {
+                                                        <a class="btn btn-grey-small mr-5" href="">@tag.DisplayName</a>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="card-2-bottom mt-30">
+                                                <div class="row">
+                                                    <div class="col-lg-7 col-7"><span class="card-text-price">@item.DailyWage.ToString("N2")₺</span><span class="text-muted">/Günlük</span></div>
+                                                    <div class="col-lg-5 col-5 text-end">
+                                                        <a class="btn btn-apply-now" href="~/is-ilani-detay/@item.Id" >Detay</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
-                                        </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
-                                        </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
-                                        </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
-                                        </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
-                                        </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
-                                        </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                                <div class="card-grid-2 hover-up">
-                                    <div class="card-grid-2-image-left">
-                                        <span class="flash"></span>
-                                        <div class="image-box cstm-img"><img src="~/Assets/imgs/job1.jpg" alt="jobBox"></div>
-                                        <div class="right-info"><span class="location-small">Manisa, Yunusemre</span></div>
-                                    </div>
-                                    <div class="card-block-info">
-                                        <h6><a href="job-details.html">Üzüm Hasadı İşçisi Aranıyor</a></h6>
-                                        <div class="mt-5"><span class="card-briefcase">10 Kişi</span><span class="card-time">10.11.2023</span></div>
-                                        <p class="font-sm color-text-paragraph mt-15">Manisa - Yunusemre ilçesinde bulunan bağımızda üzüm hasadı için deneyimli işçilere ihtiyaç vardır.</p>
-                                        <div class="mt-30">
-                                            <a class="btn btn-grey-small mr-5" href="">Üzüm Hasadı</a><a class="btn btn-grey-small mr-5" href="">Üzüm Bağı</a><a class="btn btn-grey-small mr-5" href="">Üzüm</a>
-                                        </div>
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-7 col-7"><span class="card-text-price">500₺</span><span class="text-muted">/Günlük</span></div>
-                                                <div class="col-lg-5 col-5 text-end">
-                                                    <div class="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">Detay</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            }
                         </div>
                     </div>
-    
                 </div>
             </div>
         </div>
-        
     </section>
     <section class="section-box overflow-visible mt-100 mb-100">
         <div class="container">
@@ -286,7 +114,7 @@
                         <h2 class="text-52 wow animate__animated animate__fadeInUp">Size <span class="color-brand-2">Uygun</span> Olanı Bulun!</h2>
                         <div class="mt-40 pr-50 text-md-lh28 wow animate__animated animate__fadeInUp">İş arayanlar için ideal işleri bulmak veya işverenler için en yetenekli işçilere ulaşmak hiç bu kadar kolay olmamıştı. Tarımın gücüyle birleşin, birlikte daha yeşil bir gelecek inşa edelim.</div>
                         <div class="mt-40">
-                            <div class="wow animate__animated animate__fadeInUp"><a class="btn btn-default" href="~/is-ilanlari">İş Ara</a><a class="btn btn-link" href="hakkimizda.html">Daha Fazla</a></div>
+                            <div class="wow animate__animated animate__fadeInUp"><a class="btn btn-default" href="~/is-ilanlari">İş Ara</a><a class="btn btn-link" href="hakkimizda">Daha Fazla</a></div>
                         </div>
                     </div>
                 </div>
@@ -327,8 +155,4 @@
             </div>
         </div>
     </section>
-
-
-
-    <script src="~/Assets/js/plugins/counterup.js"></script>
 </main>

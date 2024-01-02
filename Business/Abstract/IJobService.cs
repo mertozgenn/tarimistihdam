@@ -13,6 +13,7 @@ namespace Business.Abstract
 		IDataResult<List<JobDto>> GetSearchResults(JobFilterDto jobFilterDto, string searchKey);
         IDataResult<List<JobDto>> GetRelatedJobs(int jobId);
 		IResult Update(JobToUpdateDto jobToUpdate, int employerId);
+		IDataResult<List<JobDto>> GetLatestJobs();
     }
 }
 

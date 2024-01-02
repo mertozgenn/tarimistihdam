@@ -43,8 +43,8 @@
                                         <div class="card-block-info">
                                             <h6><a href="/is-ilani-detay/@item.Id">@item.Title</a></h6>
                                             <div class="mt-5"><span class="card-briefcase">@item.EmployeeCount Kişi</span><span class="card-time">@item.PublishDate.ToString("dd.MM.yyyy")</span></div>
-                                            <p style="height: 50px;" class="font-sm color-text-paragraph mt-15">@item.Description</p>
-                                            <div class="mt-30" style="height: 50px">
+                                            <p class="font-sm color-text-paragraph mt-15">@item.Description</p>
+                                            <div class="mt-30 tags">
                                                 @if (item.Tags != null)
                                                 {
                                                     @foreach (var tag in item.Tags)
