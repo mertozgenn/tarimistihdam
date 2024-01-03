@@ -14,6 +14,7 @@ namespace Business.Abstract
         IDataResult<List<JobDto>> GetRelatedJobs(int jobId);
 		IResult Update(JobToUpdateDto jobToUpdate, int employerId);
 		IDataResult<List<JobDto>> GetLatestJobs();
+		IDataResult<List<JobDto>> GetSuggestedJobs(int employeeId);
     }
 }
 

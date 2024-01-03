@@ -21,9 +21,12 @@
                         <li>
                             <a class="my-jobs" href="~/is-ilanlarim">İş İlanlarım</a>
                         </li>
-                        <li>
-                            <a class="my-favorites" href="~/favorilerim">Favorilerim</a>
-                        </li>
+                        @if (User.IsInRole("Employee"))
+                        {
+                            <li>
+                                <a class="my-favorites" href="~/favorilerim">Favorilerim</a>
+                            </li>
+                        }
                         <li>
                             <a class="contact" href="~/iletisim">İletişim</a>
                         </li>
@@ -31,7 +34,7 @@
                 </nav>
                 <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
             </div>
-            <div class="header-right"style="min-width:215px;">
+            <div class="header-right" style="min-width:215px;">
                 @if (Model.UserInformation == null)
                 {
                     <div class="block-signin">
@@ -47,8 +50,8 @@
                             <div class="info-member">
                                 <strong class="color-brand-1">@Model.UserInformation.Name @Model.UserInformation.Surname</strong>
                                 <div class="dropdown">
-                                    <a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button" 
-                                    data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Profil</a>
+                                    <a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Profil</a>
                                     <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile"
                                         data-bs-popper="static">
                                         <li><a class="dropdown-item" href="/profilim">Profil</a></li>
@@ -92,9 +95,12 @@
                                 <a class="my-jobs" href="~/is-ilanlarim">İş İlanlarım</a>
 
                             </li>
-                            <li>
-                                <a href="~/favorilerim">Favorilerim</a>
-                            </li>
+                            @if (User.IsInRole("Employee"))
+                            {
+                                <li>
+                                    <a class="my-favorites" href="~/favorilerim">Favorilerim</a>
+                                </li>
+                            }
                             <li>
                                 <a class="contact" href="~/iletisim">İletişim</a>
 

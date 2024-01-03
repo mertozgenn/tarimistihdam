@@ -81,8 +81,8 @@
                                                         <span class="card-briefcase">@job.City / @job.District</span>
                                                         <span class="card-time">@job.PublishDate.ToString("dd.MM.yyyy")</span>
                                                     </div>
-                                                    <p style="height: 50px;" class="font-sm color-text-paragraph mt-15">@job.Description</p>
-                                                    <div class="mt-30" style="height: 50px">
+                                                    <p class="font-sm color-text-paragraph mt-15">@job.Description</p>
+                                                    <div class="mt-30 tags">
                                                         @if (job.Tags != null)
                                                         {
                                                             @foreach (var tag in job.Tags)

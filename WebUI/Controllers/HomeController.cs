@@ -27,11 +27,19 @@ public class HomeController : Controller
         var cities = _cityDistrictService.GetCities().Data;
         var jobCategories = _jobCategoryService.GetAll().Data;
         var latestJobs = _jobService.GetLatestJobs().Data;
+        var suggestedJobs = new List<JobDto>();
+        if (User.IsInRole("Employee"))
+        {
+            var employeeClaim = User.Claims.FirstOrDefault(x => x.Type == "EmployeeId");
+            var employeeId = employeeClaim != null ? Convert.ToInt32(employeeClaim.Value) : 0;
+            suggestedJobs = _jobService.GetSuggestedJobs(employeeId).Data;
+        }
         var model = new HomeModel
         {
             Cities = cities != null ? cities : new List<City>(),
             JobCategories = jobCategories != null ? jobCategories : new List<JobCategory>(),
-            LatestJobs = latestJobs != null ? latestJobs : new List<JobDto>()
+            LatestJobs = latestJobs != null ? latestJobs : new List<JobDto>(),
+            SuggestedJobs = suggestedJobs != null ? suggestedJobs : new List<JobDto>(),
         };
         return View(model);
     }

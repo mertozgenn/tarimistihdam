@@ -78,7 +78,11 @@
     height: 55px;
 }
 .card-block-info .color-text-paragraph {
-    height: 50px;
+    height: 45px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .card-block-info .tags {

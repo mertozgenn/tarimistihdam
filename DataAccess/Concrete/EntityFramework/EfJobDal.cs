@@ -40,7 +40,7 @@ namespace DataAccess.Concrete.EntityFramework
                                  NlpTags = job.NlpTags ?? "",
                                  Id = job.Id,
                                  EmployerProfilePhoto = user.ProfilePhoto,
-                                 Image = job.Image,
+                                 Image = job.Image ?? "/Assets/imgs/home2.jpg",
                                  EmployeeCount = job.EmployeeCount,
                                  DistrictId = job.DistrictId,
                                  Status = job.Status,
@@ -53,10 +53,18 @@ namespace DataAccess.Concrete.EntityFramework
                 {
                     if (string.IsNullOrEmpty(job.NlpTags))
                     {
+                        job.Tags = new List<JobTag>();
                         continue;
                     }
                     var nlpTags = job.NlpTags.Split(",", StringSplitOptions.None).ToList();
-                    job.Tags = nlpTags.Select(x => jobTags.Where(y => y.Key == x).Select(y => y).FirstOrDefault()).ToList();
+                    if (nlpTags != null && nlpTags.Any())
+                    {
+                        job.Tags = nlpTags.Select(x => jobTags.Where(y => y.Key == x).Select(y => y).FirstOrDefault()).ToList();
+                    }
+                    else
+                    {
+                        job.Tags = new List<JobTag>();
+                    }
                 }
                 if (filter != null)
                 {
@@ -73,7 +81,7 @@ namespace DataAccess.Concrete.EntityFramework
                         );
                 }
 
-                return data;
+                return data.OrderByDescending(x => x.PublishDate).ToList();
             }
         }
     }

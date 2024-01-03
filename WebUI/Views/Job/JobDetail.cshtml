@@ -124,46 +124,52 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="sidebar-border">
-                        <h6 class="f-18">Benzer İş İlanları</h6>
-                        <div class="sidebar-list-job">
-                            <ul>
-                                @foreach (var item in Model.RelatedJobs)
-                                {
-                                    <li>
-                                        <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
-                                            <div class="image cstm-img"><a href="/is-ilani-detay/@item.Id"><img src="@item.Image" alt="jobBox"></a></div>
-                                            <div class="info-text">
-                                                <h5 class="font-md font-bold color-brand-1"><a href="/is-ilani-detay/@item.Id">@item.Title</a></h5>
-                                                <div class="mt-5">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <h6 class="card-price">@item.DailyWage.ToString("N2")₺<span>/Gün</span></h6>
+                    @if (Model.RelatedJobs.Any())
+                    {
+                        <div class="sidebar-border">
+                            <h6 class="f-18">Benzer İş İlanları</h6>
+                            <div class="sidebar-list-job">
+                                <ul>
+                                    @foreach (var item in Model.RelatedJobs)
+                                    {
+                                        <li>
+                                            <div class="card-list-4 wow animate__animated animate__fadeIn hover-up">
+                                                <div class="image cstm-img"><a href="/is-ilani-detay/@item.Id"><img src="@item.Image" alt="jobBox"></a></div>
+                                                <div class="info-text">
+                                                    <h5 class="font-md font-bold color-brand-1"><a href="/is-ilani-detay/@item.Id">@item.Title</a></h5>
+                                                    <div class="mt-5">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <h6 class="card-price">@item.DailyWage.ToString("N2")₺<span>/Gün</span></h6>
+                                                            </div>
+                                                            <div class="col-6 "><span class="card-briefcase">@item.City, @item.District</span></div>
                                                         </div>
-                                                        <div class="col-6 "><span class="card-briefcase">@item.City, @item.District</span></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="sidebar-border">
-                        <h6 class="f-18">Etiketler</h6>
-                        <div class="sidebar-list-job">
-                            <div class="box-tags">
-                                @if (Model.Job.Tags != null)
-                                {
-                                    @foreach (var item in Model.Job.Tags)
-                                    {
-                                        <a class="btn btn-grey-small mr-10">@item.DisplayName</a>
+                                        </li>
                                     }
-                                }
+                                </ul>
                             </div>
                         </div>
-                    </div>
+                    }
+                    @if (Model.Job.Tags != null && Model.Job.Tags.Any())
+                    {
+                        <div class="sidebar-border">
+                            <h6 class="f-18">Etiketler</h6>
+                            <div class="sidebar-list-job">
+                                <div class="box-tags">
+                                    @if (Model.Job.Tags != null)
+                                    {
+                                        @foreach (var item in Model.Job.Tags)
+                                        {
+                                            <a class="btn btn-grey-small mr-10">@item.DisplayName</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

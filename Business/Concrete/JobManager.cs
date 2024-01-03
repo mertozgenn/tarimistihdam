@@ -16,16 +16,18 @@ namespace Business.Concrete
 	{
         private IJobDal _jobDal;
         private IJobTagService _jobTagService;
+        private IInterestService _interestService;
 
-		public JobManager(IJobDal jobDal, IJobTagService jobTagService)
+		public JobManager(IJobDal jobDal, IJobTagService jobTagService, IInterestService interestService)
 		{
             _jobDal = jobDal;
             _jobTagService = jobTagService;
+            _interestService = interestService;
 		}
 
         public IResult Add(JobToAddDto jobToAdd)
         {
-            string fileName = "/images/jobs/default.jpg";
+            string fileName = "/assets/imgs/jobs/default.jpg";
             if (jobToAdd.Image != null)
             {
                 string guid = Guid.NewGuid().ToString();
@@ -149,20 +151,34 @@ namespace Business.Concrete
 
         public IDataResult<List<JobDto>> GetRelatedJobs(int jobId)
         {
-            var job = _jobDal.Get(x => x.Id == jobId);
+            var job = _jobDal.GetAllDto(x => x.Id == jobId).First();
             if (job == null)
             {
                 return new ErrorDataResult<List<JobDto>>("İş ilanı bulunamadı");
             }
             var data = _jobDal.GetAllDto(x => 
-            (x.CategoryId == job.CategoryId || x.NlpTags.Contains(job.NlpTags)) && 
+            (x.CategoryId == job.CategoryId || 
+            x.Tags.Any(x => job.Tags.Any(y => y.Key == x.Key))
+            ) && 
             x.Id != jobId && x.IsActive).Take(4).ToList();
             return new SuccessDataResult<List<JobDto>>(data);
         }
 
         public IDataResult<List<JobDto>> GetLatestJobs()
         {
-            var data = _jobDal.GetAllDto(x => x.IsActive).Take(8).OrderByDescending(x => x.PublishDate).ToList();
+            var data = _jobDal.GetAllDto(x => x.IsActive).Take(8).ToList();
+            return new SuccessDataResult<List<JobDto>>(data);
+        }
+
+        public IDataResult<List<JobDto>> GetSuggestedJobs(int employeeId)
+        {
+            var employeeInterests = _interestService.GetByEmployeeId(employeeId);
+            if (employeeInterests == null || employeeInterests.Data == null || employeeInterests.Data.Count == 0)
+            {
+                return new ErrorDataResult<List<JobDto>>(new List<JobDto>());
+            }
+            var data = _jobDal.GetAllDto(x => x.IsActive && x.Tags != null && x.Tags.Count > 0 && 
+            x.Tags.Any(x => employeeInterests.Data.Any(y => y.Name == x.DisplayName))).Take(8).ToList();
             return new SuccessDataResult<List<JobDto>>(data);
         }
     }
