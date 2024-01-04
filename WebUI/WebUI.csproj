@@ -20,11 +20,13 @@
     <Folder Include="wwwroot\uploads\images\jobs\" />
     <Folder Include="wwwroot\uploads\images\user\" />
     <Folder Include="Views\Favorite\" />
+    <Folder Include="Views\Corporate\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Auth\" />
     <None Remove="Views\Menu\" />
     <None Remove="Views\Job\" />
     <None Remove="Views\Favorite\" />
+    <None Remove="Views\Corporate\" />
   </ItemGroup>
 </Project>

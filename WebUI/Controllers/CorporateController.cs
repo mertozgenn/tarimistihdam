@@ -17,5 +17,16 @@ namespace WebUI.Controllers
         {
             return View();
         }
+        [Route("kvkk")]
+        public IActionResult Pdpl()
+        {
+            return View();
+        }
+        [Route("gizlilik-politikamiz")]
+
+        public IActionResult PrivacyPolicy()
+        {
+            return View();
+        }
     }
 }
