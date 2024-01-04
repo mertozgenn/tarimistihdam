@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Business.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
@@ -17,6 +18,13 @@ namespace WebUI.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Contact(string name, string email, string message, string company, string phone)
+        {
+            return Ok();
+        }
+
         [Route("kvkk")]
         public IActionResult Pdpl()
         {

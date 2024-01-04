@@ -70,11 +70,6 @@
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area">
             <div class="perfect-scroll">
-                <div class="mobile-search mobile-header-border mb-30">
-                    <form action="#">
-                        <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
-                    </form>
-                </div>
                 <div class="mobile-menu-wrap mobile-header-border">
                     <!-- mobile menu start-->
                     <nav>
@@ -103,52 +98,37 @@
                             }
                             <li>
                                 <a class="contact" href="~/iletisim">İletişim</a>
-
                             </li>
                         </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
-    <div class="mobile-header-wrapper-inner">
-        <div class="mobile-header-content-area">
-            <div class="perfect-scroll">
-                <div class="mobile-search mobile-header-border mb-30">
-                    <form action="#">
-                        <input type="text" placeholder="Search…"><i class="fi-rr-search"></i>
-                    </form>
-                </div>
-                <div class="mobile-menu-wrap mobile-header-border">
-                    <!-- mobile menu start-->
-                    <nav>
-                        <ul class="mobile-menu font-heading">
-
-                            <li>
-                                <a class="home" href="~/">Ana Sayfa</a>
-
-                            </li>
-                            <li>
-                                <a class="about-us" href="~/hakkimizda">Hakkımızda</a>
-
-                            </li>
-                            <li>
-                                <a class="jobs" href="~/is-ilanlari">İş İlanları</a>
-
-                            </li>
-                            <li>
-                                <a class="my-jobs" href="~/is-ilanlarim">İş İlanlarım</a>
-
-                            </li>
-                            <li>
-                                <a href="~/favorilerim">Favorilerim</a>
-                            </li>
-                            <li>
-                                <a class="contact" href="~/iletisim">İletişim</a>
-                            </li>
-                        </ul>
+                        <div class="mt-4">
+                            @if (Model.UserInformation == null)
+                            {
+                                <div class="block-signin">
+                                    <a class="text-link-bd-btom hover-up" href="/is-arayan-kayit">Kayıt Ol</a>
+                                    <a class="btn btn-default btn-shadow ml-40 hover-up" href="/giris-yap">Giriş Yap</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="block-signin">
+                                    <div class="member-login">
+                                        <img class="custom-img" src="@Model.UserInformation.ProfilePhoto">
+                                        <div class="info-member">
+                                            <strong class="color-brand-1">@Model.UserInformation.Name @Model.UserInformation.Surname</strong>
+                                            <div class="dropdown">
+                                                <a class="font-xs color-text-paragraph-2 icon-down" id="dropdownProfile" type="button"
+                                                   data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">Profil</a>
+                                                <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownProfile"
+                                                    data-bs-popper="static">
+                                                    <li><a class="dropdown-item" href="/profilim">Profil</a></li>
+                                                    <li><a class="dropdown-item" href="/cikis">Çıkış</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </nav>
                 </div>
             </div>
