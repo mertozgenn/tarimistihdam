@@ -3,7 +3,7 @@
     [TestClass]
     public class OperationClaimService: TestBase
     {
-        [TestMethod]
+        [CustomTestMethod]
         public void GetEmployee_ShouldGetEmployeeOperationClaim()
         {
             // Arrange
@@ -14,7 +14,7 @@
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetEmployer_ShouldGetEmployerOperationClaim()
         {
             // Arrange

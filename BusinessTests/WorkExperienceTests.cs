@@ -13,10 +13,11 @@ namespace BusinessTests
             Surname = "Test",
             Password = "Test",
             Phone = "Test",
-            Tckn = "Test"
+            Tckn = "Test",
+            RePassword = "Test"
         };
 
-        [TestMethod]
+        [CustomTestMethod]
         public void Add_WithValidData_ShoulAddWorkExperience()
         {
             //Arrange
@@ -33,7 +34,7 @@ namespace BusinessTests
             Assert.IsTrue(result.Success);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void Delete_ShouldDeleteWorkExperience()
         {
             //Arrange
@@ -51,13 +52,6 @@ namespace BusinessTests
             var result = workExperienceService.Delete(workExperience.Id, 0);
             //Assert
             Assert.IsTrue(result.Success);
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            var workExperienceDal = _container.Resolve<IWorkExperienceDal>();
-            workExperienceDal.DeleteAll(workExperienceDal.GetAll(x => x.EmployeeId == 0));
         }
     }
 }

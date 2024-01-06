@@ -18,7 +18,7 @@ namespace BusinessTests
             Title = "Üzüm tarlama işçi arıyorum"
         };
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetAll_ShouldGetAllJobs()
         {
             // Arrange
@@ -31,7 +31,7 @@ namespace BusinessTests
             Assert.IsNotNull(result.Data);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetByIds_ShouldGetJobsByIds()
         {
             // Arrange
@@ -42,7 +42,7 @@ namespace BusinessTests
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void Add_ShouldAddJob()
         {
             // Arrange
@@ -53,7 +53,7 @@ namespace BusinessTests
             Assert.IsTrue(result.Success);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetByEmployerId_ShouldGetJobsByEmployerId()
         {
             // Arrange
@@ -63,14 +63,6 @@ namespace BusinessTests
             // Assert
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Data);
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            var jobDal = _container.Resolve<IJobDal>();
-            var jobs = jobDal.GetAll(x => x.CategoryId == 0);
-            jobDal.DeleteAll(jobs);
         }
     }
 }

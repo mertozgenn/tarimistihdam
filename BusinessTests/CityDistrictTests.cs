@@ -3,7 +3,7 @@
     [TestClass] 
     public class CityDistrictTests: TestBase
     {
-        [TestMethod]
+        [CustomTestMethod]
         public void GetCities_ReturnsListOfCities()
         {
             var cityDistrictService = _container.Resolve<ICityDistrictService>();
@@ -12,7 +12,7 @@
             Assert.IsNotNull(result.Data);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetDistricts_ReturnsListOfDistricts()
         {
             var cityDistrictService = _container.Resolve<ICityDistrictService>();

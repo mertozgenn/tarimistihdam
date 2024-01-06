@@ -16,7 +16,8 @@ namespace BusinessTests
             Surname = "Test",
             TaxNumber = "1",
             TaxPlace = "1",
-            Tckn = "1"
+            Tckn = "1",
+            RePassword = "1"
         };
 
         EmployeeForRegisterDto employeeToRegister = new()
@@ -26,10 +27,11 @@ namespace BusinessTests
             Password = "1",
             Phone = "1",
             Surname = "Test",
-            Tckn = "1"
+            Tckn = "1",
+            RePassword = "1",
         };
 
-        [TestMethod]
+        [CustomTestMethod]
         public void AddEmployeeRating_ShouldAddEmployeeRating()
         {
             // Arrange
@@ -60,7 +62,7 @@ namespace BusinessTests
                 NlpTags = "",
                 PublishDate = DateTime.Now,
                 Title = "Test",
-                Status = "finished"
+                Status = "Kapatıldı"
             });
             var job = jobDal.GetAll(x => x.EmployerId == employer.Id).FirstOrDefault();
             var jobApplicationDal = _container.Resolve<IJobApplicationDal>();
@@ -69,6 +71,7 @@ namespace BusinessTests
                 EmployeeId = employee.Id,
                 JobId = job.Id,
                 ApplicationDate = DateTime.Now,
+                IsApproved = true
             });
             // Act
             var result = ratingManager.AddEmployeeRating(new Entities.Dtos.Rating.EmployeeRatingToAddDto
@@ -80,10 +83,9 @@ namespace BusinessTests
             });
             // Assert
             Assert.IsTrue(result.Success);
-            CleanUp();
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void AddEmployerRating_ShouldAddEmployerRating()
         {
             // Arrange
@@ -114,7 +116,7 @@ namespace BusinessTests
                 NlpTags = "",
                 PublishDate = DateTime.Now,
                 Title = "Test",
-                Status = "finished"
+                Status = "Kapatıldı"
             });
             var job = jobDal.GetAll(x => x.EmployerId == employer.Id).FirstOrDefault();
             var jobApplicationDal = _container.Resolve<IJobApplicationDal>();
@@ -123,6 +125,7 @@ namespace BusinessTests
                 EmployeeId = employee.Id,
                 JobId = job.Id,
                 ApplicationDate = DateTime.Now,
+                IsApproved = true
             });
             // Act
             var result = ratingManager.AddEmployerRating(new Entities.Dtos.Rating.EmployerRatingToAddDto
@@ -134,10 +137,9 @@ namespace BusinessTests
             });
             // Assert
             Assert.IsTrue(result.Success);
-            CleanUp();
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void DeleteEmployeeRating_ShouldDeleteEmployeeRating()
         {
             // Arrange
@@ -168,7 +170,7 @@ namespace BusinessTests
                 NlpTags = "",
                 PublishDate = DateTime.Now,
                 Title = "Test",
-                Status = "finished"
+                Status = "Kapatıldı"
             });
             var job = jobDal.GetAll(x => x.EmployerId == employer.Id).FirstOrDefault();
             var jobApplicationDal = _container.Resolve<IJobApplicationDal>();
@@ -177,13 +179,14 @@ namespace BusinessTests
                 EmployeeId = employee.Id,
                 JobId = job.Id,
                 ApplicationDate = DateTime.Now,
+                IsApproved = true
             });
             ratingManager.AddEmployeeRating(new Entities.Dtos.Rating.EmployeeRatingToAddDto
             {
                 Comment = "Test",
                 EmployeeId = employee.Id,
                 Rating = 5,
-                UserId = employerUser.Id
+                UserId = employerUser.Id,
             });
             var ratingDal = _container.Resolve<IEmployeeRatingDal>();
             var rating = ratingDal.GetAll(x => x.UserId == employerUser.Id).FirstOrDefault();
@@ -191,10 +194,9 @@ namespace BusinessTests
             var result = ratingManager.DeleteEmployeeRating(rating.Id, employerUser.Id);
             // Assert
             Assert.IsTrue(result.Success);
-            CleanUp();
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void DeleteEmployerRating_ShouldDeleteEmployerRating()
         {
             // Arrange
@@ -225,7 +227,7 @@ namespace BusinessTests
                 NlpTags = "",
                 PublishDate = DateTime.Now,
                 Title = "Test",
-                Status = "finished"
+                Status = "Kapatıldı"
             });
             var job = jobDal.GetAll(x => x.EmployerId == employer.Id).FirstOrDefault();
             var jobApplicationDal = _container.Resolve<IJobApplicationDal>();
@@ -234,6 +236,7 @@ namespace BusinessTests
                 EmployeeId = employee.Id,
                 JobId = job.Id,
                 ApplicationDate = DateTime.Now,
+                IsApproved = true
             });
             ratingManager.AddEmployerRating(new Entities.Dtos.Rating.EmployerRatingToAddDto
             {
@@ -248,61 +251,6 @@ namespace BusinessTests
             var result = ratingManager.DeleteEmployerRating(rating.Id, employeeUser.Id);
             // Assert
             Assert.IsTrue(result.Success);
-            CleanUp();
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            var userDal = _container.Resolve<IUserDal>();
-            var employeeDal = _container.Resolve<IEmployeeDal>();
-            var employerDal = _container.Resolve<IEmployerDal>();
-            var userOperationClaimDal = _container.Resolve<IUserOperationClaimDal>();
-            var employeeRatingDal = _container.Resolve<IEmployeeRatingDal>();
-            var employerRatingDal = _container.Resolve<IEmployerRatingDal>();
-            var jobApplicationDal = _container.Resolve<IJobApplicationDal>();
-            var jobDal = _container.Resolve<IJobDal>();
-            var users = userDal.GetAll(x => x.Email == employeeToRegister.Email);
-            foreach (var user in users)
-            {
-                var employers = employerDal.GetAll(x => x.UserId == user.Id);
-                foreach (var employer in employers)
-                {
-                    jobDal.DeleteAll(jobDal.GetAll(x => x.EmployerId == employer.Id));
-                }
-                var employees = employeeDal.GetAll(x => x.UserId == user.Id);
-                foreach (var employee in employees)
-                {
-                    jobApplicationDal.DeleteAll(jobApplicationDal.GetAll(x => x.EmployeeId == employee.Id));
-                }
-                userOperationClaimDal.DeleteAll(userOperationClaimDal.GetAll(x => x.UserId == user.Id));
-                employeeDal.DeleteAll(employeeDal.GetAll(x => x.UserId == user.Id));
-                employerDal.DeleteAll(employerDal.GetAll(x => x.UserId == user.Id));
-                employerRatingDal.DeleteAll(employerRatingDal.GetAll(x => x.UserId == user.Id));
-                var data = employeeRatingDal.GetAll(x => x.UserId == user.Id);
-                employeeRatingDal.DeleteAll(data);
-            }
-            userDal.DeleteAll(users);
-            users = userDal.GetAll(x => x.Email == employerToRegister.Email);
-            foreach (var user in users)
-            {
-                var employers = employerDal.GetAll(x => x.UserId == user.Id);
-                foreach (var employer in employers)
-                {
-                    jobDal.DeleteAll(jobDal.GetAll(x => x.EmployerId == employer.Id));
-                }
-                var employees = employeeDal.GetAll(x => x.UserId == user.Id);
-                foreach (var employee in employees)
-                {
-                    jobApplicationDal.DeleteAll(jobApplicationDal.GetAll(x => x.EmployeeId == employee.Id));
-                }
-                userOperationClaimDal.DeleteAll(userOperationClaimDal.GetAll(x => x.UserId == user.Id));
-                employeeDal.DeleteAll(employeeDal.GetAll(x => x.UserId == user.Id));
-                employerDal.DeleteAll(employerDal.GetAll(x => x.UserId == user.Id));
-                employeeRatingDal.DeleteAll(employeeRatingDal.GetAll(x => x.UserId == user.Id));
-                employerRatingDal.DeleteAll(employerRatingDal.GetAll(x => x.UserId == user.Id));
-            }
-            userDal.DeleteAll(users);
         }
     }
 }

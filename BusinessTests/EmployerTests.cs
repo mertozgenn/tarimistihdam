@@ -16,10 +16,11 @@ namespace BusinessTests
             Surname = "Test",
             TaxNumber = "12345678901",
             TaxPlace = "Test",
-            Tckn = "12345678901"
+            Tckn = "12345678901",
+            RePassword = "123"
         };
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetByUserId_WithValidUserId_ShouldReturnEmployer()
         {
             var employerService = _container.Resolve<IEmployerService>();
@@ -28,24 +29,6 @@ namespace BusinessTests
             int userId = int.Parse(authResult.Data.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
             var result = employerService.GetByUserId(userId);
             Assert.AreEqual(userId, result.UserId);
-            Clean();
-        }
-
-        [TestCleanup]
-        public void Clean()
-        {
-            var userDal = _container.Resolve<IUserDal>();
-            var employeeDal = _container.Resolve<IEmployeeDal>();
-            var employerDal = _container.Resolve<IEmployerDal>();
-            var userOperationClaimDal = _container.Resolve<IUserOperationClaimDal>();
-            var users = userDal.GetAll(x => x.Email == employerForRegisterDto.Email);
-            foreach (var user in users)
-            {
-                userOperationClaimDal.DeleteAll(userOperationClaimDal.GetAll(x => x.UserId == user.Id));
-                employeeDal.DeleteAll(employeeDal.GetAll(x => x.UserId == user.Id));
-                employerDal.DeleteAll(employerDal.GetAll(x => x.UserId == user.Id));
-            }
-            userDal.DeleteAll(users);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace BusinessTests
     [TestClass]
     public class FavoriteTests: TestBase
     {
-        [TestMethod]
+        [CustomTestMethod]
         public void Add_ShouldAddFavorite()
         {
             // Arrange
@@ -21,21 +21,19 @@ namespace BusinessTests
             Assert.IsTrue(result.Success);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void Delete_ShouldDeleteFavorite()
         {
             // Arrange
             var favoriteManager = _container.Resolve<IFavoriteService>();
             favoriteManager.Add(0, 0);
-            var favoriteDal = _container.Resolve<IFavoriteDal>();
-            var data = favoriteDal.Get(x => x.JobId == 0 && x.EmployeeId == 0);
             // Act
-            var result = favoriteManager.Delete(data.Id, 0);
+            var result = favoriteManager.Delete(0, 0);
             // Assert
             Assert.IsTrue(result.Success);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetFavorites_ShouldGetFavorites()
         {
             // Arrange
@@ -46,14 +44,6 @@ namespace BusinessTests
             // Assert
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Data);
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            var favoriteDal = _container.Resolve<IFavoriteDal>();
-            var data = favoriteDal.GetAll(x => x.EmployeeId == 0);
-            favoriteDal.DeleteAll(data);
         }
     }
 }

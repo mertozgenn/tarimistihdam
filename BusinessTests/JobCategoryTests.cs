@@ -3,7 +3,7 @@
     [TestClass]
     public class JobCategoryTests: TestBase
     {
-        [TestMethod]
+        [CustomTestMethod]
         public void GetAll_ShouldGetAllJobCategories()
         {
             // Arrange

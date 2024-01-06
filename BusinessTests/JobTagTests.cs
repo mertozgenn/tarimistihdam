@@ -3,7 +3,7 @@
     [TestClass]
     public class JobTagTests: TestBase
     {
-        [TestMethod]
+        [CustomTestMethod]
         public void GetJobTags_ShouldReturnAllJobTags()
         {
             // Arrange
@@ -14,7 +14,7 @@
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        [CustomTestMethod]
         public void GetJobTagsByIds_ShouldReturnJobTagsByIds()
         {
             // Arrange
