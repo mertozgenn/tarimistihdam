@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
@@ -96,6 +97,7 @@ namespace WebUI.Controllers
                     DistrictId = job.DistrictId ?? 0,
                     Status = job.Status,
                     Title = job.Title,
+                    DailyWageStr = job.DailyWage.ToString(CultureInfo.InvariantCulture)
                 }
             };
             return View(model);
@@ -138,6 +140,7 @@ namespace WebUI.Controllers
         {
             var claim = User.Claims.FirstOrDefault(x => x.Type == "EmployerId");
             var employerId = int.Parse(claim.Value);
+            jobToUpdate.DailyWage = decimal.Parse(jobToUpdate.DailyWageStr, CultureInfo.InvariantCulture);
             Func<string, IActionResult> returnToView = (message) =>
             {
                 JobUpdateModel model = new JobUpdateModel();

@@ -16,6 +16,7 @@ namespace Entities.Dtos.Job
         public int CategoryId { get; set; }
         public string? Description { get; set; }
         public decimal DailyWage { get; set; }
+        public string DailyWageStr { get; set; }
         public int EmployeeCount { get; set; }
         public IFormFile? Image { get; set; }
         public string Status { get; set; }
